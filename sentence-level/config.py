@@ -30,8 +30,7 @@ randomized_labels = False
 
 if level is 'sentence':
     # sentence-level eye-tracking feature sets
-    #feature_sets = ["fixation_number", "omission_rate", "reading_speed", 'sent_gaze', "saccade_duration", "saccade_max_velocity", 'sent_saccade', 'sent_gaze_sacc']
-    feature_sets = ['sent_saccade']
+    feature_sets = ["fixation_number", "omission_rate", "reading_speed", 'sent_gaze', "mean_sacc_dur", "max_sacc_velocity", "mean_sacc_velocity", "max_sacc_dur", 'sent_saccade', 'sent_gaze_sacc']
     # sentence-level EEG feature sets
     # "eeg_means", "eeg_diffs", "eeg_means_diffs", "sent_gaze_eeg_means"]
     #feature_sets = ["eeg_means", "eeg_diffs", "eeg_means_diffs", "sent_gaze_eeg_means", "electrode_features_theta", "electrode_features_alpha", "electrode_features_beta", "electrode_features_gamma", "electrode_features_all", "electrode_features_gamma_1", "electrode_features_gamma_2", "gamma_means", "gamma_diffs", "gamma_means_diffs"]

@@ -4,8 +4,8 @@
 
 From ZuCo 1.0 and 2.0: NR and TSR tasks
 
-On UZH server:
-ZuCo 1.0: methlab/NLP/Ce-ETH/FirstLevel_concat_unfold_correctlyMergedSacc_  
+On UZH server:  
+ZuCo 1.0: methlab/NLP/Ce-ETH/FirstLevel_concat_unfold_correctlyMergedSacc_   
 ZuCo 2.0: methlab/NLP/Ce_ETH/2019/FirstLevelV2_concat_unfold_correctlyMergedSacc
 
 On spaceML:  

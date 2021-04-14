@@ -50,7 +50,7 @@ def main():
     results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
     #check_std_between_runs(results)
 
-    result_file_all = "../results/2021-04-14_svm_all_runs_tasks_zuco2_randomFalse_linear.csv"
+    result_file_all = "../results/2021-04-14_svm_all_runs_tasks_zuco1_randomFalse_linear.csv"
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("_")[5]
     plot_results_detailed(results, dataset)

@@ -130,11 +130,17 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     weighted_speed = (np.sum(np.array(af['duration']))*2/100) / len(sent.split())
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [weighted_speed, label]
 
-            elif feature_set == "saccade_duration":
+            elif feature_set == "mean_sacc_dur":
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, label]
 
-            elif feature_set == "saccade_max_velocity":
+            elif feature_set == "max_sacc_velocity":
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxv, label]
+
+            elif feature_set == "mean_sacc_velocity":
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeanv, label]
+
+            elif feature_set == "max_sacc_dur":
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxd, label]
 
             elif feature_set == "sent_gaze":
                 if 'duration' in af:
@@ -146,7 +152,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 if 'duration' in af:
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, smeand, smaxv, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, smeand, smaxv, smeanv, smaxd, label]
 
             elif feature_set == "sent_saccade":
                 if 'duration' in af:
