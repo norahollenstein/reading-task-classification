@@ -30,7 +30,8 @@ randomized_labels = False
 
 if level is 'sentence':
     # sentence-level eye-tracking feature sets
-    feature_sets = ["fixation_number", "omission_rate", "reading_speed", 'sent_gaze', "mean_sacc_dur", "max_sacc_velocity", "mean_sacc_velocity", "max_sacc_dur", 'sent_saccade', 'sent_gaze_sacc']
+    #feature_sets = ["fixation_number", "omission_rate", "reading_speed", 'sent_gaze', "mean_sacc_dur", "max_sacc_velocity", "mean_sacc_velocity", "max_sacc_dur", 'sent_saccade', 'sent_gaze_sacc']
+    feature_sets = ['sent_gaze_sacc']
     # sentence-level EEG feature sets
     # "eeg_means", "eeg_diffs", "eeg_means_diffs", "sent_gaze_eeg_means"]
     #feature_sets = ["eeg_means", "eeg_diffs", "eeg_means_diffs", "sent_gaze_eeg_means", "electrode_features_theta", "electrode_features_alpha", "electrode_features_beta", "electrode_features_gamma", "electrode_features_all", "electrode_features_gamma_1", "electrode_features_gamma_2", "gamma_means", "gamma_diffs", "gamma_means_diffs"]
@@ -45,7 +46,7 @@ elif level is 'word':
     #feature_sets = ['fix_order_raw_eeg_electrodes_10%', 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
 # classification task {tasks, sessions, subjects}
-class_task = 'tasks'
+class_task = 'tasks-cross-subj'
 if class_task == 'tasks' or class_task == 'tasks-cross-subj':
     target_names = ["TSR", "NR"]
     labels = [0, 1]
