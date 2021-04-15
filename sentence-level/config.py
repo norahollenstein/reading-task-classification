@@ -33,8 +33,8 @@ if level is 'sentence':
     # sentence-level eye-tracking feature sets
     #feature_sets = ["fixation_number", "omission_rate", "reading_speed", 'sent_gaze', "mean_sacc_dur", "max_sacc_velocity", "mean_sacc_velocity", "max_sacc_dur", 'sent_saccade', 'sent_gaze_sacc']
     # sentence-level EEG feature sets
-    feature_sets = ["theta_mean", "alpha_mean", "beta_mean", "gamma_mean", "eeg_means"]
-    #feature_sets = ["electrode_features_theta", "electrode_features_alpha", "electrode_features_beta", "electrode_features_gamma"]
+    #feature_sets = ["theta_mean", "alpha_mean", "beta_mean", "gamma_mean", "eeg_means"]
+    feature_sets = ["electrode_features_theta", "electrode_features_alpha", "electrode_features_beta", "electrode_features_gamma"]
 
 elif level is 'word':
     # word-level
