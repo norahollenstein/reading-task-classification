@@ -9,7 +9,7 @@ for file in os.listdir("./"):
         values = values.drop_duplicates()
         mean = np.mean(values[1])
         std = np.std(values[1])
-        print(mean), np.std(std)
+        print(mean, std)
         outliers = values[values[1] > mean+std]
         outliers = outliers.append(values[values[1] < mean-std])
         print(outliers)

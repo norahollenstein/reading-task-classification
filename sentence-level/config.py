@@ -24,10 +24,10 @@ level = 'sentence'
 
 # experiment setup
 seed = 1
-runs = 50
+runs = 10
 
 # randomize labels as a sanity check; default = False
-randomized_labels = False
+randomized_labels = True
 
 if level is 'sentence':
     # sentence-level eye-tracking feature sets
