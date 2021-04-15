@@ -207,11 +207,11 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             elif feature_set == "sent_gaze_eeg_means":
                 if 'duration' in af and not np.isnan(g_mean):
-                weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
-                weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
-                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed,
-                                                                                     smeand, smaxv, smeanv, smaxd, t_mean, a_mean, b_mean, g_mean,
-                                                                                     label]
+                    weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
+                    weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed,
+                                                                                         smeand, smaxv, smeanv, smaxd, t_mean, a_mean, b_mean, g_mean,
+                                                                                         label]
 
             """
             elif feature_set == "eeg_diffs":
