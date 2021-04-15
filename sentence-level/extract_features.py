@@ -165,18 +165,19 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, smaxv, smeanv, smaxd, label]
 
             ### --- Sentencel-level EEG features --- ###
-            elif feature_set == "eeg_means":
-                if not np.isnan(t1).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1, t2, a1, a2, b1, b2, g1, g2, label]
+            #elif feature_set == "eeg_means":
+             #   if not np.isnan(t_electrodes).any():
+              #      feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1, t2, a1, a2, b1, b2, g1, g2, label]
 
             elif feature_set == "gamma_mean":
-                if not np.isnan(g1).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
+                #if not np.isnan(g_electrodes).any():
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
 
             elif feature_set == "theta_mean":
-                if not np.isnan(g1).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, label]
+                #if not np.isnan(t_electrodes).any():
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, label]
 
+            """
             elif feature_set == "eeg_diffs":
                 if not np.isnan(t1_diff).any():
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1_diff, t2_diff, a1_diff, a2_diff, b1_diff, b2_diff, g1_diff, g2_diff, label]
@@ -233,7 +234,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = np.array(af['duration']).shape[0] / len(sent.split())
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, t1, t2, a1, a2, b1, b2, g1, g2, label]
-
+            """
 
             else:
                 print(feature_set, "IS NOT A VALID FEATURE SET.")
