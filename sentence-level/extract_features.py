@@ -67,31 +67,30 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 obj_reference_t2 = theta2[idx][0]
                 t_electrodes = np.nanmean(np.array([np.array(f[obj_reference_t1])[:104],np.array(f[obj_reference_t2])[:104]]), axis=0)
                 t_mean = np.mean(t_electrodes)
-                print(t_electrodes)
-                print(len(t_electrodes))
-                print(t_mean)
 
                 alpha1 = f['mean_a1']
                 obj_reference_a1 = alpha1[idx][0]
-                a1 = np.nanmean(np.array(f[obj_reference_a1]))
                 alpha2 = f['mean_a2']
                 obj_reference_a2 = alpha2[idx][0]
-                a2 = np.nanmean(np.array(f[obj_reference_a2]))
+                a_electrodes = np.nanmean(
+                    np.array([np.array(f[obj_reference_a1])[:104], np.array(f[obj_reference_a2])[:104]]), axis=0)
+                a_mean = np.mean(b_electrodes)
+
                 beta1 = f['mean_b1']
                 obj_reference_b1 = beta1[idx][0]
-                b1 = np.nanmean(np.array(f[obj_reference_b1]))
                 beta2 = f['mean_b2']
                 obj_reference_b2 = beta2[idx][0]
-                b2 = np.nanmean(np.array(f[obj_reference_b2]))
+                b_electrodes = np.nanmean(
+                    np.array([np.array(f[obj_reference_b1])[:104], np.array(f[obj_reference_b2])[:104]]), axis=0)
+                b_mean = np.mean(b_electrodes)
 
                 gamma1 = f['mean_g1']
                 obj_reference_g1 = gamma1[idx][0]
                 gamma2 = f['mean_g2']
                 obj_reference_g2 = gamma2[idx][0]
-                g_electrodes = np.nanmean([np.array(f[obj_reference_g1][:104]), np.array(f[obj_reference_g2][:104])], axis=1)
+                g_electrodes = np.nanmean(np.array([np.array(f[obj_reference_g1])[:104],np.array(f[obj_reference_g2])[:104]]), axis=0)
                 g_mean = np.mean(g_electrodes)
-                #print(g_electrodes)
-                #print(g_mean)
+
 
             # EEG diffs
             with warnings.catch_warnings():
@@ -170,13 +169,23 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
              #   if not np.isnan(t_electrodes).any():
               #      feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1, t2, a1, a2, b1, b2, g1, g2, label]
 
-            elif feature_set == "gamma_mean":
-                #if not np.isnan(g_electrodes).any():
-                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
+
 
             elif feature_set == "theta_mean":
                 #if not np.isnan(t_electrodes).any():
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, label]
+
+            elif feature_set == "alpha_mean":
+                #if not np.isnan(g_electrodes).any():
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [a_mean, label]
+
+            elif feature_set == "beta_mean":
+                #if not np.isnan(g_electrodes).any():
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [b_mean, label]
+
+            elif feature_set == "gamma_mean":
+                #if not np.isnan(g_electrodes).any():
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
 
             """
             elif feature_set == "eeg_diffs":
