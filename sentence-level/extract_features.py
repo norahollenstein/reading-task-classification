@@ -174,13 +174,16 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [a_mean, label]
 
             elif feature_set == "beta_mean":
-                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [b_mean, label]
+                if not np.isnan(b_mean):
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [b_mean, label]
 
             elif feature_set == "gamma_mean":
-                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
+                if not np.isnan(g_mean):
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
 
             elif feature_set == "eeg_means":
-                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, a_mean, b_mean, g_mean, label]
+                if not np.isnan(g_mean):
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, a_mean, b_mean, g_mean, label]
 
             elif feature_set == "electrode_features_theta":
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = t_electrodes + [label]
