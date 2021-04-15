@@ -63,10 +63,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 warnings.simplefilter("ignore", category=RuntimeWarning)
                 theta1 = f['mean_t1']
                 obj_reference_t1 = theta1[idx][0]
-                t1 = np.nanmean(np.array(f[obj_reference_t1]))
                 theta2 = f['mean_t2']
                 obj_reference_t2 = theta2[idx][0]
-                t2 = np.nanmean(np.array(f[obj_reference_t2]))
                 t_electrodes = np.nanmean([np.array(f[obj_reference_t1][:104]),np.array(f[obj_reference_t2][:104])])
                 t_mean = np.mean(t_electrodes)
                 print(t_electrodes)
@@ -84,12 +82,15 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 beta2 = f['mean_b2']
                 obj_reference_b2 = beta2[idx][0]
                 b2 = np.nanmean(np.array(f[obj_reference_b2]))
+
                 gamma1 = f['mean_g1']
                 obj_reference_g1 = gamma1[idx][0]
-                g1 = np.nanmean(np.array(f[obj_reference_g1]))
                 gamma2 = f['mean_g2']
                 obj_reference_g2 = gamma2[idx][0]
-                g2 = np.nanmean(np.array(f[obj_reference_g2]))
+                g_electrodes = np.nanmean([np.array(f[obj_reference_g1][:104]), np.array(f[obj_reference_g2][:104])])
+                g_mean = np.mean(g_electrodes)
+                print(g_electrodes)
+                print(g_mean)
 
             # EEG diffs
             with warnings.catch_warnings():
@@ -170,11 +171,11 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             elif feature_set == "gamma_mean":
                 if not np.isnan(g1).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
 
             elif feature_set == "theta_mean":
                 if not np.isnan(g1).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, label]
 
             elif feature_set == "eeg_diffs":
                 if not np.isnan(t1_diff).any():
