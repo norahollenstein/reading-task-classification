@@ -74,7 +74,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 obj_reference_a2 = alpha2[idx][0]
                 a_electrodes = np.nanmean(
                     np.array([np.array(f[obj_reference_a1])[:104], np.array(f[obj_reference_a2])[:104]]), axis=0)
-                a_mean = np.mean(b_electrodes)
+                a_mean = np.mean(a_electrodes)
 
                 beta1 = f['mean_b1']
                 obj_reference_b1 = beta1[idx][0]
