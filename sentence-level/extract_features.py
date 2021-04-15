@@ -234,10 +234,11 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = np.array(af['duration']).shape[0] / len(sent.split())
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, t1, t2, a1, a2, b1, b2, g1, g2, label]
-            """
+            
 
             else:
                 print(feature_set, "IS NOT A VALID FEATURE SET.")
+            """
 
         return feature_dict
 
