@@ -182,7 +182,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
 
             elif feature_set == "eeg_means":
-                if not np.isnan(g_mean):
+                if not np.isnan(g_mean) and not np.isnan(t_mean):
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, a_mean, b_mean, g_mean, label]
 
             elif feature_set == "electrode_features_theta":
