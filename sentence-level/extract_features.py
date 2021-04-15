@@ -68,7 +68,6 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 obj_reference_t2 = theta2[idx][0]
                 t2 = np.nanmean(np.array(f[obj_reference_t2]))
                 t_mean = (t1+t2)/2
-                print(t_mean)
 
                 alpha1 = f['mean_a1']
                 obj_reference_a1 = alpha1[idx][0]
