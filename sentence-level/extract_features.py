@@ -187,21 +187,19 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             elif feature_set == "electrode_features_theta":
                 if not np.isnan(t_electrodes).any():
-                    print(list(t_electrodes))
-                    print(np.concatenate(t_electrodes).ravel().tolist())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(t_electrodes) + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(t_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_alpha":
                 if not np.isnan(a_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = a_electrodes + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(a_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_beta":
                 if not np.isnan(b_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = b_electrodes + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(b_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_gamma":
                 if not np.isnan(g_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = g_electrodes + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(g_electrodes).ravel().tolist() + [label]
 
             """
             elif feature_set == "eeg_diffs":
