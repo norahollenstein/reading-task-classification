@@ -188,6 +188,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
             elif feature_set == "electrode_features_theta":
                 if not np.isnan(t_electrodes).any():
                     print(list(t_electrodes))
+                    print(np.concatenate(t_electrodes).ravel().tolist())
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(t_electrodes) + [label]
 
             elif feature_set == "electrode_features_alpha":
