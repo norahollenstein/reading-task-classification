@@ -47,7 +47,6 @@ def main():
              #   f_sr = dh.read_mat_file(filename_sr)
               #  fe.extract_sentence_features(subject, f_sr, feature_set, features, "NR")
 
-    # todo: fix this line
     print(len(features[feature_set]), " samples collected for", feature_set)
 
     dh.plot_feature_distribution("ALL", config.dataset, features[feature_set], feature_set)
@@ -55,7 +54,6 @@ def main():
     for subject in config.subjects:
         for set, feats in features.items():
             accuracies = []; predictions = []; true_labels = []; svm_coeffs = []
-            print("\nTraining models for", set)
             print("\nTraining on all subjects, testing on", subject)
             for i in range(config.runs):
                 preds, test_y, acc, coefs = classifier.svm_cross_subj(feats, config.seed+i, subject, config.randomized_labels)
@@ -73,7 +71,7 @@ def main():
         print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
 
         # print results for individual subjects to file
-        print(subject, feature_set, np.mean(accuracies), np.std(accuracies))
+        print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
         print(subject, feature_set, np.mean(accuracies), np.std(accuracies),
               len(features[feature_set][list(features[feature_set].keys())[0]]) - 1, len(features[feature_set]),
               file=subj_result_file)

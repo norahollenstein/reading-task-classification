@@ -55,13 +55,11 @@ def svm(samples, seed_value, randomized=False):
     train_y = shuffled_y[:size]
     test_y = shuffled_y[size:]
 
-    #print("shuffled")
-
+    # scale feature values
     scaling = MinMaxScaler(feature_range=(-1, 1)).fit(train_X)
     train_X = scaling.transform(train_X)
     test_X = scaling.transform(test_X)
 
-    #print("scaled")
     # train SVM classifier
     clf = SVC(random_state=seed_value, kernel=config.kernel, gamma='scale', cache_size=1000)
     clf.fit(train_X, train_y)
@@ -116,12 +114,13 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
     np.random.seed(seed_value)
     train_X, train_y = shuffle(train_X, train_y)
 
+    # scale feature values
     scaling = MinMaxScaler(feature_range=(-1, 1)).fit(train_X)
     train_X = scaling.transform(train_X)
     test_X = scaling.transform(test_X)
 
     # train SVM classifier
-    clf = SVC(random_state=seed_value, kernel=config.kernel, gamma='scale')
+    clf = SVC(random_state=seed_value, kernel=config.kernel, gamma='scale', cache_size=1000)
     clf.fit(train_X, train_y)
     predictions = clf.predict(test_X)
     accuracy = len([i for i, j in zip(predictions, test_y) if i == j]) / len(test_y)

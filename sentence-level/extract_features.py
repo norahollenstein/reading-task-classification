@@ -67,6 +67,10 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 theta2 = f['mean_t2']
                 obj_reference_t2 = theta2[idx][0]
                 t2 = np.nanmean(np.array(f[obj_reference_t2]))
+                t_mean = np.mean(t1,t2)
+                print(len(t_mean))
+                print(t_mean)
+
                 alpha1 = f['mean_a1']
                 obj_reference_a1 = alpha1[idx][0]
                 a1 = np.nanmean(np.array(f[obj_reference_a1]))
@@ -167,6 +171,10 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 if not np.isnan(g1).any():
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g1, g2, label]
 
+            elif feature_set == "theta_mean":
+                if not np.isnan(g1).any():
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1, t2, label]
+
             elif feature_set == "eeg_diffs":
                 if not np.isnan(t1_diff).any():
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1_diff, t2_diff, a1_diff, a2_diff, b1_diff, b2_diff, g1_diff, g2_diff, label]
@@ -182,12 +190,6 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
             elif feature_set == "gamma_means_diffs":
                 if not np.isnan(t1_diff).any():
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g1, g2, g1_diff, g2_diff, label]
-
-            elif feature_set == "sent_gaze_eeg_means":
-                if 'duration' in af and not np.isnan(t1_diff).any():
-                    weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
-                    weighted_speed = np.array(af['duration']).shape[0] / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, t1, t2, a1, a2, b1, b2, g1, g2, label]
 
             elif feature_set == "electrode_features_theta":
                 if not np.isnan(np.array(f[obj_reference_t1]))[:104].any():
@@ -223,6 +225,13 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 if not np.isnan(np.array(f[obj_reference_t1]))[:104].any():
                     feat_list = np.hstack((np.array(f[obj_reference_t1])[:104], np.array(f[obj_reference_t2])[:104], np.array(f[obj_reference_a1])[:104], np.array(f[obj_reference_a2])[:104], np.array(f[obj_reference_b1])[:104], np.array(f[obj_reference_b2])[:104], np.array(f[obj_reference_g1])[:104], np.array(f[obj_reference_g2])[:104]))
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
+
+            elif feature_set == "sent_gaze_eeg_means":
+                if 'duration' in af and not np.isnan(t1_diff).any():
+                    weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
+                    weighted_speed = np.array(af['duration']).shape[0] / len(sent.split())
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, t1, t2, a1, a2, b1, b2, g1, g2, label]
+
 
             else:
                 print(feature_set, "IS NOT A VALID FEATURE SET.")
