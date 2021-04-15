@@ -202,7 +202,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(g_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_all":
-                if not np.isnan(g_electrodes).any():
+                if not np.isnan(g_electrodes).any() and not np.isnan(a_electrodes).any() and not np.isnan(t_electrodes).any() and not np.isnan(b_electrodes).any():
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(t_electrodes).ravel().tolist() + np.concatenate(a_electrodes).ravel().tolist() + np.concatenate(b_electrodes).ravel().tolist() + np.concatenate(g_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "sent_gaze_eeg_means":
