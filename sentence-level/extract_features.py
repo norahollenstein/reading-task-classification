@@ -165,27 +165,20 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, smaxv, smeanv, smaxd, label]
 
             ### --- Sentencel-level EEG features --- ###
-            #elif feature_set == "eeg_means":
-             #   if not np.isnan(t_electrodes).any():
-              #      feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1, t2, a1, a2, b1, b2, g1, g2, label]
-
-
-
             elif feature_set == "theta_mean":
-                #if not np.isnan(t_electrodes).any():
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, label]
 
             elif feature_set == "alpha_mean":
-                #if not np.isnan(g_electrodes).any():
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [a_mean, label]
 
             elif feature_set == "beta_mean":
-                #if not np.isnan(g_electrodes).any():
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [b_mean, label]
 
             elif feature_set == "gamma_mean":
-                #if not np.isnan(g_electrodes).any():
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
+
+            elif feature_set == "eeg_means":
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, a_mean, b_mean, g_mean, label]
 
             elif feature_set == "electrode_features_theta":
                 if not np.isnan(t_electrodes).any():
