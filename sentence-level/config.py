@@ -23,7 +23,7 @@ level = 'sentence'
 
 # experiment setup
 seed = 1
-runs = 10
+runs = 1
 
 # randomize labels as a sanity check; default = False
 randomized_labels = True
