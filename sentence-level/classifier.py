@@ -55,8 +55,6 @@ def svm(samples, seed_value, randomized=False):
     train_y = shuffled_y[:size]
     test_y = shuffled_y[size:]
 
-    print(train_X[0])
-
     # scale feature values
     scaling = MinMaxScaler(feature_range=(-1, 1)).fit(train_X)
     train_X = scaling.transform(train_X)
