@@ -66,10 +66,11 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 theta2 = f['mean_t2']
                 obj_reference_t2 = theta2[idx][0]
                 print(np.array(f[obj_reference_t1])[:104])
+                print("....")
                 t_electrodes = np.nanmean(np.array([f[obj_reference_t1][:104],f[obj_reference_t2][:104]]), axis=1)
                 t_mean = np.mean(t_electrodes)
-                print(t_electrodes)
-                print(t_mean)
+                #print(t_electrodes)
+                #print(t_mean)
 
                 alpha1 = f['mean_a1']
                 obj_reference_a1 = alpha1[idx][0]
@@ -90,8 +91,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 obj_reference_g2 = gamma2[idx][0]
                 g_electrodes = np.nanmean([np.array(f[obj_reference_g1][:104]), np.array(f[obj_reference_g2][:104])], axis=1)
                 g_mean = np.mean(g_electrodes)
-                print(g_electrodes)
-                print(g_mean)
+                #print(g_electrodes)
+                #print(g_mean)
 
             # EEG diffs
             with warnings.catch_warnings():
