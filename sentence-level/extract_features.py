@@ -1,13 +1,20 @@
 import warnings
 import data_loading_helpers as dlh
 import numpy as np
-from readability import Readability
+import readability
+import syntok.segmenter as segmenter
 
 
 def flesch_reading_ease(text):
-    r = Readability(text)
-
+    """get Flesch reading ease score for a sentence."""
     print(text)
+    tokenized = segmenter.analyze(text)
+    print(tokenized
+
+    results = readability.getmeasures(tokenized, lang='en')
+    fre = results['readability grades']['FleschReadingEase'])
+
+
     print("Flesch:", r.flesch())
 
     return r.flesch()
