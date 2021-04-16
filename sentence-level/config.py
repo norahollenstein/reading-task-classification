@@ -23,7 +23,7 @@ level = 'sentence'
 
 # experiment setup
 seed = 1
-runs = 1
+runs = 50
 
 # randomize labels as a sanity check; default = False
 randomized_labels = True
@@ -43,7 +43,7 @@ elif level is 'word':
     #feature_sets = ['fix_order_raw_eeg_electrodes_10%', 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
 # classification task {tasks, sessions, subjects}
-class_task = 'tasks-cross-subj'
+class_task = 'tasks'
 if class_task == 'tasks' or class_task == 'tasks-cross-subj':
     target_names = ["TSR", "NR"]
     labels = [0, 1]
