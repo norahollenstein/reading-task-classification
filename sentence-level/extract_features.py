@@ -9,15 +9,14 @@ def flesch_reading_ease(text):
     """get Flesch reading ease score for a sentence."""
     print(text)
     tokenized = segmenter.analyze(text)
-    print(tokenized
+    print(tokenized)
 
     results = readability.getmeasures(tokenized, lang='en')
-    fre = results['readability grades']['FleschReadingEase'])
+    fre = results['readability grades']['FleschReadingEase']
 
+    print("Flesch:", fre)
 
-    print("Flesch:", r.flesch())
-
-    return r.flesch()
+    return fre
 
 
 def extract_sentence_features(subject, f, feature_set, feature_dict, label):
