@@ -2,19 +2,16 @@ import warnings
 import data_loading_helpers as dlh
 import numpy as np
 import readability
-import syntok.segmenter as segmenter
+from nltk import word_tokenize
 
 
 def flesch_reading_ease(text):
     """get Flesch reading ease score for a sentence."""
     print(text)
-    segmented = segmenter.analyze(text)
-    print(segmented)
-    for n in segmented:
-        print(n)
+    tokenized = word_tokenize(text)
+
 
     #tokenized = ' '.join(token.value for token in segmenter.analyze(text))
-    tokenized = segmenter.analyze(text)
     print(tokenized)
 
     results = readability.getmeasures(tokenized, lang='en')
