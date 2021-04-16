@@ -7,17 +7,14 @@ from nltk import word_tokenize
 
 def flesch_reading_ease(text):
     """get Flesch reading ease score for a sentence."""
-    print(text)
+    #print(text)
     tokenized = " ".join(word_tokenize(text))
-
-
-    #tokenized = ' '.join(token.value for token in segmenter.analyze(text))
-    print(tokenized)
+    #print(tokenized)
 
     results = readability.getmeasures(tokenized, lang='en')
     fre = results['readability grades']['FleschReadingEase']
 
-    print("Flesch:", fre)
+    #print("Flesch:", fre)
 
     return fre
 
