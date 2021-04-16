@@ -1,10 +1,10 @@
 
 # dataset {zuco1, zuco2, zucoAll, zuco1sr}
-dataset = 'zuco1'
+dataset = 'zuco2'
 
 if dataset is 'zuco2':
     # todo: what about missing subjects?
-    subjects = ['YAC', 'YAG', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH,  - YRH, YMS
+    subjects = ['YAC']#, 'YAG', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH,  - YRH, YMS
     # new preprocessed data Sept. 2020
     rootdir = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep2020/"
 elif dataset is 'zuco1' or dataset is 'zuco1sr':
