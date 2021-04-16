@@ -8,7 +8,9 @@ import syntok.segmenter as segmenter
 def flesch_reading_ease(text):
     """get Flesch reading ease score for a sentence."""
     print(text)
-    tokenized = segmenter.analyze(text)
+
+    tokenized = ' '.join(token.value for token in segmenter.analyze(text))
+    #tokenized = segmenter.analyze(text)
     print(tokenized)
 
     results = readability.getmeasures(tokenized, lang='en')
