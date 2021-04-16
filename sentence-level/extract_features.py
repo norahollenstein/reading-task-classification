@@ -132,8 +132,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 g2_diff = np.nanmean(np.array(f[obj_reference_g2_diff]))
 
             ### --- Text difficulty baseline --- ###
-            if feature_set == "flesch_baseline";
-            feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [fre, label]
+            if feature_set == "flesch_baseline":
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [fre, label]
 
             ### --- Sentencel-level eye tracking features --- ###
             if feature_set == "omission_rate":
