@@ -1,13 +1,21 @@
 import warnings
 import data_loading_helpers as dlh
 import numpy as np
+from readability import Readability
+
+
+def flesch_reading_ease(text):
+    r = Readability(text)
+
+    print(text)
+    print("Flesch:", r.flesch())
+
+    return r.flesch()
 
 
 def extract_sentence_features(subject, f, feature_set, feature_dict, label):
     """extract sentence level features from Matlab struct"""
-    #print(f)
-    #print(data)
-    #print(f.keys())
+
     rawData = f['rawData']
     contentData = f['content']
 
@@ -17,6 +25,9 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             obj_reference_content = contentData[idx][0]
             sent = dlh.load_matlab_string(f[obj_reference_content])
+
+            # Flesch reading ease score
+            fre = flesch_reading_ease(sent)
 
             # omission rate
             omissionR = f['omissionRate']
@@ -119,6 +130,10 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 gamma2_diff = f['mean_g2_diff']
                 obj_reference_g2_diff = gamma2_diff[idx][0]
                 g2_diff = np.nanmean(np.array(f[obj_reference_g2_diff]))
+
+            ### --- Text difficulty baseline --- ###
+            if feature_set == "flesch_baseline";
+            feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [fre, label]
 
             ### --- Sentencel-level eye tracking features --- ###
             if feature_set == "omission_rate":
