@@ -211,7 +211,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
         return feature_dict
 
 
-def extract_fixation_features(subject, f, data, feature_set, feature_dict, label_orig):
+def extract_fixation_features(subject, f, feature_set, feature_dict, label):
     """parse Matlab struct to extract EEG singals only for fixation occurring inside wordbounds"""
     """ extract features in the order they were read"""
     rawData = data['rawData']

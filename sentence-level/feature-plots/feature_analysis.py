@@ -10,6 +10,7 @@ for file in os.listdir("./"):
         mean = np.mean(values[1])
         std = np.std(values[1])
         print(mean, std)
-        outliers = values[values[1] > mean+std]
-        outliers = outliers.append(values[values[1] < mean-std])
+        # todo: how many stds?
+        outliers = values[values[1] > mean+(2*std)]
+        outliers = outliers.append(values[values[1] < mean-(2*std)])
         print(outliers)
