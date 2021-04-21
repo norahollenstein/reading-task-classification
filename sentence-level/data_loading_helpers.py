@@ -257,7 +257,7 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
             #else:
              #   print(word_string + " is not a real word.")
         sentence = " ".join([load_matlab_string(data_container[word_obj[0]]) for word_obj in word_objects['content']])
-        print("Only available objects for the sentence '{}' are {}.".format(sentence, available_objects))
+        #print("Only available objects for the sentence '{}' are {}.".format(sentence, available_objects))
     word_level_data["word_reading_order"] = extract_word_order_from_fixations(fixations_order_per_word)
     return word_level_data
 

@@ -9,15 +9,28 @@ import matplotlib.pyplot as plt
 
 def prepare_output_files():
     """Create all output files required for reporting results"""
-    result_file = open("results/" + str(
-        date.today()) + "_svm_results_" + config.class_task + "_" + config.dataset + "_random" + str(
-        config.randomized_labels) + "_" + config.kernel + ".csv", "a")
-    all_runs_result_file = open("results/" + str(
-        date.today()) + "_svm_all_runs_" + config.class_task + "_" + config.dataset + "_random" + str(
-        config.randomized_labels) + "_" + config.kernel + ".csv", "a")
-    coef_file = open("results/" + str(
-        date.today()) + "_svm_coefficients_" + config.class_task + "_" + config.dataset + "_random" + str(
-        config.randomized_labels) + "_" + config.kernel + ".csv", "a")
+
+    if config.level == "word":
+        result_file = open("results/" + str(
+            date.today()) + "_svm_results_" + config.class_task + "_" + config.dataset + "_random" + str(
+            config.randomized_labels) + "_" + config.kernel + "_FixFeats.csv", "a")
+        all_runs_result_file = open("results/" + str(
+            date.today()) + "_svm_all_runs_" + config.class_task + "_" + config.dataset + "_random" + str(
+            config.randomized_labels) + "_" + config.kernel + "_FixFeats.csv", "a")
+        coef_file = open("results/" + str(
+            date.today()) + "_svm_coefficients_" + config.class_task + "_" + config.dataset + "_random" + str(
+            config.randomized_labels) + "_" + config.kernel + "_FixFeats.csv", "a")
+    else:
+        result_file = open("results/" + str(
+            date.today()) + "_svm_results_" + config.class_task + "_" + config.dataset + "_random" + str(
+            config.randomized_labels) + "_" + config.kernel + ".csv", "a")
+        all_runs_result_file = open("results/" + str(
+            date.today()) + "_svm_all_runs_" + config.class_task + "_" + config.dataset + "_random" + str(
+            config.randomized_labels) + "_" + config.kernel + ".csv", "a")
+        coef_file = open("results/" + str(
+            date.today()) + "_svm_coefficients_" + config.class_task + "_" + config.dataset + "_random" + str(
+            config.randomized_labels) + "_" + config.kernel + ".csv", "a")
+
 
     return result_file, all_runs_result_file, coef_file
 
