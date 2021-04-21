@@ -108,35 +108,6 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 g_electrodes = np.nanmean(np.array([np.array(f[obj_reference_g1])[:104],np.array(f[obj_reference_g2])[:104]]), axis=0)
                 g_mean = np.nanmean(g_electrodes)
 
-
-            # EEG diffs
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore", category=RuntimeWarning)
-                theta1_diff = f['mean_t1_diff']
-                obj_reference_t1_diff = theta1_diff[idx][0]
-                t1_diff = np.nanmean(np.array(f[obj_reference_t1_diff]))
-                theta2_diff = f['mean_t2_diff']
-                obj_reference_t2_diff = theta2_diff[idx][0]
-                t2_diff = np.nanmean(np.array(f[obj_reference_t2_diff]))
-                alpha1_diff = f['mean_a1_diff']
-                obj_reference_a1_diff = alpha1_diff[idx][0]
-                a1_diff = np.nanmean(np.array(f[obj_reference_a1_diff]))
-                alpha2_diff = f['mean_a2_diff']
-                obj_reference_a2_diff = alpha2_diff[idx][0]
-                a2_diff = np.nanmean(np.array(f[obj_reference_a2_diff]))
-                beta1_diff = f['mean_b1_diff']
-                obj_reference_b1_diff = beta1_diff[idx][0]
-                b1_diff = np.nanmean(np.array(f[obj_reference_b1_diff]))
-                beta2_diff = f['mean_b2_diff']
-                obj_reference_b2_diff = beta2_diff[idx][0]
-                b2_diff = np.nanmean(np.array(f[obj_reference_b2_diff]))
-                gamma1_diff = f['mean_g1_diff']
-                obj_reference_g1_diff = gamma1_diff[idx][0]
-                g1_diff = np.nanmean(np.array(f[obj_reference_g1_diff]))
-                gamma2_diff = f['mean_g2_diff']
-                obj_reference_g2_diff = gamma2_diff[idx][0]
-                g2_diff = np.nanmean(np.array(f[obj_reference_g2_diff]))
-
             ### --- Text difficulty baseline --- ###
             if feature_set == "flesch_baseline":
                 feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [fre, label]
@@ -234,68 +205,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                                                                                          smeand, smaxv, smeanv, smaxd, t_mean, a_mean, b_mean, g_mean,
                                                                                          label]
 
-            """
-            elif feature_set == "eeg_diffs":
-                if not np.isnan(t1_diff).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1_diff, t2_diff, a1_diff, a2_diff, b1_diff, b2_diff, g1_diff, g2_diff, label]
-
-            elif feature_set == "gamma_diffs":
-                if not np.isnan(g1_diff).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g1_diff, g2_diff, label]
-
-            elif feature_set == "eeg_means_diffs":
-                if not np.isnan(t1_diff).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t1, t2, a1, a2, b1, b2, g1, g2, t1_diff, t2_diff, a1_diff, a2_diff, b1_diff, b2_diff, g1_diff, g2_diff, label]
-
-            elif feature_set == "gamma_means_diffs":
-                if not np.isnan(t1_diff).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g1, g2, g1_diff, g2_diff, label]
-
-            elif feature_set == "electrode_features_theta":
-                if not np.isnan(np.array(f[obj_reference_t1]))[:104].any():
-                    feat_list = np.hstack((np.array(f[obj_reference_t1])[:104], np.array(f[obj_reference_t2])[:104]))
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "electrode_features_alpha":
-                if not np.isnan(np.array(f[obj_reference_a1]))[:104].any():
-                    feat_list = np.hstack((np.array(f[obj_reference_a1])[:104], np.array(f[obj_reference_a2])[:104]))
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "electrode_features_beta":
-                if not np.isnan(np.array(f[obj_reference_b1]))[:104].any():
-                    feat_list = np.hstack((np.array(f[obj_reference_b1])[:104], np.array(f[obj_reference_b2])[:104]))
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "electrode_features_gamma":
-                if not np.isnan(np.array(f[obj_reference_g1]))[:104].any():
-                    feat_list = np.hstack((np.array(f[obj_reference_g1])[:104], np.array(f[obj_reference_g2])[:104]))
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "electrode_features_gamma_1":
-                if not np.isnan(np.array(f[obj_reference_g1]))[:104].any():
-                    feat_list = np.array(f[obj_reference_g1])[:104]
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "electrode_features_gamma_2":
-                if not np.isnan(np.array(f[obj_reference_g2]))[:104].any():
-                    feat_list = np.array(f[obj_reference_g2])[:104]
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "electrode_features_all":
-                if not np.isnan(np.array(f[obj_reference_t1]))[:104].any():
-                    feat_list = np.hstack((np.array(f[obj_reference_t1])[:104], np.array(f[obj_reference_t2])[:104], np.array(f[obj_reference_a1])[:104], np.array(f[obj_reference_a2])[:104], np.array(f[obj_reference_b1])[:104], np.array(f[obj_reference_b2])[:104], np.array(f[obj_reference_g1])[:104], np.array(f[obj_reference_g2])[:104]))
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label]
-
-            elif feature_set == "sent_gaze_eeg_means":
-                if 'duration' in af and not np.isnan(t1_diff).any():
-                    weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
-                    weighted_speed = np.array(af['duration']).shape[0] / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, t1, t2, a1, a2, b1, b2, g1, g2, label]
-            
-
             else:
                 print(feature_set, "IS NOT A VALID FEATURE SET.")
-            """
 
         return feature_dict
 

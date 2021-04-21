@@ -57,7 +57,7 @@ def main():
 
             avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
 
-            # print SVM coefficients to fil
+            # print SVM coefficients to file
             print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
 
             # print results for individual subjects to file

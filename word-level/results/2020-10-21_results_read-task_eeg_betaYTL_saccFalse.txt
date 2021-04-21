@@ -1,0 +1,2 @@
+lstm_dim lstm_layers dense_dim dropout batch_size epochs lr embedding_type random_seed train_acc val_acc test_acc test_std avg_precision std_precision avg_recall std_recall avg_fscore std_fscore threshold folds training_time best_ep patience min_delta model
+64 1 64 0.1 16 200 0.001 97 0.9420655 0.8962963 0.88536954 0.034328222 0.8894471257601954 0.032164764017860795 0.8830301879147918 0.03549499741971458 0.8841404134672036 0.03473938882216509 - 3 167.7578320503235 6,3,1 7 1e-05 model-checkpoints/97_fold2_read-task_eeg_beta_none_20102020-23:59:42.h5
