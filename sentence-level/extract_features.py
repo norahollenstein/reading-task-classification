@@ -214,11 +214,12 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 def extract_fixation_features(subject, f, feature_set, feature_dict, label):
     """parse Matlab struct to extract EEG singals only for fixation occurring inside wordbounds"""
     """ extract features in the order they were read"""
-    rawData = data['rawData']
+    rawData = f['rawData']
+    contentData = f['content']
 
     for idx in range(len(rawData)):
         # get word level data
-        wordData = data['word']
+        wordData = f['word']
 
         try:
             word_data = dlh.extract_word_level_data(f, f[wordData[idx][0]])
@@ -315,32 +316,32 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
             if feature_set == 'fix_order_raw_eeg_electrodes' and fix_order_raw_eeg:
                 avg =  np.nanmean(fix_order_raw_eeg, axis=0)
                 if not np.isnan(avg).any():
-                    feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(avg) + [label_orig]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
 
             elif feature_set == 'fix_order_raw_eeg_electrodes_10%' and fix_order_raw_eeg:
                 p10 = max(round(len(fix_order_raw_eeg) / 10), 1)
                 avg = np.nanmean(fix_order_raw_eeg[:p10], axis=0)
                 #print(avg)
                 if not np.isnan(avg).any():
-                    feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(avg) + [label_orig]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
 
             elif feature_set == 'fix_order_raw_eeg_electrodes_20%' and fix_order_raw_eeg:
                 p20 = max(round(len(fix_order_raw_eeg) / 5), 1)
                 avg = np.nanmean(fix_order_raw_eeg[:p20], axis=0)
                 if not np.isnan(avg).any():
-                    feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(avg) + [label_orig]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
 
             elif feature_set == 'fix_order_raw_eeg_electrodes_50%' and fix_order_raw_eeg:
                 p50 = max(round(len(fix_order_raw_eeg) / 2), 1)
                 avg = np.nanmean(fix_order_raw_eeg[:p50], axis=0)
                 if not np.isnan(avg).any():
-                    feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(avg) + [label_orig]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
 
             elif feature_set == 'fix_order_raw_eeg_electrodes_75%' and fix_order_raw_eeg:
                 p75 = max(round((len(fix_order_raw_eeg) / 10)*7.5), 1)
                 avg = np.nanmean(fix_order_raw_eeg[:p75], axis=0)
                 if not np.isnan(avg).any():
-                    feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(avg) + [label_orig]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
 
         except ValueError:
             print("NO WORD DATA AVAILABLE for sentence ", idx)
