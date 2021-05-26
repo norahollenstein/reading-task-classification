@@ -133,19 +133,31 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
         nFixData = word_objects['nFixations']
         fixPositions = word_objects["fixPositions"]
         try:
-            inSacc_velocity = word_objects["inSacc_velocity"]
-            inSacc_duration = word_objects["inSacc_duration"]
-            outSacc_velocity = word_objects["outSacc_velocity"]
-            outSacc_duration = word_objects["outSacc_duration"]
-            outSacc_amp = word_objects["outSacc_amp"]
-            inSacc_amp = word_objects["outSacc_amp"]
+            inSacc_velocity_med = word_objects["inSacc_velocity_med"]
+            inSacc_duration_med = word_objects["inSacc_duration_med"]
+            outSacc_velocity_med = word_objects["outSacc_velocity_med"]
+            outSacc_duration_med = word_objects["outSacc_duration_med"]
+            outSacc_amp_med = word_objects["outSacc_amp_med"]
+            inSacc_amp_med = word_objects["inSacc_amp_med"]
+            inSacc_velocity_max = word_objects["inSacc_velocity_max"]
+            inSacc_duration_max = word_objects["inSacc_duration_max"]
+            outSacc_velocity_max = word_objects["outSacc_velocity_max"]
+            outSacc_duration_max = word_objects["outSacc_duration_max"]
+            outSacc_amp_max = word_objects["outSacc_amp_max"]
+            inSacc_amp_max = word_objects["inSacc_amp_max"]
         except KeyError:
-            inSacc_velocity = []
-            inSacc_duration = []
-            outSacc_velocity = []
-            outSacc_duration = []
-            outSacc_amp = []
-            inSacc_amp = []
+            inSacc_velocity_med = []
+            inSacc_duration_med = []
+            outSacc_velocity_med = []
+            outSacc_duration_med = []
+            outSacc_amp_med = []
+            inSacc_amp_med = []
+            inSacc_velocity_max = []
+            inSacc_duration_max = []
+            outSacc_velocity_max = []
+            outSacc_duration_max = []
+            outSacc_amp_max = []
+            inSacc_amp_max = []
         trt_t1Data = word_objects['TRT_t1']
         #print(trt_t1Data)
         trt_t2Data = word_objects['TRT_t2']
@@ -166,13 +178,15 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
 
         assert len(contentData) == len(etData) == len(rawData), "different amounts of different data!!"
 
-        zipped_data = zip(rawData, etData, contentData, ffdData, gdData, gptData, trtData, nFixData, fixPositions, inSacc_velocity, inSacc_duration, outSacc_velocity, outSacc_duration, inSacc_amp, outSacc_amp,
+        zipped_data = zip(rawData, etData, contentData, ffdData, gdData, gptData, trtData, nFixData, fixPositions, inSacc_velocity_med, inSacc_duration_med, outSacc_velocity_med, outSacc_duration_med, inSacc_amp_med, outSacc_amp_med,
+                          inSacc_velocity_max, inSacc_duration_max, outSacc_velocity_max, outSacc_duration_max,
+                          inSacc_amp_max, outSacc_amp_max,
                           trt_t1Data, trt_t2Data, trt_a1Data, trt_a2Data, trt_b1Data, trt_b2Data, trt_g1Data,
                           trt_g2Data, ffd_t1Data, ffd_t2Data, ffd_a1Data, ffd_a2Data, ffd_b1Data, ffd_b2Data, ffd_g1Data,
                           ffd_g2Data)
         word_level_data = {}
         word_idx = 0
-        for raw_eegs_obj, ets_obj, word_obj, ffd, gd, gpt, trt, nFix, fixPos, insacc_v, insacc_d, outsacc_v, outsacc_d, insacc_a, outsacc_a, trt_t1, trt_t2, trt_a1, trt_a2, trt_b1, trt_b2, trt_g1, trt_g2, ffd_t1, ffd_t2, ffd_a1, ffd_a2, ffd_b1, ffd_b2, ffd_g1, ffd_g2 in zipped_data:
+        for raw_eegs_obj, ets_obj, word_obj, ffd, gd, gpt, trt, nFix, fixPos, insacc_v_med, insacc_d_med, outsacc_v_med, outsacc_d_med, insacc_a_med, outsacc_a_med, insacc_v_max, insacc_d_max, outsacc_v_max, outsacc_d_max, insacc_a_max, outsacc_a_max, trt_t1, trt_t2, trt_a1, trt_a2, trt_b1, trt_b2, trt_g1, trt_g2, ffd_t1, ffd_t2, ffd_a1, ffd_a2, ffd_b1, ffd_b2, ffd_g1, ffd_g2 in zipped_data:
             word_string = load_matlab_string(data_container[word_obj[0]])
             if is_real_word(word_string):
                 data_dict = {}
@@ -185,12 +199,18 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
                 data_dict["GPT"] = data_container[gpt[0]].value[0, 0] if len(data_container[gpt[0]].value.shape) == 2 else None
                 data_dict["TRT"] = data_container[trt[0]].value[0, 0] if len(data_container[trt[0]].value.shape) == 2 else None
                 data_dict["nFix"] = data_container[nFix[0]].value[0, 0] if len(data_container[nFix[0]].value.shape) == 2 else None
-                data_dict["inSacc_velocity"] = np.mean(data_container[insacc_v[0]])
-                data_dict["inSacc_duration"] = np.mean(data_container[insacc_d[0]])
-                data_dict["outSacc_velocity"] = np.mean(data_container[outsacc_v[0]])
-                data_dict["outSacc_duration"] = np.mean(data_container[outsacc_d[0]])
-                data_dict["inSacc_amp"] = np.mean(data_container[insacc_a[0]])
-                data_dict["outSacc_amp"] = np.mean(data_container[outsacc_a[0]])
+                data_dict["inSacc_velocity_med"] = np.median(data_container[insacc_v_med[0]])
+                data_dict["inSacc_duration_med"] = np.median(data_container[insacc_d_med[0]])
+                data_dict["outSacc_velocity_med"] = np.median(data_container[outsacc_v_med[0]])
+                data_dict["outSacc_duration_med"] = np.median(data_container[outsacc_d_med[0]])
+                data_dict["inSacc_amp_med"] = np.median(data_container[insacc_a_med[0]])
+                data_dict["outSacc_amp_med"] = np.median(data_container[outsacc_a_med[0]])
+                data_dict["inSacc_velocity_max"] = np.max(data_container[insacc_v_max[0]])
+                data_dict["inSacc_duration_max"] = np.max(data_container[insacc_d_max[0]])
+                data_dict["outSacc_velocity_max"] = np.max(data_container[outsacc_v_max[0]])
+                data_dict["outSacc_duration_max"] = np.max(data_container[outsacc_d_max[0]])
+                data_dict["inSacc_amp_max"] = np.max(data_container[insacc_a_max[0]])
+                data_dict["outSacc_amp_max"] = np.max(data_container[outsacc_a_max[0]])
 
                 #print(data_container[trt_t1[0]].value.shape)
                 #print(data_container[trt_t1[0]].value[0])
