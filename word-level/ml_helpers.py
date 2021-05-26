@@ -95,8 +95,7 @@ def load_glove_embeddings(vocab_size, word_index, EMBEDDING_DIM):
     print('Indexing word vectors.')
 
     embeddings_index = {}
-    with open(os.path.join(
-            config.base_dir + '/mnt/ds3lab-scratch/noraho/embeddings/glove-6B/glove.6B.'+str(EMBEDDING_DIM)+'d.txt')) as f:
+    with open(os.path.join('/mnt/ds3lab-scratch/noraho/embeddings/glove-6B/glove.6B.'+str(EMBEDDING_DIM)+'d.txt')) as f:
         for line in f:
             word, coefs = line.split(maxsplit=1)
             coefs = np.fromstring(coefs, 'f', sep=' ')
