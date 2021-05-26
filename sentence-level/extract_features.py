@@ -45,6 +45,13 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
             obj_reference_allFix = allFix[idx][0]
             af = f[obj_reference_allFix]
 
+            # mean saccade amplitude
+            saccMeanAmp = f['saccMeanAmp']
+            obj_reference_saccMeanAmp = saccMeanAmp[idx][0]
+            smeana = np.array(f[obj_reference_saccMeanAmp])[0][0]
+            smeana = smeana if not np.isnan(smeana) else 0.0
+
+
             # mean saccade duration
             saccMeanDur = f['saccMeanDur']
             obj_reference_saccMeanDur = saccMeanDur[idx][0]
@@ -56,6 +63,15 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
             obj_reference_saccMeanVel = saccMeanVel[idx][0]
             smeanv = np.array(f[obj_reference_saccMeanVel])[0][0]
             smeanv = smeanv if not np.isnan(smeanv) else 0.0
+
+            # saccade max amplitude
+            saccMaxAmp = f['saccMaxAmp']
+            obj_reference_saccMaxAmp = saccMaxAmp[idx][0]
+            try:
+                smaxa = np.array(f[obj_reference_saccMaxAmp])[0][0]
+                smaxa = smaxa if not np.isnan(smaxa) else 0.0
+            except IndexError:
+                smaxa = 0.0
 
             # saccade max velocity
             saccMaxVel = f['saccMaxVel']
@@ -131,6 +147,9 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
             elif feature_set == "mean_sacc_dur":
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, label]
 
+            elif feature_set == "mean_sacc_amp":
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeana, label]
+
             elif feature_set == "max_sacc_velocity":
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxv, label]
 
@@ -139,6 +158,9 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             elif feature_set == "max_sacc_dur":
                     feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxd, label]
+
+            elif feature_set == "max_sacc_amp":
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxa, label]
 
             elif feature_set == "sent_gaze":
                 if 'duration' in af:
@@ -150,11 +172,11 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
                 if 'duration' in af:
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, smeand, smaxv, smeanv, smaxd, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, smeand, smaxv, smeanv, smaxd, smeana, smaxa, label]
 
             elif feature_set == "sent_saccade":
                 if 'duration' in af:
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, smaxv, smeanv, smaxd, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, smaxv, smeanv, smaxd, smeana, smaxa, label]
 
             ### --- Sentencel-level EEG features --- ###
             elif feature_set == "theta_mean":

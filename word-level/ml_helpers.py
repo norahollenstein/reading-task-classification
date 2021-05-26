@@ -177,6 +177,7 @@ def create_new_bert_layer():
     return bert
 """
 
+
 def scale_feature_values(X):
     """Scale eye-tracking and EEG feature values"""
 
