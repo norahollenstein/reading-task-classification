@@ -13,6 +13,7 @@ subjects = ['YAG']#, 'YAC', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YL
 #subjects = ["ZKW"]#], "ZJS"]#, "ZDN"]#, "ZJN"]#, "ZPH", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"]
 
 
+run_feature_extraction = False
 
 # ML task {read-task, session, subjects}
 class_task = 'read-task'
