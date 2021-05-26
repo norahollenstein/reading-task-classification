@@ -259,6 +259,8 @@ def prepare_text(X_text, embedding_type, random_seed):
         print('Shape of data tensor:', X_data_text.shape)
         print('Shape of data (masks) tensor:', X_data_masks.shape)
 
+        return X_data_text, num_words, X_data_masks
+
 def prepare_cogni_seqs(cogni_dict):
     print('Processing cognitive data...')
     # prepare cognitive data
