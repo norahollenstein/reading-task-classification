@@ -9,7 +9,7 @@ rootdir_zuco2 = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep
 
 # subjects (subejcts starting with "Z" are from ZuCo 1, subjects starting with "Y" are from ZuCo 2)
 # note: for running the experiments with previously extracted and saved features only one subject (from each dataset) is necessary
-subjects = ['YAG', 'YAC', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRH', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH, 'YMS'
+subjects = ['YAG', 'YAC', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH, 'YMS','YRH'
 #subjects = ["ZKW"]#], "ZJS"]#, "ZDN"]#, "ZJN"]#, "ZPH", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"]
 
 
