@@ -127,7 +127,7 @@ def lstm_classifier(features, labels, embedding_type, param_dict, random_seed_va
         text_model = Flatten()(text_model)
         text_model = Dense(dense_dim, activation="relu")(text_model)
         text_model = Dropout(dropout, seed=random_seed_value)(text_model)
-        text_model = Dense(y_train.[1], activation="softmax")(text_model)
+        text_model = Dense(y_train[1], activation="softmax")(text_model)
         model = Model(inputs=input_text_list, outputs=text_model)
 
         model.compile(loss='categorical_crossentropy',
