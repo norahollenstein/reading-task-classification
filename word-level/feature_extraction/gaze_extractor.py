@@ -25,7 +25,7 @@ def word_level_et_features(sentence_data, gaze_dict, label_dict):
         # GD: gaze duration
         # GPT: go-past time
         gaze_features = ['nFix', 'FFD', 'TRT', 'GD', 'GPT']
-        saccade_features = ['inSacc_velocity_med', 'inSacc_duration_med', 'outSacc_velocity_med', 'outSacc_duration_med', 'inSacc_amp_med', 'outSacc_amp_med', 'inSacc_velocity_max', 'inSacc_duration_max', 'outSacc_velocity_max', 'outSacc_duration_max', 'inSacc_amp_max', 'outSacc_amp_max']
+        saccade_features = ['inSacc_velocity_mean', 'inSacc_duration_mean', 'outSacc_velocity_mean', 'outSacc_duration_mean', 'inSacc_amp_mean', 'outSacc_amp_mean', 'inSacc_velocity_max', 'inSacc_duration_max', 'outSacc_velocity_max', 'outSacc_duration_max', 'inSacc_amp_max', 'outSacc_amp_max']
         if config.saccades is True:
             gaze_features = gaze_features + saccade_features
 

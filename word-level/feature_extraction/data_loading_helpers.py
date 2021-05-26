@@ -195,8 +195,8 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
                 data_dict["inSacc_duration_max"] = np.max(data_container[insacc_d[0]])
                 data_dict["outSacc_velocity_max"] = np.max(data_container[outsacc_v[0]])
                 data_dict["outSacc_duration_max"] = np.max(data_container[outsacc_d[0]])
-                data_dict["inSacc_amp_max"] = np.max(data_container[insacc_a_max[0]])
-                data_dict["outSacc_amp_max"] = np.max(data_container[outsacc_a_max[0]])
+                data_dict["inSacc_amp_max"] = np.max(data_container[insacc_a[0]])
+                data_dict["outSacc_amp_max"] = np.max(data_container[outsacc_a[0]])
 
                 #print(data_container[trt_t1[0]].value.shape)
                 #print(data_container[trt_t1[0]].value[0])
