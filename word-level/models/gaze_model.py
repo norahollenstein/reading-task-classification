@@ -87,7 +87,7 @@ def lstm_classifier(labels, gaze, param_dict, random_seed_value):
 
         # define model
         print("Preparing model...")
-        input_gaze = Input(shape=(X_train.shape[0], X_train.shape[1]), name='gaze_input_tensor')
+        input_gaze = Input(shape=(X_train.shape[1], X_train.shape[2]), name='gaze_input_tensor')
         gaze_model = Bidirectional(LSTM(lstm_dim, return_sequences=True))(input_gaze)
         for _ in list(range(lstm_layers-1)):
             gaze_model = Bidirectional(LSTM(lstm_dim, return_sequences=True))(gaze_model)
