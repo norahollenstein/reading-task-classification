@@ -41,10 +41,10 @@ def extract_word_raw_eeg(sentence_data, eeg_dict):
                         word_eeg = np.nanmean(word_eeg, axis=0)
                         if word_eeg.shape == (105,):
                             word_eeg = [float(n) for n in word_eeg]
-                            sent_features[widx] = list(word_eeg)
+                            sent_features[widx] = list(word_eeg[:104])
 
                     if widx not in sent_features:
-                        nan_array = np.empty((105,))
+                        nan_array = np.empty((104,))
                         nan_array[:] = np.NaN
                         nan_array = [float(n) for n in nan_array]
                         sent_features[widx] = nan_array
@@ -54,7 +54,7 @@ def extract_word_raw_eeg(sentence_data, eeg_dict):
 
             #if sent_features:
             # for sentiment and relation detection
-            if config.class_task.startswith('read-task') or config.class_task == "reldetect":
+            if config.class_task.startswith('read-task'):
                 if sent not in eeg_dict:
                     eeg_dict[sent] = {}
                     for widx, fts in sent_features.items():
@@ -107,10 +107,10 @@ def extract_word_band_eeg(sentence_data, eeg_dict, label_dict):
                         word_t = (word_t1 + word_t2) / 2
                         word_t = word_t.reshape(word_t.shape[0],)
                         word_t = [float(n) for n in word_t]
-                        sent_features[widx] = word_t
+                        sent_features[widx] = word_t[:104]
 
                     else:
-                        nan_array = np.empty((105,))
+                        nan_array = np.empty((104,))
                         nan_array[:] = np.NaN
                         nan_array = [float(n) for n in nan_array]
                         sent_features[widx] = nan_array

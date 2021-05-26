@@ -290,8 +290,8 @@ def pad_cognitive_feature_seqs(eeg_X, max_length_cogni, modality):
     for s in eeg_X:
         while len(s) < max_length_cogni:
             if modality == "eeg":
-                # 105 = number of EEG electrodes
-                s.append(np.zeros(105))
+                # 104 = number of EEG electrodes
+                s.append(np.zeros(104))
             elif modality == "eye_tracking":
                 # 5 = number of gaze features
                 if config.saccades is True:

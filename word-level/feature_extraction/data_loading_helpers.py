@@ -198,12 +198,8 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
                 data_dict["inSacc_amp_max"] = np.max(data_container[insacc_a[0]])
                 data_dict["outSacc_amp_max"] = np.max(data_container[outsacc_a[0]])
 
-                #print(data_container[trt_t1[0]].value.shape)
-                #print(data_container[trt_t1[0]].value[0])
-                #print("....")
                 data_dict["TRT_t1"] = data_container[trt_t1[0]].value if len(
                     data_container[trt_t1[0]].value.shape) == 2 else None
-                #print(data_dict["TRT_t1"])
                 data_dict["TRT_t2"] = data_container[trt_t2[0]].value if len(
                     data_container[trt_t2[0]].value.shape) == 2 else None
                 data_dict["TRT_a1"] = data_container[trt_a1[0]].value if len(
@@ -242,8 +238,7 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
                 data_dict["content"] = word_string
                 word_level_data[word_idx] = data_dict
                 word_idx += 1
-            #else:
-             #   print(word_string + " is not a real word.")
+
     else:
         # If there are no word-level data it will be word embeddings alone
         word_level_data = {}
