@@ -33,7 +33,7 @@ def word_level_et_features(sentence_data, gaze_dict, label_dict):
 
             obj_reference_content = contentData[idx][0]
             sent = dh.load_matlab_string(f[obj_reference_content])
-            print(sent)
+            #print(sent)
 
             sent_features = {}
             # get word level data
@@ -43,8 +43,8 @@ def word_level_et_features(sentence_data, gaze_dict, label_dict):
                 for widx in range(len(word_data)):
                     word_feats = []
                     for feature in gaze_features:
-                        print(feature)
-                        print(word_data[widx][feature])
+                        #print(feature)
+                        #print(word_data[widx][feature])
                         if word_data[widx][feature] is not None:
                             word_feats.append(float(word_data[widx][feature]))
                         else:
