@@ -34,13 +34,14 @@ def main():
     #print("done, ", len(gaze_dict), " sentences with gaze features.")
 
 
-
-    # saving gaze features to file
-
-    print(len(gaze_dict))
-    with open('eeg_features/gaze_feats_file_ner.json', 'w') as fp:
-       json.dump(gaze_dict, fp)
-    print("saved.")
+    if config.run_feature_extraction:
+        # saving gaze features to file
+        print(len(gaze_dict))
+        with open('eeg_features/gaze_feats_file_ner.json', 'w') as fp:
+           json.dump(gaze_dict, fp)
+        print("saved.")
+    else:
+        gaze_dict = json.load(open("features/combi_eeg_raw_feats_file_" + config.class_task + ".json"))
 
 
     feature_dict = collections.OrderedDict(sorted(feature_dict.items()))

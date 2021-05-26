@@ -26,8 +26,8 @@ def extract_features(sent_data, feature_set, feature_dict, eeg_dict, gaze_dict, 
     #if 'sent_eeg_theta' in feature_set or 'sent_eeg_alpha' in feature_set or 'sent_eeg_beta' in feature_set or 'sent_eeg_gamma' in feature_set:
      #   eeg_extractor.extract_sent_freq_eeg(sent_data, eeg_dict)
 
-    if "eye_tracking" in feature_set:# or 'combi_eye_tracking' in feature_set:
-        gaze_extractor.word_level_et_features(sent_data, gaze_dict, label_dict)
+    #if "eye_tracking" in feature_set:# or 'combi_eye_tracking' in feature_set:
+       # gaze_extractor.word_level_et_features(sent_data, gaze_dict, label_dict)
 
     #if 'fix_eeg_alpha' in feature_set or 'fix_eeg_theta' in feature_set or 'fix_eeg_gamma' in feature_set or 'fix_eeg_beta' in feature_set:
      #   eeg_extractor.extract_fix_band_eeg(sent_data, eeg_dict)

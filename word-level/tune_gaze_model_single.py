@@ -29,12 +29,16 @@ def main():
 
         print(len(feature_dict), len(label_dict), len(gaze_dict))
 
-
-        # save EEG features
-        print(len(gaze_dict))
-        with open("features/" + subject + "_" + config.feature_set[0] + '_feats_file_'+config.class_task+'_Sacc'+str(config.saccades)+'.json', 'w') as fp:
-           json.dump(gaze_dict, fp)
-        print("saved.")
+        if config.run_feature_extraction:
+            # saving gaze features to file
+            print(len(gaze_dict))
+            with open("features/" + subject + "_" + config.feature_set[
+                0] + '_feats_file_' + config.class_task + '_Sacc' + str(config.saccades) + '.json', 'w') as fp:
+                json.dump(gaze_dict, fp)
+            print("saved.")
+        else:
+            gaze_dict = json.load(open("features/" + subject + "_" + config.feature_set[
+                0] + '_feats_file_' + config.class_task + '_Sacc' + str(config.saccades) + '.json'))
 
         feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
         label_dict = collections.OrderedDict(sorted(label_dict.items()))
