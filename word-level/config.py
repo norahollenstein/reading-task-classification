@@ -9,11 +9,11 @@ rootdir_zuco2 = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep
 
 # subjects (subejcts starting with "Z" are from ZuCo 1, subjects starting with "Y" are from ZuCo 2)
 # note: for running the experiments with previously extracted and saved features only one subject (from each dataset) is necessary
-subjects = ['YAG']#, 'YAC', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YMS', 'YRH', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH
+subjects = ['YAG', 'YAC', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YMS', 'YRH', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH
 #subjects = ["ZKW"]#], "ZJS"]#, "ZDN"]#, "ZJN"]#, "ZPH", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"]
 
 
-run_feature_extraction = False
+run_feature_extraction = True
 
 # ML task {read-task, session, subjects}
 class_task = 'read-task'
@@ -33,7 +33,7 @@ embeddings = 'none'
 lstm_dim = [64]
 lstm_layers = [1]
 dense_dim = [64]
-dropout = [0.]
+dropout = [0.1]
 batch_size = [40]
 epochs = [200]
 lr = [0.001]

@@ -93,7 +93,7 @@ def lstm_classifier(labels, gaze, param_dict, random_seed_value):
             gaze_model = Bidirectional(LSTM(lstm_dim, return_sequences=True))(gaze_model)
         gaze_model = Flatten()(gaze_model)
         gaze_model = Dense(dense_dim, activation="relu")(gaze_model)
-        gaze_model = Dropout(dropout)(gaze_model)
+        gaze_model = Dropout(dropout, seed=random_seed_value)(gaze_model)
         gaze_model = Dense(y_train.shape[1], activation="softmax")(gaze_model)
 
         model = Model(inputs=input_gaze, outputs=gaze_model)
