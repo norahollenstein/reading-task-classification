@@ -21,7 +21,7 @@ class_task = 'read-task'
 # sentence level features: {'combi_concat', 'sent_eeg_theta'}
 # combined models: {'eeg_eye_tracking', 'eeg4'}
 
-saccades = False
+saccades = True
 
 feature_set = ['text_only']
 

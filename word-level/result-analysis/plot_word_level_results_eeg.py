@@ -4,88 +4,64 @@ import os
 import sys
 import matplotlib.pyplot as plt
 from scipy import stats
+import  seaborn as sns
 
-result_dir ="./new_oct15/lstm/"
-dataset= "zuco1"
+result_dir ="../results/"
+dataset= "zuco2"
 
 if dataset == "zuco2":
     subj_start = "Y"
 if dataset == "zuco1":
     subj_start = "Z"
 
-features = ["eeg_theta", "eeg_beta", "eeg_gamma","eeg_alpha"]
+feature = "eeg_gamma"
 
-colnames=["subj", "lstm_dim", "lstm_layers", "dense_dim", "dropout", "batch_size", "epochs", "lr", "embedding_type",
-          "random_seed", "train_acc", "val_acc", "test_acc", "test_std", "avg_precision", "std_precision",
-          "avg_recall", "std_recall", "avg_fscore", "std_fscore", "threshold", "folds", "training_time", 'best_ep', 'patience', 'min_delta', "model"]
+colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
+print(dataset, feature)
+all_results_pd = pd.DataFrame(columns=colnames)
+for filename in os.listdir(result_dir):
+    if filename.endswith(".txt"):
+        #print(filename)
+        subj = filename.replace("_saccTrue.txt", "").replace("_saccFalse.txt", "")[-3:]
+        #print(subj)
+        if feature in filename and subj.startswith(subj_start):
+            print(filename)
+            infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", usecols=[7,10,12,14,16], names=colnames)
+            infile['subject'] = subj
+            all_results_pd = pd.concat([all_results_pd, infile])
 
+all_results_pd = all_results_pd.drop_duplicates()
+results = all_results_pd.sort_values(by=['test_acc'])
 
-for f in features:
-    print(f)
-    all_results_pd = pd.DataFrame(columns=colnames)
-    for filename in os.listdir(result_dir):
-        if filename.endswith(".txt"):
-            #print(filename)
-            subj = filename.replace("_saccTrue.txt", "").replace("_saccFalse.txt", "")[-3:]
-            print(subj)
-            if f in filename and subj.startswith(subj_start):
-                print(filename)
-                infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", names=colnames)
-                #print(infile)
-                infile['subj'] = subj
-                all_results_pd = pd.concat([all_results_pd, infile])
+subjects = ['YAC', 'YAG', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL', "ZAB", "ZDM", "ZDN", "ZGW", "ZJM", "ZJN", "ZKB", "ZKH", "ZKW","ZMG", "ZPH"]
+colors = sns.color_palette("flare", len(subjects))
+colors_by_subject = [colors[subjects.index(s)] for s in results.subject.unique()]
 
-    #print(all_results_pd.head())
-    #print(len(all_results_pd))
+random_baseline = 0.5
 
-    subjs =[]
-    accs = []
-    stds = []
-    for i, subj in enumerate(all_results_pd['subj'].unique()):
-        accuracies = all_results_pd.loc[all_results_pd['subj'] == subj, 'test_acc'].values
-        if len(accuracies) == 10:
-            avg_acc = np.mean(accuracies)
-            std_err_acc = np.std(accuracies)
-            print(subj, avg_acc)
-            subjs.append(subj)
-            accs.append(avg_acc)
-            stds.append(std_err_acc)
-        else:
-            print("incorrect number of random seeds:", f, len(accuracies), subj)
-            sys.exit("!!!")
+order = []
+for s in results.subject.unique():
+    subj_results = results.loc[results['subject'] == s]
+    order.append((s, np.mean(subj_results['test_acc'])))
+    print(s, np.mean(subj_results['test_acc']))
 
-    median_subj_acc = np.median(accs)
-    mad = stats.median_abs_deviation(accs)
-    print(median_subj_acc, mad)
-    chance=0.5
-    zipped_lists = zip(accs, stds, subjs)
-    sorted_pairs = sorted(zipped_lists, reverse=True)
-    print(sorted_pairs)
+order_sorted = sorted(order, key=lambda x: x[1])
+order_sorted = [f[0] for f in order_sorted]
 
+print("Median accuracy:", np.median(results['test_acc']))
 
-    fig, ax = plt.subplots(figsize=(0.25*len(subjs), 4))
-    cmaplist = ["#44A2C4", "#337F9A", "#10997D", "#66BB97", "#92D050", "#D5E600", "#FFEB00", "#FFB14C", "#DC7810", "#C00000", "#A30071", "#A072C4", "#642D8F", "#203864", "#2E75B6", "#53BAFF"]
-    x_pos = np.arange(len(sorted_pairs))
-
-    for i, s in enumerate(sorted_pairs):
-        ax.plot(i, s[0], marker='o', color=cmaplist[list(all_results_pd['subj'].unique()).index(s[2])], markersize=8)
-        ax.errorbar(i, s[0], yerr=s[1], color=cmaplist[list(all_results_pd['subj'].unique()).index(s[2])], alpha=0.8, capsize=3)
-
-    #ax.set_ylim(bottom=ymin, top=ymax)
-    #ax.set_ylim(ax.get_ylim()[::-1])
-    ax.set_ylabel('Accuracy', fontsize=14)
-    ax.set_xticks(x_pos)
-    ax.set_xticklabels([x[2] for x in sorted_pairs], fontsize=11, rotation=90)
-    plt.axhline(y=median_subj_acc, color='black', linestyle='--', label='median')
-    ax.axhspan(median_subj_acc-mad, median_subj_acc+mad, alpha=0.1, facecolor='black', edgecolor=None, label="MAD")
-    plt.axhline(y=chance, color='grey', linestyle='--', label='chance')
-    plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=True)
-    #ax.set_xticklabels(list(file['model'].unique()), fontsize=8, rotation=45)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    #ax.set_title("Word level ET features Sacc False")
-    plt.draw()
-    plt.title(f)
-    plt.savefig("wordLevel_"+f+"_"+dataset+".png")
-    plt.show()
+ax = sns.pointplot(x="subject", y="test_acc", data=results, ci="sd", palette=colors_by_subject, s=80, order=order_sorted)
+median = np.median(results['test_acc'])
+mad = np.median(np.absolute(results['test_acc'] - np.median(results['test_acc'])))
+ax.axhline(median, ls='--', color="grey", label="median")
+plt.text(-0.49, median + 0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
+ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")
+ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
+# todo: add text baseline
+#ax.axhline(flesch_baseline, ls=':', color="darkblue", label="Flesch baseline")
+plt.ylim(0.4, 1)
+plt.title(feature)
+plt.legend()
+plt.savefig("plots/wordLevel_" + feature + "_"+ dataset + ".pdf")
+plt.show()
