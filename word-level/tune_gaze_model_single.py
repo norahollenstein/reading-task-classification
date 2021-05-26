@@ -5,7 +5,7 @@ from data_helpers import save_results, load_matlab_files
 import collections
 import json
 import numpy as np
-import system
+import sys
 
 # Usage on spaceml:
 # $ conda activate env-nrtsr
