@@ -24,7 +24,7 @@ class_task = 'read-task'
 
 saccades = True
 
-feature_set = ['eye_tracking']
+feature_set = ['eeg_alpha']
 
 # word embeddings {none, glove (300d), bert}
 embeddings = 'none'

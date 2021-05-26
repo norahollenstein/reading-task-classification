@@ -64,7 +64,6 @@ def main():
                                             fold_results = gaze_model.lstm_classifier(label_dict, gaze_dict,
                                                                                                 parameter_dict, rand)
                                             save_results(fold_results, config.class_task, subject)
-        
 
 
 if __name__ == '__main__':

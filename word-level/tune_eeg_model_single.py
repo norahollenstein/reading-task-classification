@@ -62,6 +62,5 @@ def main():
                                             save_results(fold_results, config.class_task, subject)
 
 
-
 if __name__ == '__main__':
     main()

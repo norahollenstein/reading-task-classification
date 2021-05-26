@@ -29,13 +29,8 @@ def extract_sentences(sentence_data, sentence_dict, label_dict):
             spacy_tokens = nltk.word_tokenize(sent)
 
             # for sentiment and relation detection
-            if config.class_task.startswith('read-task') or config.class_task == "reldetect":
+            if config.class_task.startswith('read-task'):
                 if sent not in sentence_dict:
                     sentence_dict[sent] = split_tokens
                     label_dict[sent] = label
-
-            # for ner (different tokenization needed for NER)
-            if config.class_task == "ner":
-                if sent not in sentence_dict:
-                    sentence_dict[sent] = spacy_tokens
 
