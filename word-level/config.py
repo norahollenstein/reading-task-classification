@@ -23,7 +23,7 @@ class_task = 'read-task'
 
 saccades = True
 
-feature_set = ['text_only']
+feature_set = ['eye_tracking']
 
 # word embeddings {none, glove (300d), bert}
 embeddings = 'none'
