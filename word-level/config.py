@@ -27,7 +27,7 @@ saccades = True
 feature_set = ['text_only']
 
 # word embeddings {none, glove (300d), bert}
-embeddings = 'glove'
+embeddings = 'bert'
 
 # hyper-parameters to test - general
 lstm_dim = [64]

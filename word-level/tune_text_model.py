@@ -34,8 +34,6 @@ def main():
 
     # test with less data
     print(len(label_dict), len(feature_dict))
-    #drop_first_sents(label_dict, feature_dict, eeg_dict)
-    print(len(label_dict), len(feature_dict))
 
     for rand in config.random_seed_values:
         np.random.seed(rand)
