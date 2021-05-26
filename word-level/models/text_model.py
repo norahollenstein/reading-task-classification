@@ -107,30 +107,28 @@ def lstm_classifier(features, labels, embedding_type, param_dict, random_seed_va
         # define model
         print("Preparing model...")
 
-
-        # define two sets of inputs
-        input_text = Input(shape=(X_train_text.shape[1],)) if embedding_type is not 'bert' else Input(shape=(X_train_text.shape[1],), dtype=tf.int32)
-        input_list = [input_text]
+        input_text = Input(shape=(X_train_text.shape[1],), name='text_input_tensor') if embedding_type is not 'bert' else Input(
+            shape=(X_train_text.shape[1],), dtype=tf.int32, name='text_input_tensor')
+        input_text_list = [input_text]
 
         if embedding_type is 'glove':
             text_model = Embedding(num_words,
-                      300,  # glove embedding dim
-                      embeddings_initializer=Constant(text_feats),
-                      input_length=X_train_text.shape[1],
-                      trainable=False,
-                      name='glove_input_embeddings')(input_text)
+                                   300,  # glove embedding dim
+                                   embeddings_initializer=Constant(text_feats),
+                                   input_length=X_train_text.shape[1],
+                                   trainable=False,
+                                   name='glove_input_embeddings')(input_text)
         elif embedding_type is 'bert':
-            input_mask = tf.keras.layers.Input((X_train_masks.shape[1],), dtype=tf.int32, name='input_mask')
-            input_list.append(input_mask)
+            input_mask = tf.keras.layers.Input((X_train_text.shape[1],), dtype=tf.int32, name='input_mask')
+            input_text_list.append(input_mask)
             text_model = ml_helpers.create_new_bert_layer()(input_text, attention_mask=input_mask)[0]
 
         text_model = Bidirectional(LSTM(lstm_dim, return_sequences=True))(text_model)
         text_model = Flatten()(text_model)
         text_model = Dense(dense_dim, activation="relu")(text_model)
         text_model = Dropout(dropout, seed=random_seed_value)(text_model)
-        text_model = Dense(y_train.shape[1], activation="softmax")(text_model)
-
-        model = Model(inputs=input_list, outputs=text_model)
+        text_model = Dense(y_train.[1], activation="softmax")(text_model)
+        model = Model(inputs=input_text_list, outputs=text_model)
 
         model.compile(loss='categorical_crossentropy',
                       optimizer=tf.keras.optimizers.Adam(lr=lr),
