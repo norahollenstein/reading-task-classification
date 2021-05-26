@@ -20,6 +20,39 @@ os.environ['KERAS_BACKEND'] = 'tensorflow'
 # Machine learning model for sentiment classification (binary and ternary)
 # Only learning from text 
 
+def create_lstm_word_model(param_dict, embedding_type, X_train_shape, num_words, text_feats,
+                           y_train_shape, seed_value):  # X_train_shape = X_train_text.shape[1], y_train_shape = y_train.shape[1]
+    lstm_dim = param_dict['lstm_dim']
+    dense_dim = param_dict['dense_dim']
+    dropout = param_dict['dropout']
+
+    input_text = Input(shape=(X_train_shape,), name='text_input_tensor') if embedding_type is not 'bert' else Input(
+        shape=(X_train_shape,), dtype=tf.int32, name='text_input_tensor')
+    input_text_list = [input_text]
+
+    if embedding_type is 'none':
+        text_model = Embedding(num_words, 32, input_length=X_train_shape,
+                               name='none_input_embeddings')(input_text)
+    elif embedding_type is 'glove':
+        text_model = Embedding(num_words,
+                               300,  # glove embedding dim
+                               embeddings_initializer=Constant(text_feats),
+                               input_length=X_train_shape,
+                               trainable=False,
+                               name='glove_input_embeddings')(input_text)
+    elif embedding_type is 'bert':
+        input_mask = tf.keras.layers.Input((X_train_shape,), dtype=tf.int32, name='input_mask')
+        input_text_list.append(input_mask)
+        text_model = ml_helpers.create_new_bert_layer()(input_text, attention_mask=input_mask)[0]
+
+    text_model = Bidirectional(LSTM(lstm_dim, return_sequences=True))(text_model)
+    text_model = Flatten()(text_model)
+    text_model = Dense(dense_dim, activation="relu")(text_model)
+    text_model = Dropout(dropout, seed=seed_value)(text_model)
+    text_model = Dense(y_train_shape, activation="softmax")(text_model)
+    model = Model(inputs=input_text_list, outputs=text_model)
+    return model
+
 
 def lstm_classifier(features, labels, embedding_type, param_dict, random_seed_value):
 
@@ -75,9 +108,15 @@ def lstm_classifier(features, labels, embedding_type, param_dict, random_seed_va
         print(X_train_text.shape)
         print(X_test_text.shape)
         print("--------")
-    
+
         if embedding_type is 'bert':
             X_train_masks, X_test_masks = text_feats[train_index], text_feats[test_index]
+            if config.data_percentage > 0:
+                X_train_text, X_train_masks, y_train = ml_helpers.drop_train_sents(
+                    [X_train_text, X_train_masks, y_train])
+        else:
+            if config.data_percentage > 0:
+                X_train_text, y_train = ml_helpers.drop_train_sents([X_train_text, y_train])
 
         print(y_train.shape)
         print(y_test.shape)
@@ -107,28 +146,8 @@ def lstm_classifier(features, labels, embedding_type, param_dict, random_seed_va
         # define model
         print("Preparing model...")
 
-        input_text = Input(shape=(X_train_text.shape[1],), name='text_input_tensor') if embedding_type is not 'bert' else Input(
-            shape=(X_train_text.shape[1],), dtype=tf.int32, name='text_input_tensor')
-        input_text_list = [input_text]
-
-        if embedding_type is 'glove':
-            text_model = Embedding(num_words,
-                                   300,  # glove embedding dim
-                                   embeddings_initializer=Constant(text_feats),
-                                   input_length=X_train_text.shape[1],
-                                   trainable=False,
-                                   name='glove_input_embeddings')(input_text)
-        elif embedding_type is 'bert':
-            input_mask = tf.keras.layers.Input((X_train_text.shape[1],), dtype=tf.int32, name='input_mask')
-            input_text_list.append(input_mask)
-            text_model = ml_helpers.create_new_bert_layer()(input_text, attention_mask=input_mask)[0]
-
-        text_model = Bidirectional(LSTM(lstm_dim, return_sequences=True))(text_model)
-        text_model = Flatten()(text_model)
-        text_model = Dense(dense_dim, activation="relu")(text_model)
-        text_model = Dropout(dropout, seed=random_seed_value)(text_model)
-        text_model = Dense(y_train[1], activation="softmax")(text_model)
-        model = Model(inputs=input_text_list, outputs=text_model)
+        model = create_lstm_word_model(param_dict, embedding_type, X_train_text.shape[1], num_words, text_feats,
+                                       y_train.shape[1], random_seed_value)
 
         model.compile(loss='categorical_crossentropy',
                       optimizer=tf.keras.optimizers.Adam(lr=lr),
@@ -140,14 +159,17 @@ def lstm_classifier(features, labels, embedding_type, param_dict, random_seed_va
         early_stop, model_save, model_name = ml_helpers.callbacks(fold, random_seed_value)
 
         # train model
-        history = model.fit([X_train_text] if embedding_type is not 'bert' else [X_train_text, X_train_masks], y_train, validation_split=config.validation_split, epochs=epochs, batch_size=batch_size, callbacks=[early_stop,model_save])
-        print("Best epoch:", len(history.history['loss'])- config.patience)
+        history = model.fit([X_train_text] if embedding_type is not 'bert' else [X_train_text, X_train_masks], y_train,
+                            validation_split=config.validation_split, epochs=epochs, batch_size=batch_size,
+                            callbacks=[early_stop, model_save])
+        print("Best epoch:", len(history.history['loss']) - config.patience)
 
         # evaluate model
         # load the best saved model
         model.load_weights(model_name)
 
-        scores = model.evaluate([X_test_text] if embedding_type is not 'bert' else [X_test_text, X_test_masks], y_test, verbose=0)
+        scores = model.evaluate([X_test_text] if embedding_type is not 'bert' else [X_test_text, X_test_masks], y_test,
+                                verbose=0)
         predictions = model.predict([X_test_text] if embedding_type is not 'bert' else [X_test_text, X_test_masks])
 
         rounded_predictions = [np.argmax(p) for p in predictions]
