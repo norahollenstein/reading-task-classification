@@ -45,9 +45,9 @@ def lstm_classifier(labels, gaze, param_dict, random_seed_value):
 
     # prepare gaze data
     gaze_X, max_length_cogni = ml_helpers.prepare_cogni_seqs(gaze)
-    print(gaze_X.shape)
+    #print(gaze_X.shape)
     gaze_X = ml_helpers.scale_feature_values(gaze_X)
-    print(gaze_X.shape)
+    #print(gaze_X.shape)
     X_data = ml_helpers.pad_cognitive_feature_seqs(gaze_X, max_length_cogni, "eye_tracking")
     print(X_data.shape)
 
