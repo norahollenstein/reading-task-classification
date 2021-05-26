@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 import config
-#from transformers import BertTokenizer
-#from transformers import TFBertModel
+import tensorflow as tf
+from transformers import BertTokenizer
+from transformers import TFBertModel
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.python.keras.preprocessing.sequence import pad_sequences
 from tensorflow.python.keras.preprocessing.text import Tokenizer
@@ -118,65 +119,6 @@ def load_glove_embeddings(vocab_size, word_index, EMBEDDING_DIM):
     print("glove matrix:", embedding_matrix.shape)
     return embedding_matrix
 
-"""
-def get_bert_max_len(X):
-
-    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
-
-    max_len = 0
-    # For every sentence...
-    for sent in X:
-        # Tokenize the text and add [CLS] and [SEP] tokens.
-        input_ids = tokenizer.encode(sent, add_special_tokens=True)
-        # Update the maximum sentence length.
-        max_len = max(max_len, len(input_ids))
-    print('Max Bert sentence length: ', max_len)
-
-    return max_len
-
-
-def prepare_sequences_for_bert_with_mask(X, max_length):
-    
-    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
-    # Tokenize all of the sentences and map the tokens to their word IDs.
-    input_ids = []
-    attention_masks = []
-
-    # For every sentence...
-    for sent in X:
-        # `encode_plus` will:
-        #   (1) Tokenize the sentence.
-        #   (2) Prepend the `[CLS]` token to the start.
-        #   (3) Append the `[SEP]` token to the end.
-        #   (4) Map tokens to their IDs.
-        #   (5) Pad or truncate the sentence to `max_length`
-        #   (6) Create attention masks for [PAD] tokens.
-        encoded_dict = tokenizer.encode_plus(
-                            sent,                      # Sentence to encode.
-                            add_special_tokens = True, # Add '[CLS]' and '[SEP]'
-                            max_length = max_length,           # Pad & truncate all sentences.
-                            pad_to_max_length = True,
-                            return_attention_mask = True,   # Construct attn. masks.
-                       )
-        
-        # Add the encoded sentence to the list.    
-        input_ids.append(encoded_dict['input_ids'])
-        
-        # And its attention mask (simply differentiates padding from non-padding).
-        attention_masks.append(encoded_dict['attention_mask'])
-
-    # Convert the lists into tensors.
-    input_ids = np.vstack(input_ids)
-    attention_masks = np.vstack(attention_masks)
-
-    return input_ids, attention_masks
-
-
-def create_new_bert_layer():
-    bert = TFBertModel.from_pretrained("bert-base-uncased")
-    return bert
-"""
-
 
 def scale_feature_values(X):
     """Scale eye-tracking and EEG feature values"""
@@ -219,9 +161,69 @@ def plot_confusion_matrix(cm):
     # plt.show()
 
 
+def get_bert_max_len(X):
+    tokenizer = BertTokenizer.from_pretrained("/mnt/ds3lab-scratch/noraho/berts/", do_lower_case=True)
+
+    max_len = 0
+    # For every sentence...
+    for sent in X:
+        # Tokenize the text and add [CLS] and [SEP] tokens.
+        input_ids = tokenizer.encode(sent, add_special_tokens=True)
+        # Update the maximum sentence length.
+        max_len = max(max_len, len(input_ids))
+    print('Max Bert sentence length: ', max_len)
+
+    return max_len
+
+
+def prepare_sequences_for_bert_with_mask(X, max_length):
+    tokenizer = BertTokenizer.from_pretrained("/mnt/ds3lab-scratch/noraho/berts/", do_lower_case=True)
+    # Tokenize all of the sentences and map the tokens to their word IDs.
+    input_ids = []
+    attention_masks = []
+
+    # For every sentence...
+    for sent in X:
+        # `encode_plus` will:
+        #   (1) Tokenize the sentence.
+        #   (2) Prepend the `[CLS]` token to the start.
+        #   (3) Append the `[SEP]` token to the end.
+        #   (4) Map tokens to their IDs.
+        #   (5) Pad or truncate the sentence to `max_length`
+        #   (6) Create attention masks for [PAD] tokens.
+        encoded_dict = tokenizer.encode_plus(
+            sent,  # Sentence to encode.
+            add_special_tokens=True,  # Add '[CLS]' and '[SEP]'
+            max_length=max_length,  # Pad & truncate all sentences.
+            pad_to_max_length=True,
+            return_attention_mask=True,  # Construct attn. masks.
+        )
+
+        # Add the encoded sentence to the list.
+        input_ids.append(encoded_dict['input_ids'])
+
+        # And its attention mask (simply differentiates padding from non-padding).
+        attention_masks.append(encoded_dict['attention_mask'])
+
+    # Convert the lists into tensors.
+    input_ids = np.vstack(input_ids)
+    attention_masks = np.vstack(attention_masks)
+
+    return input_ids, attention_masks
+
+
+def create_new_bert_layer():
+    # bert = TFBertModel.from_pretrained("bert-base-uncased")
+    bert = TFBertModel.from_pretrained("/mnt/ds3lab-scratch/noraho/berts/")
+
+    return bert
+
+
 def prepare_text(X_text, embedding_type, random_seed):
 
     np.random.seed(random_seed)
+    tf.random.set_seed(random_seed)
+    os.environ['PYTHONHASHSEED'] = str(random_seed)
 
     vocab_size = 100000
 
@@ -240,12 +242,6 @@ def prepare_text(X_text, embedding_type, random_seed):
     print('Found %s unique tokens.' % len(word_index))
     num_words = min(vocab_size, len(word_index) + 1)
 
-    if embedding_type is 'none':
-        X_data_text = pad_sequences(sequences, maxlen=max_length_text, padding='post', truncating='post')
-        print('Shape of data tensor:', X_data_text.shape)
-
-        return X_data_text, num_words, ""
-
     if embedding_type is 'glove':
         X_data_text = pad_sequences(sequences, maxlen=max_length_text, padding='post', truncating='post')
         print('Shape of data tensor:', X_data_text.shape)
@@ -256,17 +252,12 @@ def prepare_text(X_text, embedding_type, random_seed):
 
         return X_data_text, num_words, embedding_matrix
 
-    """
     if embedding_type is 'bert':
         print("Prepare sequences for Bert ...")
         max_length = get_bert_max_len(X_text)
         X_data_text, X_data_masks = prepare_sequences_for_bert_with_mask(X_text, max_length)
         print('Shape of data tensor:', X_data_text.shape)
         print('Shape of data (masks) tensor:', X_data_masks.shape)
-
-        return X_data_text, num_words, X_data_masks
-    """
-
 
 def prepare_cogni_seqs(cogni_dict):
     print('Processing cognitive data...')

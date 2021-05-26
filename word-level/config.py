@@ -24,10 +24,10 @@ class_task = 'read-task'
 
 saccades = True
 
-feature_set = ['eye_tracking']
+feature_set = ['text_only']
 
 # word embeddings {none, glove (300d), bert}
-embeddings = 'none'
+embeddings = 'bert'
 
 # hyper-parameters to test - general
 lstm_dim = [64]
