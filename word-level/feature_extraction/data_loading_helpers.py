@@ -137,11 +137,15 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
             inSacc_duration = word_objects["inSacc_duration"]
             outSacc_velocity = word_objects["outSacc_velocity"]
             outSacc_duration = word_objects["outSacc_duration"]
+            outSacc_amp = word_objects["outSacc_amp"]
+            inSacc_amp = word_objects["outSacc_amp"]
         except KeyError:
             inSacc_velocity = []
             inSacc_duration = []
             outSacc_velocity = []
             outSacc_duration = []
+            outSacc_amp = []
+            inSacc_amp = []
         trt_t1Data = word_objects['TRT_t1']
         #print(trt_t1Data)
         trt_t2Data = word_objects['TRT_t2']
@@ -162,13 +166,13 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
 
         assert len(contentData) == len(etData) == len(rawData), "different amounts of different data!!"
 
-        zipped_data = zip(rawData, etData, contentData, ffdData, gdData, gptData, trtData, nFixData, fixPositions, inSacc_velocity, inSacc_duration, outSacc_velocity, outSacc_duration,
+        zipped_data = zip(rawData, etData, contentData, ffdData, gdData, gptData, trtData, nFixData, fixPositions, inSacc_velocity, inSacc_duration, outSacc_velocity, outSacc_duration, inSacc_amp, outSacc_amp,
                           trt_t1Data, trt_t2Data, trt_a1Data, trt_a2Data, trt_b1Data, trt_b2Data, trt_g1Data,
                           trt_g2Data, ffd_t1Data, ffd_t2Data, ffd_a1Data, ffd_a2Data, ffd_b1Data, ffd_b2Data, ffd_g1Data,
                           ffd_g2Data)
         word_level_data = {}
         word_idx = 0
-        for raw_eegs_obj, ets_obj, word_obj, ffd, gd, gpt, trt, nFix, fixPos, insacc_v, insacc_d, outsacc_v, outsacc_d, trt_t1, trt_t2, trt_a1, trt_a2, trt_b1, trt_b2, trt_g1, trt_g2, ffd_t1, ffd_t2, ffd_a1, ffd_a2, ffd_b1, ffd_b2, ffd_g1, ffd_g2 in zipped_data:
+        for raw_eegs_obj, ets_obj, word_obj, ffd, gd, gpt, trt, nFix, fixPos, insacc_v, insacc_d, outsacc_v, outsacc_d, insacc_a, outsacc_a, trt_t1, trt_t2, trt_a1, trt_a2, trt_b1, trt_b2, trt_g1, trt_g2, ffd_t1, ffd_t2, ffd_a1, ffd_a2, ffd_b1, ffd_b2, ffd_g1, ffd_g2 in zipped_data:
             word_string = load_matlab_string(data_container[word_obj[0]])
             if is_real_word(word_string):
                 data_dict = {}
@@ -185,6 +189,8 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
                 data_dict["inSacc_duration"] = np.mean(data_container[insacc_d[0]])
                 data_dict["outSacc_velocity"] = np.mean(data_container[outsacc_v[0]])
                 data_dict["outSacc_duration"] = np.mean(data_container[outsacc_d[0]])
+                data_dict["inSacc_amp"] = np.mean(data_container[insacc_a[0]])
+                data_dict["outSacc_amp"] = np.mean(data_container[outsacc_a[0]])
 
                 #print(data_container[trt_t1[0]].value.shape)
                 #print(data_container[trt_t1[0]].value[0])
@@ -253,6 +259,8 @@ def extract_word_level_data(data_container, word_objects, eeg_float_resolution =
                 data_dict["inSacc_duration"] = None
                 data_dict["outSacc_velocity"] = None
                 data_dict["outSacc_duration"] = None
+                data_dict["inSacc_amp"] = None
+                data_dict["outSacc_amp"] = None
                 data_dict["ALPHA_EEG"] = []
                 data_dict["BETA_EEG"] = []
                 data_dict["GAMMA_EEG"] = []
