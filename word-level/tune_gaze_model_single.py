@@ -5,9 +5,10 @@ from data_helpers import save_results, load_matlab_files
 import collections
 import json
 import numpy as np
+import system
 
 # Usage on spaceml:
-# $ conda activate env-eego
+# $ conda activate env-nrtsr
 # $ CUDA_VISIBLE_DEVICES=7 python tune_model.py
 
 
@@ -34,6 +35,7 @@ def main():
         with open("features/" + subject + "_" + config.feature_set[0] + '_feats_file_'+config.class_task+'_Sacc'+str(config.saccades)+'.json', 'w') as fp:
            json.dump(gaze_dict, fp)
         print("saved.")
+        sys.exit()
 
         feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
         label_dict = collections.OrderedDict(sorted(label_dict.items()))
