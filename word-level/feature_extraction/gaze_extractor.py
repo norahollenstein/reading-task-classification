@@ -25,7 +25,8 @@ def word_level_et_features(sentence_data, gaze_dict, label_dict):
         # GD: gaze duration
         # GPT: go-past time
         gaze_features = ['nFix', 'FFD', 'TRT', 'GD', 'GPT']
-        saccade_features = ['inSacc_velocity', 'inSacc_duration', 'outSacc_velocity', 'outSacc_duration']
+        saccade_features = ['inSacc_velocity', 'inSacc_duration', 'outSacc_velocity', 'outSacc_duration', 'inSacc_amp', 'outSacc_amp']
+        # todo: add max/median inSacc_amp, outSacc_amp
         if config.saccades is True:
             gaze_features = gaze_features + saccade_features
 
@@ -42,8 +43,10 @@ def word_level_et_features(sentence_data, gaze_dict, label_dict):
                 for widx in range(len(word_data)):
                     word_feats = []
                     for feature in gaze_features:
-                        #print(feature)
+                        print(feature)
+                        print(word_data[widx][feature])
                         if word_data[widx][feature] is not None:
+                            #todo: sometimes this is list sometimes single number?! check with YAG
                             word_feats.append(float(word_data[widx][feature]))
                         else:
                             word_feats.append(np.nan)
