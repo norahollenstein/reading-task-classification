@@ -34,5 +34,5 @@ for filename in os.listdir(result_dir):
 
 print(np.mean(infile['test_acc']), np.std(infile['test_acc']))
 
-glove_baseline = 0.6745295071601867
+glove_baseline = 0.6570135951042175
 random_baseline = 0.5

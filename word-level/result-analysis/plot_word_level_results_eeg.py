@@ -14,7 +14,7 @@ if dataset == "zuco2":
 if dataset == "zuco1":
     subj_start = "Z"
 
-feature = "eeg_alpha"
+feature = "eeg_gamma"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
@@ -39,7 +39,7 @@ colors = sns.color_palette("flare", len(subjects))
 colors_by_subject = [colors[subjects.index(s)] for s in results.subject.unique()]
 
 random_baseline = 0.5
-glove_baseline = 0.67453
+glove_baseline = 0.6570135951042175
 
 order = []
 for s in results.subject.unique():

@@ -40,6 +40,12 @@ def create_lstm_word_model(param_dict, embedding_type, X_train_shape, num_words,
                                input_length=X_train_shape,
                                trainable=False,
                                name='glove_input_embeddings')(input_text)
+        text_model = Flatten()(text_model)
+        text_model = Dense(y_train_shape, activation="softmax")(text_model)
+        model = Model(inputs=input_text_list, outputs=text_model)
+
+        return model
+
     elif embedding_type is 'bert':
         input_mask = tf.keras.layers.Input((X_train_shape,), dtype=tf.int32, name='input_mask')
         input_text_list.append(input_mask)
