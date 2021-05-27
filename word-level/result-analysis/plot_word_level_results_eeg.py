@@ -14,7 +14,7 @@ if dataset == "zuco2":
 if dataset == "zuco1":
     subj_start = "Z"
 
-feature = "eeg_gamma"
+feature = "eeg_theta"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
@@ -39,6 +39,7 @@ colors = sns.color_palette("flare", len(subjects))
 colors_by_subject = [colors[subjects.index(s)] for s in results.subject.unique()]
 
 random_baseline = 0.5
+glove_baseline = 0.67453
 
 order = []
 for s in results.subject.unique():
@@ -58,8 +59,7 @@ ax.axhline(median, ls='--', color="grey", label="median")
 plt.text(-0.49, median + 0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
 ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")
 ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
-# todo: add text baseline
-#ax.axhline(flesch_baseline, ls=':', color="darkblue", label="Flesch baseline")
+ax.axhline(glove_baseline, ls=':', color="darkblue", label="Glove baseline")
 plt.ylim(0.4, 1)
 plt.title(feature)
 plt.legend()

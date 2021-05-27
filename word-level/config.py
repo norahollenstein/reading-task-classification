@@ -40,7 +40,7 @@ lr = [0.001]
 
 
 # other parameters
-folds = 5
+folds = 3
 random_seed_values = [13, 78, 22, 66, 42]
 validation_split = 0.1
 patience = 10
