@@ -7,14 +7,14 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco2"
+dataset= "zuco1"
 
 if dataset == "zuco2":
     subj_start = "Y"
 if dataset == "zuco1":
     subj_start = "Z"
 
-feature = "eeg_theta"
+feature = "eeg_alpha"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
