@@ -47,8 +47,8 @@ def main():
         feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
         label_dict = collections.OrderedDict(sorted(label_dict.items()))
         gaze_dict = collections.OrderedDict(sorted(gaze_dict.items()))
-        for sent, feats in gaze_dict.items():
-            if sent not in label_dict:
+        for sent, feats in list(label_dict.items()):
+            if sent not in gaze_dict:
                 print(sent)
                 del label_dict[sent]
                 del feature_dict[sent]
