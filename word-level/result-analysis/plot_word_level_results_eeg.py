@@ -11,8 +11,14 @@ dataset= "zuco1"
 
 if dataset == "zuco2":
     subj_start = "Y"
+    glove_baseline = 0.6570135951042175
+    bert_baseline = 0.6533936858177185
 if dataset == "zuco1":
     subj_start = "Z"
+    glove_baseline = 0.5375586797793707
+    bert_baseline = 0.5799686948458354
+
+random_baseline = 0.5
 
 feature = "eeg_gamma"
 
@@ -21,11 +27,11 @@ colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 print(dataset, feature)
 all_results_pd = pd.DataFrame(columns=colnames)
 for filename in os.listdir(result_dir):
-    if filename.endswith(".txt"):
+    if filename.endswith(".txt") and feature in filename:
         #print(filename)
         subj = filename.replace("_saccTrue.txt", "").replace("_saccFalse.txt", "")[-3:]
         #print(subj)
-        if feature in filename and subj.startswith(subj_start):
+        if subj.startswith(subj_start):
             print(filename)
             infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", usecols=[7,10,12,14,16], names=colnames)
             infile['subject'] = subj
@@ -37,9 +43,6 @@ results = all_results_pd.sort_values(by=['test_acc'])
 subjects = ['YAC', 'YAG', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL', "ZAB", "ZDM", "ZDN", "ZGW", "ZJM", "ZJN", "ZKB", "ZKH", "ZKW","ZMG", "ZPH"]
 colors = sns.color_palette("flare", len(subjects))
 colors_by_subject = [colors[subjects.index(s)] for s in results.subject.unique()]
-
-random_baseline = 0.5
-glove_baseline = 0.6570135951042175
 
 order = []
 for s in results.subject.unique():
@@ -59,9 +62,10 @@ ax.axhline(median, ls='--', color="grey", label="median")
 plt.text(-0.49, median + 0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
 ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")
 ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
-ax.axhline(glove_baseline, ls=':', color="darkblue", label="Glove baseline")
+ax.axhline(bert_baseline, ls=':', color="darkblue", label="text baseline")
 plt.ylim(0.4, 1)
 plt.title(feature)
+plt.ylabel("accuracy")
 plt.legend()
 plt.savefig("plots/wordLevel_" + feature + "_"+ dataset + ".pdf")
 plt.show()

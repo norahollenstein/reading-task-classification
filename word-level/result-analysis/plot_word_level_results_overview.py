@@ -7,7 +7,7 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco2"
+dataset= "zuco1"
 embeddings = "glove"
 
 if dataset == "zuco2":
@@ -21,7 +21,7 @@ colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
 print(dataset, feature)
 for filename in os.listdir(result_dir):
-    if filename.endswith("-"+embeddings+".txt"):
+    if filename.startswith(dataset) and filename.endswith("-"+embeddings+".txt"):
         #print(filename)
         subj = filename.replace("_saccTrue-"+embeddings+".txt", "").replace("_saccFalse-"+embeddings+".txt", "")[-3:]
         print(subj)
@@ -34,5 +34,8 @@ for filename in os.listdir(result_dir):
 
 print(np.mean(infile['test_acc']), np.std(infile['test_acc']))
 
-glove_baseline = 0.6570135951042175
+glove_baseline_zuco2 = 0.6570135951042175
+glove_baseline_zuco1 = 0.5375586797793707
+bert_baseline_zuco2 = 0.6533936858177185
+bert_baseline_zuco1 = 0.5799686948458354
 random_baseline = 0.5

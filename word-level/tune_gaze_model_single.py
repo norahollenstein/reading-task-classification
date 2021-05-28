@@ -40,10 +40,20 @@ def main():
             gaze_dict = json.load(open("features/" + subject + "_" + config.feature_set[
                 0] + '_feats_file_' + config.class_task + '_Sacc' + str(config.saccades) + '.json'))
 
+        print(len(feature_dict), len(label_dict), len(gaze_dict))
+        if len(feature_dict) != len(label_dict) != len(gaze_dict):
+            print("WARNING: Not an equal number of sentences in features and labels!")
+
         feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
         label_dict = collections.OrderedDict(sorted(label_dict.items()))
         gaze_dict = collections.OrderedDict(sorted(gaze_dict.items()))
+        for sent, feats in gaze_dict.items():
+            if sent not in label_dict:
+                print(sent)
+                del label_dict[sent]
+                del feature_dict[sent]
 
+        print(len(feature_dict), len(label_dict), len(gaze_dict))
         if len(feature_dict) != len(label_dict) != len(gaze_dict):
             print("WARNING: Not an equal number of sentences in features and labels!")
 
