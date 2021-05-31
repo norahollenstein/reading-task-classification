@@ -41,21 +41,18 @@ def main():
                 0] + '_feats_file_' + config.class_task + '_Sacc' + str(config.saccades) + '.json'))
 
         print(len(feature_dict), len(label_dict), len(gaze_dict))
-        if len(feature_dict) != len(label_dict) != len(gaze_dict):
+        if len(feature_dict) != len(label_dict) or len(feature_dict) != len(gaze_dict):
             print("WARNING: Not an equal number of sentences in features and labels!")
 
         feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
         label_dict = collections.OrderedDict(sorted(label_dict.items()))
         gaze_dict = collections.OrderedDict(sorted(gaze_dict.items()))
+
+        # eliminate sentence without available eye-tracking features
         for sent, feats in list(label_dict.items()):
             if sent not in gaze_dict:
-                print(sent)
                 del label_dict[sent]
                 del feature_dict[sent]
-
-        print(len(feature_dict), len(label_dict), len(gaze_dict))
-        if len(feature_dict) != len(label_dict) != len(gaze_dict):
-            print("WARNING: Not an equal number of sentences in features and labels!")
 
         for rand in config.random_seed_values:
             np.random.seed(rand)
