@@ -35,17 +35,17 @@ def main():
            json.dump(eeg_dict, fp)
         print("saved.")
 
-        print(len(feature_dict), len(label_dict), len(gaze_dict))
-        if len(feature_dict) != len(label_dict) or len(feature_dict) != len(gaze_dict):
+        print(len(feature_dict), len(label_dict), len(eeg_dict))
+        if len(feature_dict) != len(label_dict) or len(feature_dict) != len(eeg_dict):
             print("WARNING: Not an equal number of sentences in features and labels!")
 
         feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
         label_dict = collections.OrderedDict(sorted(label_dict.items()))
-        gaze_dict = collections.OrderedDict(sorted(gaze_dict.items()))
+        eeg_dict = collections.OrderedDict(sorted(eeg_dict.items()))
 
         # eliminate sentence without available eye-tracking features
         for sent, feats in list(label_dict.items()):
-            if sent not in gaze_dict:
+            if sent not in eeg_dict:
                 del label_dict[sent]
                 del feature_dict[sent]
 
