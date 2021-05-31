@@ -7,7 +7,7 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco1"
+dataset= "zuco2"
 
 if dataset == "zuco2":
     subj_start = "Y"
@@ -21,7 +21,7 @@ if dataset == "zuco1":
 random_baseline = 0.5
 
 feature = "eye_tracking"
-feature_add = "saccTrue"
+feature_add = "saccFalse"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
@@ -64,8 +64,8 @@ ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")
 ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
 ax.axhline(bert_baseline, ls=':', color="darkblue", label="text baseline")
 plt.ylim(0.4, 1)
-plt.title(feature)
+plt.title(feature + " " + feature_add)
 plt.ylabel("accuracy")
 plt.legend()
-plt.savefig("plots/wordLevel_" + feature + "_"+ dataset + ".pdf")
+plt.savefig("plots/wordLevel_" + feature + "_"+ feature_add + "_" + dataset + ".pdf")
 plt.show()
