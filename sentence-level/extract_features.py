@@ -338,12 +338,12 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
                 """
 
                 if feature_set == 'fix_order_raw_eeg_electrodes' and fix_order_raw_eeg:
-                    avg =  np.nanmean(fix_order_raw_eeg, axis=0)
+                    avg = np.nanmean(fix_order_raw_eeg, axis=0)
                     if not np.isnan(avg).any():
                         feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
 
                 elif feature_set == 'fix_order_raw_eeg_electrodes_10%' and fix_order_raw_eeg:
-                    p10 = max(round(len(fix_order_raw_eeg) / 10), 1)
+                    p10 = max(round(len(fix_order_raw_eeg) / 10), 1) # at least 1 fixation if sentence contains <10
                     avg = np.nanmean(fix_order_raw_eeg[:p10], axis=0)
                     #print(avg)
                     if not np.isnan(avg).any():

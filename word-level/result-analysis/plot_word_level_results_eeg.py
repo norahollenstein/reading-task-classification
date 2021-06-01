@@ -20,7 +20,7 @@ if dataset == "zuco1":
 
 random_baseline = 0.5
 
-feature = "eeg_alpha"
+feature = "eeg_gamma"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 

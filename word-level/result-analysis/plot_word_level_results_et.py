@@ -21,7 +21,7 @@ if dataset == "zuco1":
 random_baseline = 0.5
 
 feature = "eye_tracking"
-feature_add = "saccFalse"
+feature_add = "saccTrue"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
