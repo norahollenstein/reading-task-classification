@@ -51,7 +51,6 @@ def main():
         #print(feats)
         for i in range(config.runs):
             preds, test_y, acc, coefs = classifier.svm(features[set], config.seed + i, config.randomized_labels)
-            print(i, acc)
 
             accuracies.append(acc)
             predictions.extend(preds)
