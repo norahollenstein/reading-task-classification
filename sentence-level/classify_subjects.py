@@ -50,8 +50,10 @@ def main():
         accuracies = []; predictions = []; true_labels = []
         print("\nTraining models for", set)
         print(feats)
-        for i in range(100):
-            preds, test_y, acc = classifier.svm(feats, config.seed+i)
+        for i in range(config.runs):
+            # print(i)
+            preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i, config.randomized_labels)
+
             accuracies.append(acc)
             predictions.extend(preds)
             true_labels.extend(test_y)
