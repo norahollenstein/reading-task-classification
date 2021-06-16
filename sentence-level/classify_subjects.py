@@ -49,7 +49,7 @@ def main():
     for set, feats in features.items():
         accuracies = []; predictions = []; true_labels = []
         print("\nTraining models for", set)
-        print(feats)
+        #print(feats)
         for i in range(config.runs):
             # print(i)
             preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i, config.randomized_labels)
