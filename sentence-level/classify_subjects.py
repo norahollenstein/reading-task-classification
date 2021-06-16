@@ -51,7 +51,7 @@ def main():
         print("\nTraining models for", set)
         print(feats)
         for i in range(100):
-            preds, test_y, acc = classifier.svm_multiclass(feats, config.seed+i)
+            preds, test_y, acc = classifier.svm(feats, config.seed+i)
             accuracies.append(acc)
             predictions.extend(preds)
             true_labels.extend(test_y)
