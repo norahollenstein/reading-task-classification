@@ -50,8 +50,8 @@ def main():
         print("\nTraining models for", set)
         #print(feats)
         for i in range(config.runs):
-            # print(i)
-            preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i, config.randomized_labels)
+            preds, test_y, acc, coefs = classifier.svm(features[set], config.seed + i, config.randomized_labels)
+            print(i, acc)
 
             accuracies.append(acc)
             predictions.extend(preds)
