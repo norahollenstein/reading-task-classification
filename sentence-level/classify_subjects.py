@@ -6,7 +6,7 @@ import h5py
 import time
 import data_helpers as dh
 from datetime import timedelta
-#from plot_confusion_matrix import multi_conf_matrix
+from sklearn.metrics import plot_confusion_matrix
 from datetime import timedelta, date
 
 
@@ -60,8 +60,8 @@ def main():
 
         #report = classification_report(true_labels, predictions, labels=list(range(len(config.subjects))), target_names=config.subjects, output_dict=True)
 
-        #conf_matrix = sklearn.metrics.confusion_matrix(true_labels, predictions, labels=list(range(len(config.subjects))))
-        #print(conf_matrix)
+        conf_matrix = plot_confusion_matrix(true_labels, predictions, labels=list(range(len(config.subjects))))
+        print(conf_matrix)
         #multi_conf_matrix(config.subjects, set, conf_matrix)
 
         #for sub in config.subjects:
