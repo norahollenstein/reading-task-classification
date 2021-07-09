@@ -46,6 +46,8 @@ def read_mat_file(filename):
 def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
     """Plot feature distribution for a single feature"""
 
+    colors = ["#44A2C4", "#B3D882"]
+
     feature_file = open("feature-plots/"+feature_set+"-"+dataset+".csv", "a")
 
     data = pd.DataFrame(columns=["subject", "feat", "label"])
@@ -54,7 +56,7 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
 
     fig, ax = plt.subplots()
     print(subj, np.mean(data['feat']), np.std(data['feat']), np.min(data['feat']), np.max(data['feat']), file=feature_file)
-    ax = sns.violinplot(x="subject", y="feat", hue="label", data=data, palette="muted")
+    ax = sns.violinplot(x="subject", y="feat", hue="label", data=data, palette=colors)
     ax.set_title(subj + ", mean " + "{:.2f}".format(np.mean(data['feat'])) + ", std " + "{:.2f}".format(np.std(data['feat'])))
     fig.savefig("feature-plots/"+ feature_set + "_" +subj+".pdf")
     plt.close()

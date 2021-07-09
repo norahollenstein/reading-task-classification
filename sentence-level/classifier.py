@@ -63,10 +63,8 @@ def svm(samples, seed_value, randomized=False):
     # train SVM classifier
     clf = SVC(random_state=seed_value, kernel=config.kernel, gamma='scale', cache_size=1000)
     clf.fit(train_X, train_y)
-    #print("fitted")
     predictions = clf.predict(test_X)
     accuracy = len([i for i, j in zip(predictions, test_y) if i == j]) / len(test_y)
-    #print("predicted")
 
     # get coefficients
     if config.kernel is 'linear':

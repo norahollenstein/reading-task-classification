@@ -20,7 +20,7 @@ if dataset == "zuco1":
 
 random_baseline = 0.5
 
-feature = "eeg_gamma"
+feature = "eeg_raw"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
@@ -34,6 +34,8 @@ for filename in os.listdir(result_dir):
         if subj.startswith(subj_start):
             print(filename)
             infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", usecols=[7,10,12,14,16], names=colnames)
+            if len(infile) >= 10:
+                print(len(infile), "lines in file!!")
             infile['subject'] = subj
             all_results_pd = pd.concat([all_results_pd, infile])
 
