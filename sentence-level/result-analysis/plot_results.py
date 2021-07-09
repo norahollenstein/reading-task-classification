@@ -147,10 +147,10 @@ def main():
     results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
     #check_std_between_runs(results)
 
-    result_file_all = "../results/2021-04-15_svm_all_runs_tasks_zuco2_randomFalse_linear.csv"
+    result_file_all = "../results/2021-06-16_svm_all_runs_tasks_zuco1_randomFalse_linear.csv"
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("_")[5]
-    #plot_results_detailed(results, dataset)
+    plot_results_detailed(results, dataset)
 
     result_file_cross = "../results/2021-04-19_svm_all_runs_tasks-cross-subj_zucoAll_randomFalse_linear.csv"
     results_cross = pd.read_csv(result_file_cross, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
@@ -162,7 +162,7 @@ def main():
                                 names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_fix.split("_")[5]
     print(dataset)
-    plot_results_fixations(results_fix, dataset)
+    #plot_results_fixations(results_fix, dataset)
 
 
 
