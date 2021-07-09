@@ -25,7 +25,7 @@ def main():
         f_nr = dh.read_mat_file(filename_nr)
         f_tsr = dh.read_mat_file(filename_tsr)
 
-        if config.dataset is "zuco1_sr":  # include sentiment reading as NR
+        if config.dataset is "zuco1sr":  # include sentiment reading as NR
             filename_sr = config.rootdir_sr + "results" + subject + "_SR.mat"
             f_sr = dh.read_mat_file(filename_sr)
 
