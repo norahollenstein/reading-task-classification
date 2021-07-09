@@ -14,10 +14,6 @@ def main():
 
     start = time.time()
 
-    #result_file = open("results/"+str(date.today())+"_svm_detailed_results_"+config.class_task+"_"+config.dataset+"_random"+str(config.randomized_labels)+".csv", "w")
-    #avg_result_file = open("results/"+str(date.today())+"_svm_averaged_results_"+config.class_task+"_"+config.dataset+"_random"+str(config.randomized_labels)+".csv", "w")
-    #subj_avg_result_file = open("results/"+str(date.today())+"_svm_subject_results_"+config.class_task+"_"+config.dataset+"_random"+str(config.randomized_labels)+".csv", "w")
-
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
 
     avg_results = {}
@@ -30,7 +26,7 @@ def main():
         f_tsr = dh.read_mat_file(filename_tsr)
 
         if config.dataset is "zuco1_sr":  # include sentiment reading as NR
-            filename_sr = config.rootdir + "results" + subject + "_SR.mat"
+            filename_sr = config.rootdir_sr + "results" + subject + "_SR.mat"
             f_sr = dh.read_mat_file(filename_sr)
 
         features = {}
@@ -46,34 +42,41 @@ def main():
             print(len(features[feature_set]), " samples collected for", feature_set)
             print(features.keys())
 
-            accuracies = []; predictions = []; true_labels = []
+            # print(features[feature_set])
+            #dh.plot_feature_distribution(subject, config.dataset, features[feature_set], feature_set)
+
+            predictions = [];
+            true_labels = [];
+            accuracies = [];
+            svm_coeffs = []
             for i in range(config.runs):
-                preds, test_y, acc = classifier.svm_sessions(features[feature_set], config.seed+i, config.randomized_labels)
+                # print(i)
+                preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i,
+                                                           config.randomized_labels)
 
                 accuracies.append(acc)
                 predictions.extend(preds)
                 true_labels.extend(test_y)
+                svm_coeffs.append(coefs[0])
 
-            # detailed results: subject name, feature set, mean accuracy, no. of features, no. of samples
-            report = classification_report(true_labels, predictions, labels=[0, 1], target_names=["Sess1", "Sess2"], output_dict=True)
-            print(subject, feature_set, np.mean(accuracies), report["Sess1"]['f1-score'], report["Sess2"]['f1-score'], len(features[feature_set][list(features[feature_set].keys())[0]])-1, len(features[feature_set]), file=result_file)
+                # print results of each run
+                print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
 
-            subj_results.append(np.mean(accuracies))
+            avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
 
-            if feature_set in avg_results:
-                avg_results[feature_set].append(np.mean(accuracies))
-            else:
-                avg_results[feature_set] = [np.mean(accuracies)]
+            # print SVM coefficients to file
+            print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
 
-        # print average accuracy per subject over all feature sets
-        print(subject, np.mean(subj_results), file=subj_avg_result_file)
-        print(subject, np.mean(subj_results))
-
-    for feat_set, results in avg_results.items():
-        print(feat_set, np.mean(results), np.std(results), file=avg_result_file)
+            # print results for individual subjects to file
+            print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
+            # subj, feature set, acc, std, no. of feature, no. of samples, no. of runs
+            print(subject, feature_set, np.mean(accuracies), np.std(accuracies),
+                  len(features[feature_set][list(features[feature_set].keys())[0]]) - 1, len(features[feature_set]),
+                  config.runs, file=subj_result_file)
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
+
 
 
 if __name__ == '__main__':

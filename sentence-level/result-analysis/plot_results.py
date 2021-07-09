@@ -57,7 +57,7 @@ def plot_results_detailed(results, dataset):
         plt.ylim(0.49,1.03)
         plt.legend()
         plt.savefig("plots/"+f+"-"+dataset+".pdf")
-        #plt.show()
+        plt.show()
 
 
 def plot_results_fixations(results, dataset):
