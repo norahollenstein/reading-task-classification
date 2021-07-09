@@ -65,7 +65,7 @@ def main():
             print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
             # subj, feature set, acc, std, no. of feature, no. of samples, no. of runs
             print(subject, feature_set, np.mean(accuracies), np.std(accuracies), len(features[feature_set][list(features[feature_set].keys())[0]])-1, len(features[feature_set]), config.runs, file=subj_result_file)
-            
+
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
