@@ -54,10 +54,10 @@ def plot_results_detailed(results, dataset):
         ax.axhspan(median+mad, median-mad, alpha=0.3, color='grey', label="MAD")
         ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
         ax.axhline(flesch_baseline, ls=':', color="darkblue", label="Flesch baseline")
-        plt.ylim(0.49,1)
+        plt.ylim(0.49,1.03)
         plt.legend()
         plt.savefig("plots/"+f+"-"+dataset+".pdf")
-        plt.show()
+        #plt.show()
 
 
 def plot_results_fixations(results, dataset):
@@ -147,9 +147,9 @@ def main():
     results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
     #check_std_between_runs(results)
 
-    result_file_all = "../results/2021-06-16_svm_all_runs_tasks_zuco1_randomFalse_linear.csv"
+    result_file_all = "../results/tasks-zuco2-final.csv"
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
-    dataset = result_file_all.split("_")[5]
+    dataset = result_file_all.split("-")[1]
     plot_results_detailed(results, dataset)
 
     result_file_cross = "../results/2021-04-19_svm_all_runs_tasks-cross-subj_zucoAll_randomFalse_linear.csv"
