@@ -1,6 +1,6 @@
 
 # dataset {zuco1, zuco2, zucoAll, zuco1sr}
-dataset = 'zuco2'
+dataset = 'zuco1_sr'
 
 if dataset is 'zuco2':
     # todo: what about missing subjects?
@@ -47,7 +47,7 @@ elif level is 'word':
     feature_sets = ['fix_order_raw_eeg_electrodes_10%']#, 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
 # classification task {tasks, sessions, subjects}
-class_task = 'tasks'
+class_task = 'sessions'
 if class_task == 'tasks' or class_task == 'tasks-cross-subj':
     target_names = ["TSR", "NR"]
     labels = [0, 1]

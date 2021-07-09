@@ -3,6 +3,7 @@ import data_loading_helpers as dlh
 import numpy as np
 import readability
 from nltk import word_tokenize
+import config
 
 
 def flesch_reading_ease(text):
@@ -19,6 +20,18 @@ def flesch_reading_ease(text):
     return fre
 
 
+def relabel_sessions(idx, label_orig):
+    if label_orig == "SR-Sess":
+        if idx < 250:
+            label = "Sess1"
+        else:
+            label = "Sess2"
+    else:
+        label = label_orig
+
+    return label
+
+
 def extract_sentence_features(subject, f, feature_set, feature_dict, label):
     """extract sentence level features from Matlab struct"""
 
@@ -28,6 +41,9 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=FutureWarning)
         for idx, sent_data in enumerate(rawData):
+
+            if config.class_task == "sessions":
+                label = relabel_sessions(idx, label)
 
             obj_reference_content = contentData[idx][0]
             sent = dlh.load_matlab_string(f[obj_reference_content])
