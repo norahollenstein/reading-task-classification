@@ -62,7 +62,8 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
      #   print("qxis:", axis)
     ax.collections[0].set_edgecolor("#337F9A")  # "#337F9A"
     ax.collections[1].set_edgecolor("#92D050") # "#337F9A"
-    ax.collections[1].get_children()[5:].set_color("#92D050")
+    for x in ax.collections[1].get_children()[5:]:
+        x.set_color("#92D050")
     #ax.get_children()[5:].set_color("#92D050")
 
 
