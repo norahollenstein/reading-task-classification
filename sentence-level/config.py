@@ -8,7 +8,7 @@ if dataset is 'zuco2':
     # new preprocessed data Sept. 2020
     rootdir = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep2020/"
 elif dataset is 'zuco1' or dataset is 'zuco1sr':
-    subjects = ["ZDN", "ZPH", "ZJN", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"] #"ZJS"
+    subjects = ["ZDN"]#, "ZPH", "ZJN", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"] #"ZJS"
     rootdir = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco1_preprocessed_sep2020/"
     rootdir_sr = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco1_SR_preprocessed_apr2021/"
 elif dataset is "zucoAll":
