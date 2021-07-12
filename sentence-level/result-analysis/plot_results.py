@@ -13,7 +13,8 @@ def check_std_between_runs(results):
         print("average std:", np.mean(rslt_df["std"]))
 
 
-def plot_results_detailed(results, dataset):
+def plot_results_detailed(results, dataset, task):
+    print(results.head())
     features = results.feature_set.unique()
     print(features)
     print(len(results))
@@ -53,7 +54,8 @@ def plot_results_detailed(results, dataset):
         plt.text(-0.49, median+0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
         ax.axhspan(median+mad, median-mad, alpha=0.3, color='grey', label="MAD")
         ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
-        ax.axhline(flesch_baseline, ls=':', color="darkblue", label="Flesch baseline")
+        if task != "sessions":
+            ax.axhline(flesch_baseline, ls=':', color="darkblue", label="Flesch baseline")
         plt.ylim(0.49,1.03)
         plt.legend()
         plt.savefig("plots/"+f+"-"+dataset+".pdf")
@@ -150,7 +152,14 @@ def main():
     result_file_all = "../results/tasks-zuco2-final.csv"
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("-")[1]
-    plot_results_detailed(results, dataset)
+    #plot_results_detailed(results, dataset)
+
+    result_file_all = "../results/2021-07-09_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
+    results = pd.read_csv(result_file_all, delimiter=" ",
+                          names=["subject", "feature_set", "accuracy", "samples", "run"])
+    dataset = result_file_all.split("_")[5]
+    task = result_file_all.split("_")[4]
+    plot_results_detailed(results, dataset, task)
 
     result_file_cross = "../results/2021-04-19_svm_all_runs_tasks-cross-subj_zucoAll_randomFalse_linear.csv"
     results_cross = pd.read_csv(result_file_cross, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
