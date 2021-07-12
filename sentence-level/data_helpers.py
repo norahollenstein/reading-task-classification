@@ -58,11 +58,13 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
     fig, ax = plt.subplots()
     print(subj, np.mean(data['feat']), np.std(data['feat']), np.min(data['feat']), np.max(data['feat']), file=feature_file)
     ax = sns.violinplot(x="subject", y="feat", hue="label", data=data, palette=colors)#, inner="stick")
-    ax.collections[0].set_edgecolor("#337F9A")  # "#337F9A"
-    ax.collections[1].set_edgecolor("#337F9A") # "#337F9A"
-    ax.collections[2].set_edgecolor("#92D050")
-    ax.collections[3].set_edgecolor("#92D050")
-    #ax.get_children()[5:].set_color("#92D050")
+    try:
+        ax.collections[0].set_edgecolor("#337F9A")  # "#337F9A"
+        ax.collections[1].set_edgecolor("#337F9A") # "#337F9A"
+        ax.collections[2].set_edgecolor("#92D050")
+        ax.collections[3].set_edgecolor("#92D050")
+    except IndexError:
+        pass
 
 
     ax.set_title(feature_set)
