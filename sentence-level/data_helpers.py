@@ -68,6 +68,7 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
 
     ax.set_title(feature_set)
     ax.set(xticklabels=[])
+    ax.set(xticks=[])
     ax.set_xlabel('')
     ax.set_ylabel('')
     fig.savefig("feature-plots/"+ feature_set + "_" +subj+".pdf")
