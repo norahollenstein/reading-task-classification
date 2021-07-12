@@ -43,7 +43,7 @@ def main():
             print(features.keys())
 
             # print(features[feature_set])
-            #dh.plot_feature_distribution(subject, config.dataset, features[feature_set], feature_set)
+            dh.plot_feature_distribution(subject, config.dataset, features[feature_set], feature_set)
 
             predictions = [];
             true_labels = [];
