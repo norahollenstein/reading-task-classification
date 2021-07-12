@@ -58,7 +58,6 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
     fig, ax = plt.subplots()
     print(subj, np.mean(data['feat']), np.std(data['feat']), np.min(data['feat']), np.max(data['feat']), file=feature_file)
     ax = sns.violinplot(x="subject", y="feat", hue="label", data=data, palette=colors)#, inner="stick")
-    print(ax.collections)
     ax.collections[0].set_edgecolor("#337F9A")  # "#337F9A"
     ax.collections[1].set_edgecolor("#337F9A") # "#337F9A"
     ax.collections[2].set_edgecolor("#92D050")
