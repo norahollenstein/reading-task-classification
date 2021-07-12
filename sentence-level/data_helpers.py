@@ -61,6 +61,7 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
     #for axis in fi.axes.flatten():
      #   print("qxis:", axis)
     ax.collections[0].set_edgecolor("#92D050") # "#337F9A"
+    ax.collections[1].set_edgecolor("#337F9A")  # "#337F9A"
 
     ax.set_title(feature_set)
     ax.set(xticklabels=[])
