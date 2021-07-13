@@ -46,9 +46,11 @@ def svm(samples, seed_value, randomized=False):
     elif config.class_task == "blocks":
         for sample_id, features in samples.items():
             X.append(features[:-1])
+            blocks = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
+                      "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
+
             if randomized is False:
                 block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
-                blocks = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4", "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
 
                 block_index = blocks.index(block)
                 y.append(block_index)
