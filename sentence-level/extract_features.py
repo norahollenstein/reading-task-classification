@@ -50,7 +50,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             print(idx,full_idx, label_orig)
             if config.class_task == "sessions":
-                label = relabel_sessions(idx, label_orig)
+                label_new = relabel_sessions(idx, label_orig)
 
             obj_reference_content = contentData[idx][0]
             sent = dlh.load_matlab_string(f[obj_reference_content])
