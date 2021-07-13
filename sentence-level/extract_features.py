@@ -48,6 +48,7 @@ def relabel_blocks(idx, label_orig):
     tsr6 = list(range(290, 350))
     tsr7 = list(range(350, 390))
 
+    label = label_orig
     if label_orig == "NR":
         if idx in nr1:
             label = "NR_block1"
@@ -63,6 +64,8 @@ def relabel_blocks(idx, label_orig):
             label = "NR_block6"
         elif idx in nr7:
             label = "NR_block7"
+        else:
+            print("UNKNOWN NR INDEX?!")
     elif label_orig == "TSR":
         if idx in tsr1:
             label = "TSR_block1"
@@ -78,6 +81,9 @@ def relabel_blocks(idx, label_orig):
             label = "TSR_block6"
         elif idx in tsr7:
             label = "TSR_block7"
+        else:
+            print("UNKNOWN TSR INDEX?!")
+
 
     return label
 
