@@ -30,10 +30,6 @@ def main():
         f_nr = dh.read_mat_file(filename_nr)
         f_tsr = dh.read_mat_file(filename_tsr)
 
-        if config.dataset is "zuco1_sr":  # include sentiment reading as NR
-            filename_sr = config.rootdir + "results" + subject + "_SR.mat"
-            f_sr = dh.read_mat_file(filename_sr)
-
         features = {}
 
         for feature_set in config.feature_sets:
@@ -41,16 +37,14 @@ def main():
             features[feature_set] = {}
 
             fe.extract_sentence_features(subject, f_nr, feature_set, features, "NR")
+            print(len(features[feature_set]), " NR samples collected for", feature_set)
             fe.extract_sentence_features(subject, f_tsr, feature_set, features, "TSR")
-            if config.dataset is "zuco1_sr":
-                fe.extract_sentence_features(subject, f_sr, feature_set, features, "NR")
-            print(len(features[feature_set]), " samples collected for", feature_set)
+            print(len(features[feature_set]), " total samples collected for", feature_set)
 
             #print(features[feature_set])
             #dh.plot_feature_distribution(subject, config.dataset, features[feature_set], feature_set)
 
             print(features[feature_set])
-
 
             predictions = []; true_labels = []; accuracies = []; svm_coeffs = []
             for i in range(config.runs):

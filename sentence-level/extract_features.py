@@ -94,6 +94,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label_orig)
     rawData = f['rawData']
     contentData = f['content']
 
+    print(len(rawData))
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=FutureWarning)
         for idx, sent_data in enumerate(rawData):
