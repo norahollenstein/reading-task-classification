@@ -33,7 +33,7 @@ def relabel_sessions(idx, label_orig):
     return label
 
 
-def extract_sentence_features(subject, f, feature_set, feature_dict, label):
+def extract_sentence_features(subject, f, feature_set, feature_dict, label_orig):
     """extract sentence level features from Matlab struct"""
 
     rawData = f['rawData']
@@ -45,12 +45,12 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
         warnings.simplefilter("ignore", category=FutureWarning)
         for idx, sent_data in enumerate(rawData):
 
-            label_orig = label
+            label = label_orig
             full_idx = len(feature_dict[feature_set])
 
-            print(idx,full_idx, label_orig)
+            print(idx,full_idx, label)
             if config.class_task == "sessions":
-                label_new = relabel_sessions(idx, label_orig)
+                label = relabel_sessions(idx, label)
 
             obj_reference_content = contentData[idx][0]
             sent = dlh.load_matlab_string(f[obj_reference_content])
@@ -149,104 +149,104 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             ### --- Text difficulty baseline --- ###
             if feature_set == "flesch_baseline":
-                feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [fre, label]
+                feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [fre, label]
 
             ### --- Sentencel-level eye tracking features --- ###
             if feature_set == "omission_rate":
                 if not np.isnan(omr).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [omr, label]
 
             elif feature_set == "fixation_number":
                 if 'duration' in af:
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [weighted_nFix, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [weighted_nFix, label]
 
             elif feature_set == "reading_speed":
                 if 'duration' in af:
                     # convert sample to seconds
                     weighted_speed = (np.sum(np.array(af['duration']))*2/100) / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [weighted_speed, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [weighted_speed, label]
 
             elif feature_set == "mean_sacc_dur":
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smeand, label]
 
             elif feature_set == "mean_sacc_amp":
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeana, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smeana, label]
 
             elif feature_set == "max_sacc_velocity":
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxv, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smaxv, label]
 
             elif feature_set == "mean_sacc_velocity":
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeanv, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smeanv, label]
 
             elif feature_set == "max_sacc_dur":
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxd, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smaxd, label]
 
             elif feature_set == "max_sacc_amp":
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smaxa, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smaxa, label]
 
             elif feature_set == "sent_gaze":
                 if 'duration' in af:
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, smeand, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [omr, weighted_nFix, weighted_speed, smeand, label]
 
             elif feature_set == "sent_gaze_sacc":
                 if 'duration' in af:
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed, smeand, smaxv, smeanv, smaxd, smeana, smaxa, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [omr, weighted_nFix, weighted_speed, smeand, smaxv, smeanv, smaxd, smeana, smaxa, label]
 
             elif feature_set == "sent_saccade":
                 if 'duration' in af:
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [smeand, smaxv, smeanv, smaxd, smeana, smaxa, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [smeand, smaxv, smeanv, smaxd, smeana, smaxa, label]
 
             ### --- Sentencel-level EEG features --- ###
             elif feature_set == "theta_mean":
                 if not np.isnan(t_mean):
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [t_mean, label]
 
             elif feature_set == "alpha_mean":
                 if not np.isnan(a_mean):
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [a_mean, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [a_mean, label]
 
             elif feature_set == "beta_mean":
                 if not np.isnan(b_mean):
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [b_mean, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [b_mean, label]
 
             elif feature_set == "gamma_mean":
                 if not np.isnan(g_mean):
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [g_mean, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [g_mean, label]
 
             elif feature_set == "eeg_means":
                 if not np.isnan(g_mean) and not np.isnan(t_mean) and not np.isnan(b_mean) and not np.isnan(a_mean):
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [t_mean, a_mean, b_mean, g_mean, label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [t_mean, a_mean, b_mean, g_mean, label]
 
             elif feature_set == "electrode_features_theta":
                 if not np.isnan(t_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(t_electrodes).ravel().tolist() + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = np.concatenate(t_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_alpha":
                 if not np.isnan(a_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(a_electrodes).ravel().tolist() + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = np.concatenate(a_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_beta":
                 if not np.isnan(b_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(b_electrodes).ravel().tolist() + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = np.concatenate(b_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_gamma":
                 if not np.isnan(g_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(g_electrodes).ravel().tolist() + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = np.concatenate(g_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "electrode_features_all":
                 if not np.isnan(g_electrodes).any() and not np.isnan(a_electrodes).any() and not np.isnan(t_electrodes).any() and not np.isnan(b_electrodes).any():
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = np.concatenate(t_electrodes).ravel().tolist() + np.concatenate(a_electrodes).ravel().tolist() + np.concatenate(b_electrodes).ravel().tolist() + np.concatenate(g_electrodes).ravel().tolist() + [label]
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = np.concatenate(t_electrodes).ravel().tolist() + np.concatenate(a_electrodes).ravel().tolist() + np.concatenate(b_electrodes).ravel().tolist() + np.concatenate(g_electrodes).ravel().tolist() + [label]
 
             elif feature_set == "sent_gaze_eeg_means":
                 if 'duration' in af and not np.isnan(g_mean) and not np.isnan(t_mean) and not np.isnan(b_mean) and not np.isnan(a_mean):
                     weighted_nFix = np.array(af['duration']).shape[0] / len(sent.split())
                     weighted_speed = (np.sum(np.array(af['duration'])) * 2 / 100) / len(sent.split())
-                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = [omr, weighted_nFix, weighted_speed,
+                    feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = [omr, weighted_nFix, weighted_speed,
                                                                                          smeand, smaxv, smeanv, smaxd, t_mean, a_mean, b_mean, g_mean,
                                                                                          label]
 
@@ -363,32 +363,32 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
                 if feature_set == 'fix_order_raw_eeg_electrodes' and fix_order_raw_eeg:
                     avg = np.nanmean(fix_order_raw_eeg, axis=0)
                     if not np.isnan(avg).any():
-                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
+                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
 
                 elif feature_set == 'fix_order_raw_eeg_electrodes_10%' and fix_order_raw_eeg:
                     p10 = max(round(len(fix_order_raw_eeg) / 10), 1) # at least 1 fixation if sentence contains <10
                     avg = np.nanmean(fix_order_raw_eeg[:p10], axis=0)
                     #print(avg)
                     if not np.isnan(avg).any():
-                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
+                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
 
                 elif feature_set == 'fix_order_raw_eeg_electrodes_20%' and fix_order_raw_eeg:
                     p20 = max(round(len(fix_order_raw_eeg) / 5), 1)
                     avg = np.nanmean(fix_order_raw_eeg[:p20], axis=0)
                     if not np.isnan(avg).any():
-                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
+                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
 
                 elif feature_set == 'fix_order_raw_eeg_electrodes_50%' and fix_order_raw_eeg:
                     p50 = max(round(len(fix_order_raw_eeg) / 2), 1)
                     avg = np.nanmean(fix_order_raw_eeg[:p50], axis=0)
                     if not np.isnan(avg).any():
-                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
+                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
 
                 elif feature_set == 'fix_order_raw_eeg_electrodes_75%' and fix_order_raw_eeg:
                     p75 = max(round((len(fix_order_raw_eeg) / 10)*7.5), 1)
                     avg = np.nanmean(fix_order_raw_eeg[:p75], axis=0)
                     if not np.isnan(avg).any():
-                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx)] = list(avg) + [label]
+                        feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
 
             except ValueError:
                 print("NO WORD DATA AVAILABLE for sentence ", idx)
