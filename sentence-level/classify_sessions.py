@@ -27,7 +27,6 @@ def main():
 
         if config.dataset is "zuco1sr":  # include sentiment reading as NR
             filename_sr = config.rootdir_sr + "results" + subject + "_SR.mat"
-            print(filename_sr)
             f_sr = dh.read_mat_file(filename_sr)
 
         features = {}
