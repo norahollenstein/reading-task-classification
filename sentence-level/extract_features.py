@@ -45,6 +45,9 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
         warnings.simplefilter("ignore", category=FutureWarning)
         for idx, sent_data in enumerate(rawData):
 
+            full_idx = len(feature_set) + 1
+
+            print(idx,full_idx)
             if config.class_task == "sessions":
                 label = relabel_sessions(idx, label)
 
