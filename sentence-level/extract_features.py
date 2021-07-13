@@ -47,7 +47,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
             full_idx = len(feature_set) + 1
 
-            print(idx,full_idx)
+            print(idx,full_idx, label)
             if config.class_task == "sessions":
                 label = relabel_sessions(idx, label)
 
