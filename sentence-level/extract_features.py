@@ -22,6 +22,7 @@ def flesch_reading_ease(text):
 
 def relabel_sessions(idx, label_orig):
     if label_orig == "SR-Sess":
+        print(idx, label_orig)
         if idx < 250:
             label = "Sess1"
         else:
@@ -37,6 +38,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
 
     rawData = f['rawData']
     contentData = f['content']
+
+    print(len(rawData))
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=FutureWarning)
