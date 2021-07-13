@@ -44,7 +44,7 @@ def main():
             #print(features[feature_set])
             #dh.plot_feature_distribution(subject, config.dataset, features[feature_set], feature_set)
 
-            print(features[feature_set])
+            #print(features[feature_set])
 
             predictions = []; true_labels = []; accuracies = []; svm_coeffs = []
             for i in range(config.runs):
