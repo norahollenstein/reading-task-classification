@@ -70,13 +70,13 @@ def relabel_blocks(idx, label_orig):
             label = "TSR_block2"
         elif idx in tsr3:
             label = "TSR_block3"
-        elif idx in nr4:
+        elif idx in tsr4:
             label = "TSR_block4"
-        elif idx in nr5:
+        elif idx in tsr5:
             label = "TSR_block5"
-        elif idx in nr6:
+        elif idx in tsr6:
             label = "TSR_block6"
-        elif idx in nr7:
+        elif idx in tsr7:
             label = "TSR_block7"
 
     return label
