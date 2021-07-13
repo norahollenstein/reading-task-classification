@@ -56,18 +56,6 @@ def main():
             predictions.extend(preds)
             true_labels.extend(test_y)
 
-        #report = classification_report(true_labels, predictions, labels=list(range(len(config.subjects))), target_names=config.subjects, output_dict=True)
-
-        #conf_matrix = plot_confusion_matrix(true_labels, predictions, labels=list(range(len(config.subjects))))
-        #print(conf_matrix)
-        #multi_conf_matrix(config.subjects, set, conf_matrix)
-
-        #for sub in config.subjects:
-         #   print(sub, set, report[sub]['f1-score'], len(feats[list(feats.keys())[0]])-1, len(feats), file=result_file)
-         #   print(sub, set, report[sub]['f1-score'], len(feats[list(feats.keys())[0]]) - 1, len(feats))
-
-        #print(set, np.mean(accuracies), np.std(accuracies), file=all_runs)
-
         print("allSubjects", set, np.mean(accuracies))
         print("allSubjects", set, np.mean(accuracies), np.std(accuracies), file=avg_result_file)
 

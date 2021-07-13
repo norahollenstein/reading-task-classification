@@ -46,17 +46,22 @@ elif level is 'word':
     #feature_sets = ['fix_electrode_features_gamma_10%']#, 'fix_electrode_features_gamma_20%', 'fix_electrode_features_gamma']
     feature_sets = ['fix_order_raw_eeg_electrodes_10%']#, 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
-# classification task {tasks, sessions, subjects}
+# classification task {tasks, sessions, subjects, tasks-cross-subj, blocks}
 class_task = 'sessions'
+"""
 if class_task == 'tasks' or class_task == 'tasks-cross-subj':
-    target_names = ["TSR", "NR"]
+    #target_names = ["TSR", "NR"]
     labels = [0, 1]
 elif class_task == 'sessions':
-    target_names = ["Sess1", "Sess2"]
+    #target_names = ["Sess1", "Sess2"]
     labels = [0, 1]
 elif class_task == "subjects":
+    #target_names = subjects
+    labels = list(range(len(subjects)))
+elif class_task == "block":
     target_names = subjects
     labels = list(range(len(subjects)))
+"""
 
 # SVM params
 kernel = 'linear' # only linear kernel allows for analysis of coefficients

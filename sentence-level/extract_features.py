@@ -8,19 +8,17 @@ import config
 
 def flesch_reading_ease(text):
     """get Flesch reading ease score for a sentence."""
-    #print(text)
-    tokenized = " ".join(word_tokenize(text))
-    #print(tokenized)
 
+    tokenized = " ".join(word_tokenize(text))
     results = readability.getmeasures(tokenized, lang='en')
     fre = results['readability grades']['FleschReadingEase']
-
-    #print("Flesch:", fre)
 
     return fre
 
 
 def relabel_sessions(idx, label_orig):
+    """split SR samples into session 1 and session 2"""
+
     if label_orig == "SR-Sess":
         if idx < 250:
             label = "Sess1"
@@ -28,6 +26,58 @@ def relabel_sessions(idx, label_orig):
             label = "Sess2"
     else:
         label = label_orig
+
+    return label
+
+
+def relabel_blocks(idx, label_orig):
+    """Label sentence according to which experiment block they were recorded in"""
+
+    nr1 = list(range(0, 50))
+    nr2 = list(range(50, 100))
+    nr3 = list(range(100, 151))
+    nr4 = list(range(151, 201))
+    nr5 = list(range(201, 251))
+    nr6 = list(range(251, 300))
+    nr7 = list(range(300, 349))
+    tsr1 = list(range(0, 45))
+    tsr2 = list(range(45, 117))
+    tsr3 = list(range(117, 171))
+    tsr4 = list(range(171, 236))
+    tsr5 = list(range(236, 290))
+    tsr6 = list(range(290, 350))
+    tsr7 = list(range(350, 390))
+
+    if label_orig == "NR":
+        if idx in nr1:
+            label = "NR_block1"
+        elif idx in nr2:
+            label = "NR_block2"
+        elif idx in nr3:
+            label = "NR_block3"
+        elif idx in nr4:
+            label = "NR_block4"
+        elif idx in nr5:
+            label = "NR_block5"
+        elif idx in nr6:
+            label = "NR_block6"
+        elif idx in nr7:
+            label = "NR_block7"
+    elif label_orig == "TSR":
+        if idx in tsr1:
+            label = "TSR_block1"
+        elif idx in tsr2:
+            label = "TSR_block2"
+        elif idx in tsr3:
+            label = "TSR_block3"
+        elif idx in nr4:
+            label = "TSR_block4"
+        elif idx in nr5:
+            label = "TSR_block5"
+        elif idx in nr6:
+            label = "TSR_block6"
+        elif idx in nr7:
+            label = "TSR_block7"
 
     return label
 
@@ -47,6 +97,8 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label_orig)
 
             if config.class_task == "sessions":
                 label = relabel_sessions(idx, label)
+            if config.class_task == "blocks":
+                label = relabel_blocks(idx, label)
 
             obj_reference_content = contentData[idx][0]
             sent = dlh.load_matlab_string(f[obj_reference_content])
