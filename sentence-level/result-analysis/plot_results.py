@@ -154,7 +154,8 @@ def main():
     dataset = result_file_all.split("-")[1]
     #plot_results_detailed(results, dataset)
 
-    result_file_all = "../results/2021-07-09_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
+    # Session classification with ZuCo 1 SR data
+    result_file_all = "../results/2021-07-12_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
     results = pd.read_csv(result_file_all, delimiter=" ",
                           names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("_")[5]

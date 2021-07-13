@@ -37,9 +37,10 @@ def main():
 
             fe.extract_sentence_features(subject, f_nr, feature_set, features, "Sess1")
             fe.extract_sentence_features(subject, f_tsr, feature_set, features, "Sess2")
+            print(len(features[feature_set]), " samples collected for", feature_set)
             if config.dataset is "zuco1sr":
                 fe.extract_sentence_features(subject, f_sr, feature_set, features, "SR-Sess")
-            print(len(features[feature_set]), " samples collected for", feature_set)
+            print(len(features[feature_set]), " samples collected for", feature_set, " with SR")
             print(features.keys())
 
             # print(features[feature_set])
