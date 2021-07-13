@@ -45,11 +45,12 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label):
         warnings.simplefilter("ignore", category=FutureWarning)
         for idx, sent_data in enumerate(rawData):
 
+            label_orig = label
             full_idx = len(feature_dict[feature_set])
 
-            print(idx,full_idx, label)
+            print(idx,full_idx, label_orig)
             if config.class_task == "sessions":
-                label = relabel_sessions(idx, label)
+                label = relabel_sessions(idx, label_orig)
 
             obj_reference_content = contentData[idx][0]
             sent = dlh.load_matlab_string(f[obj_reference_content])
