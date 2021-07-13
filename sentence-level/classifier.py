@@ -54,7 +54,6 @@ def svm(samples, seed_value, randomized=False):
                 y.append(block_index)
             else:
                 y.append(random.choice(list(range(len(blocks)))))
-        print(y)
 
     else:
         sys.exit("Classification task ", config.class_task, " not defined!")
