@@ -149,18 +149,19 @@ def main():
     results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
     #check_std_between_runs(results)
 
-    result_file_all = "../results/tasks-zuco2-final.csv"
+    result_file_all = "../results/tasks-zuco1-final.csv"
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("-")[1]
-    #plot_results_detailed(results, dataset)
+    task = result_file_all.split("_")[0]
+    plot_results_detailed(results, dataset, task)
 
     # Session classification with ZuCo 1 SR data
-    result_file_all = "../results/2021-07-12_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
+    result_file_all = "../results/2021-07-13_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
     results = pd.read_csv(result_file_all, delimiter=" ",
                           names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("_")[5]
     task = result_file_all.split("_")[4]
-    plot_results_detailed(results, dataset, task)
+    #plot_results_detailed(results, dataset, task)
 
     result_file_cross = "../results/2021-04-19_svm_all_runs_tasks-cross-subj_zucoAll_randomFalse_linear.csv"
     results_cross = pd.read_csv(result_file_cross, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])

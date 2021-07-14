@@ -35,10 +35,11 @@ def main():
 
             features[feature_set] = {}
 
-            fe.extract_sentence_features(subject, f_nr, feature_set, features, "Sess1")
-            fe.extract_sentence_features(subject, f_tsr, feature_set, features, "Sess2")
+            if config.dataset is not "zuco1sr_only":
+                fe.extract_sentence_features(subject, f_nr, feature_set, features, "Sess1")
+                fe.extract_sentence_features(subject, f_tsr, feature_set, features, "Sess2")
             print(len(features[feature_set]), " samples collected for", feature_set)
-            if config.dataset is "zuco1sr":
+            if config.dataset is "zuco1sr" or config.dataset is "zuco1sr_only":
                 fe.extract_sentence_features(subject, f_sr, feature_set, features, "SR-Sess")
             print(len(features[feature_set]), " samples collected for", feature_set, " with SR")
             print(features.keys())
