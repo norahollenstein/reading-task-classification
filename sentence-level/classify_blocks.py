@@ -77,8 +77,8 @@ def main():
 
     cm = confusion_matrix(true_labels, predictions)
     print(cm)
-    target_names = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
-              "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
+    target_names = ["NR_1", "TSR_1", "NR_2", "TSR_2", "NR_3", "TSR_3", "NR_4",
+              "TSR_4", "NR_5", "TSR_5", "NR_6", "TSR_6", "NR_7", "TSR_7"]
     dh.multi_conf_matrix(target_names, config.feature_sets[0], cm)
 
     elapsed = (time.time() - start)
