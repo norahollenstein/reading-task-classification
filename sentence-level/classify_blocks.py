@@ -75,8 +75,12 @@ def main():
             # subj, feature set, acc, std, no. of feature, no. of samples, no. of runs
             print(subject, feature_set, np.mean(accuracies), np.std(accuracies), len(features[feature_set][list(features[feature_set].keys())[0]])-1, len(features[feature_set]), config.runs, file=subj_result_file)
 
-    print(confusion_matrix(true_labels, predictions))
-    
+    cm = confusion_matrix(true_labels, predictions)
+    print(cm)
+    target_names = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
+              "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
+    dh.multi_conf_matrix(target_names, config.feature_sets[0], cm)
+
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
 

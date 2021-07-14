@@ -5,6 +5,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from mlxtend.plotting import plot_confusion_matrix
 
 
 def prepare_output_files():
@@ -66,7 +67,6 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
     except IndexError:
         pass
 
-
     ax.set_title(feature_set)
     ax.set(xticklabels=[])
     ax.set(xticks=[])
@@ -74,3 +74,15 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
     ax.set_ylabel('')
     fig.savefig("feature-plots/"+ feature_set + "_" +subj+".pdf")
     plt.close()
+
+
+def multi_conf_matrix(target_names, feature_set, cm):
+
+    fig, ax = plot_confusion_matrix(conf_mat=cm, colorbar=True,
+                                show_absolute=True,
+                                show_normed=True)
+    ax.set_xticklabels([''] + target_names)
+    ax.set_yticklabels([''] + target_names)
+    plt.title("Confusion matrix for subject classification: " + feature_set)
+    plt.savefig("CM_"+config.class_task+"_"+feature_set+".pdf")
+    #plt.show()
