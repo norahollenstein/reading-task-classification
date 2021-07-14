@@ -23,6 +23,8 @@ def main():
 
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
 
+    all_true = []; all_predictions = []
+
     for subject in config.subjects:
         print(subject)
         filename_nr = config.rootdir + "results" + subject + "_NR.mat"
@@ -54,16 +56,16 @@ def main():
 
                 accuracies.append(acc)
                 predictions.extend(preds)
+                all_predictions.extend(preds)
                 true_labels.extend(test_y)
+                all_true.extend(test_y)
                 svm_coeffs.append(coefs[0])
 
                 # print results of each run
                 print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
 
-            print(true_labels)
             avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
-            print(confusion_matrix(true_labels, predictions))#, labels = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
-                  #    "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"])
+
 
             # print SVM coefficients to file
             print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
@@ -73,7 +75,8 @@ def main():
             # subj, feature set, acc, std, no. of feature, no. of samples, no. of runs
             print(subject, feature_set, np.mean(accuracies), np.std(accuracies), len(features[feature_set][list(features[feature_set].keys())[0]])-1, len(features[feature_set]), config.runs, file=subj_result_file)
 
-
+    print(confusion_matrix(true_labels, predictions))
+    
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
 
