@@ -83,6 +83,6 @@ def multi_conf_matrix(target_names, feature_set, cm):
                                 show_normed=True, class_names=target_names)
     #ax.set_xticklabels([''] + target_names)
     #ax.set_yticklabels([''] + target_names)
-    plt.title("Confusion matrix for block classification: " + feature_set)
+    plt.title(feature_set)
     plt.savefig("CM_"+config.class_task+"_"+feature_set+".pdf")
     #plt.show()
