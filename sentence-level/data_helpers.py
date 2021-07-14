@@ -79,10 +79,10 @@ def plot_feature_distribution(subj, dataset, feature_dict, feature_set):
 def multi_conf_matrix(target_names, feature_set, cm):
 
     fig, ax = plot_confusion_matrix(conf_mat=cm, colorbar=True,
-                                show_absolute=True,
-                                show_normed=True)
-    ax.set_xticklabels([''] + target_names)
-    ax.set_yticklabels([''] + target_names)
+                                show_absolute=False, figsize=(10,10),
+                                show_normed=True, class_names=target_names)
+    #ax.set_xticklabels([''] + target_names)
+    #ax.set_yticklabels([''] + target_names)
     plt.title("Confusion matrix for subject classification: " + feature_set)
     plt.savefig("CM_"+config.class_task+"_"+feature_set+".pdf")
     #plt.show()
