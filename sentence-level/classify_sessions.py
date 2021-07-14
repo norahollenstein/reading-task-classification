@@ -19,13 +19,14 @@ def main():
     avg_results = {}
     for subject in config.subjects:
         print(subject)
-        filename_nr = config.rootdir + "results" + subject + "_NR.mat"
-        filename_tsr = config.rootdir + "results" + subject + "_TSR.mat"
+        if config.dataset is not "zuco1sr_only":
+            filename_nr = config.rootdir + "results" + subject + "_NR.mat"
+            filename_tsr = config.rootdir + "results" + subject + "_TSR.mat"
 
-        f_nr = dh.read_mat_file(filename_nr)
-        f_tsr = dh.read_mat_file(filename_tsr)
+            f_nr = dh.read_mat_file(filename_nr)
+            f_tsr = dh.read_mat_file(filename_tsr)
 
-        if config.dataset is "zuco1sr":  # include sentiment reading as NR
+        if config.dataset is "zuco1sr" or config.dataset is "zuco1sr_only":  # include sentiment reading as NR
             filename_sr = config.rootdir_sr + "results" + subject + "_SR.mat"
             f_sr = dh.read_mat_file(filename_sr)
 

@@ -51,20 +51,6 @@ elif level is 'word':
 
 # classification task {tasks, sessions, subjects, tasks-cross-subj, blocks}
 class_task = 'sessions'
-"""
-if class_task == 'tasks' or class_task == 'tasks-cross-subj':
-    #target_names = ["TSR", "NR"]
-    labels = [0, 1]
-elif class_task == 'sessions':
-    #target_names = ["Sess1", "Sess2"]
-    labels = [0, 1]
-elif class_task == "subjects":
-    #target_names = subjects
-    labels = list(range(len(subjects)))
-elif class_task == "block":
-    target_names = subjects
-    labels = list(range(len(subjects)))
-"""
 
 # SVM params
 kernel = 'linear' # only linear kernel allows for analysis of coefficients

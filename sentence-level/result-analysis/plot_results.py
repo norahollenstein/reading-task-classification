@@ -13,6 +13,7 @@ def check_std_between_runs(results):
         print("average std:", np.mean(rslt_df["std"]))
 
 
+
 def plot_results_detailed(results, dataset, task):
     print(results.head())
     features = results.feature_set.unique()
@@ -54,11 +55,11 @@ def plot_results_detailed(results, dataset, task):
         plt.text(-0.49, median+0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
         ax.axhspan(median+mad, median-mad, alpha=0.3, color='grey', label="MAD")
         ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
-        if task != "sessions":
+        if task != "sessions" or task != "blocks":
             ax.axhline(flesch_baseline, ls=':', color="darkblue", label="Flesch baseline")
         plt.ylim(0.49,1.03)
         plt.legend()
-        plt.savefig("plots/"+f+"-"+dataset+".pdf")
+        plt.savefig("plots/"+task+"-"+f+"-"+dataset+".pdf")
         plt.show()
 
 
@@ -153,10 +154,18 @@ def main():
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("-")[1]
     task = result_file_all.split("_")[0]
-    plot_results_detailed(results, dataset, task)
+    #plot_results_detailed(results, dataset, task)
 
     # Session classification with ZuCo 1 SR data
     result_file_all = "../results/2021-07-13_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
+    results = pd.read_csv(result_file_all, delimiter=" ",
+                          names=["subject", "feature_set", "accuracy", "samples", "run"])
+    dataset = result_file_all.split("_")[5]
+    task = result_file_all.split("_")[4]
+    #plot_results_detailed(results, dataset, task)
+
+    # Block classification with ZuCo 2 data
+    result_file_all = "../results/2021-07-13_svm_all_runs_blocks_zuco2_randomFalse_linear.csv"
     results = pd.read_csv(result_file_all, delimiter=" ",
                           names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("_")[5]
