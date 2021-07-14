@@ -13,6 +13,7 @@ def main():
 
     start = time.time()
 
+    # todo: fix this!
     avg_result_file = open("results/"+str(date.today())+"_svm_averaged_results_"+config.class_task+"_"+config.dataset+"_random"+str(config.randomized_labels)+ "_" + config.kernel + ".csv", "a")
 
     features = {}

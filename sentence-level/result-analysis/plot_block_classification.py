@@ -11,14 +11,14 @@ def plot_results_detailed(results, dataset):
     results = results.drop_duplicates()
     print(len(results))
 
-    subjects = ['YAC', 'YAG', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL', "ZAB", "ZDM", "ZDN", "ZGW", "ZJM", "ZJN", "ZKB", "ZKH", "ZKW","ZMG", "ZPH"]
+    random_baseline = 0.0714
 
-    colors = sns.color_palette("flare", len(subjects))
-
-    ax = sns.barplot(x=results["feature_set"], y=results["accuracy"])
+    ax = sns.barplot(x=results["feature_set"], y=results["accuracy"], palette=sns.color_palette("Spectral", len(features)))
     ax.set_xticklabels(results["feature_set"], rotation=90)
+    ax.axhline(random_baseline, ls='-.', color="gray", label="random")
     plt.title("Block classification")
     plt.tight_layout()
+    plt.legend()
     plt.savefig("plots/block_class_"+dataset+".pdf")
     plt.show()
 

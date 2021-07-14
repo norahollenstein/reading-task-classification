@@ -60,9 +60,10 @@ def main():
                 # print results of each run
                 print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
 
+            print(true_labels)
             avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
-            confusion_matrix(true_labels, predictions, labels = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
-                      "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"])
+            confusion_matrix(true_labels, predictions)#, labels = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
+                  #    "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"])
 
             # print SVM coefficients to file
             print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
