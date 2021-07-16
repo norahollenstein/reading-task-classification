@@ -55,7 +55,7 @@ def load_matlab_files(task, subject):
 
         return loaded_matlab_data
 
-    elif task.startswith('read-task'):
+    elif task.startswith('read-task') or task.startswith('tasks-cross-subj'):
         loaded_matlab_data = []
         if subject.startswith('Z'):  # subjects from ZuCo 1
             # load NR + sentiment task from ZuCo 1

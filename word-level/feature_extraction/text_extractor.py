@@ -28,8 +28,8 @@ def extract_sentences(sentence_data, sentence_dict, label_dict):
             # linguistic tokenization
             spacy_tokens = nltk.word_tokenize(sent)
 
-            # for sentiment and relation detection
-            if config.class_task.startswith('read-task'):
+            # for reading task classification
+            if config.class_task.startswith('read-task') or config.class_task.startswith('tasks-cross-subj'):
                 if sent not in sentence_dict:
                     sentence_dict[sent] = split_tokens
                     label_dict[sent] = label
