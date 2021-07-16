@@ -36,7 +36,7 @@ def extract_features(sent_data, feature_set, feature_dict, eeg_dict, gaze_dict, 
 def extract_labels(feature_dict, label_dict, task, subject):
     """Get ground truth labels for all tasks"""
 
-    if config.class_task == "read-task":
+    if config.class_task == "read-task" or config.class_task == "tasks-cross-subj":
 
         count = 0
         #label_names = {'0': 2, '1': 1, '-1': 0}
