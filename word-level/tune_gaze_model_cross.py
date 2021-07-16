@@ -26,7 +26,7 @@ def main():
     test_gaze_dict = {}
     for subject in config.subjects:
 
-        train_subjs = config.subjects.remove(subject)
+        train_subjs = [x for x in config.subjects if x != subject]
         test_subj = subject
         print(train_subjs, test_subj)
 
