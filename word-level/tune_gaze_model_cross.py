@@ -67,8 +67,8 @@ def main():
                                                           "dense_dim": denseDim, "dropout": drop, "batch_size": bs,
                                                           "epochs": e_val, "random_seed": rand}
 
-                                        if config.class_task == "read-task":
-                                            fold_results = gaze_model.lstm_classifier(label_dict, gaze_dict,
+                                        if config.class_task == "tasks-cross-subj":
+                                            fold_results = gaze_model.lstm_classifier_cross(label_dict, gaze_dict,
                                                                                                 parameter_dict, rand)
                                             save_results(fold_results, config.class_task, subject)
 

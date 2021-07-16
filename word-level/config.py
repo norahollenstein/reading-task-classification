@@ -15,8 +15,8 @@ subjects = ['YAG']#, 'YAC', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YL
 
 run_feature_extraction = True
 
-# ML task {read-task, session, subjects}
-class_task = 'read-task'
+# ML task {read-task, session, subjects, tasks-cross-subj}
+class_task = 'tasks-cross-subj'
 
 # features sets {'text_only' , 'eeg_raw', 'eeg_theta', 'eeg_alpha', 'eeg_beta', 'eeg_gamma', 'combi_eeg_raw', 'eye_tracking', 'combi_eye_tracking'}
 # sentence level features: {'combi_concat', 'sent_eeg_theta'}
