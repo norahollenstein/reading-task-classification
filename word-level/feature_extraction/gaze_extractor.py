@@ -59,9 +59,9 @@ def word_level_et_features(sentence_data, gaze_dict, label_dict):
                     gaze_dict[sent] = {}
                     for widx, fts in sent_features.items():
                         gaze_dict[sent][widx] = [fts]
-                        print("adding sent")
+                        #print("adding sent")
                 else:
                     for widx, fts in sent_features.items():
                         gaze_dict[sent][widx].append(sent_features[widx])
-                        print("adding feats")
+                        #print("adding feats")
 

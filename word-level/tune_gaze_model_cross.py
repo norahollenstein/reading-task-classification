@@ -16,19 +16,31 @@ def main():
 
     print("TASK: ", config.class_task)
     print("Extracting", config.feature_set, "features....")
+    train_feature_dict = {}
+    train_label_dict = {}
+    train_eeg_dict = {}
+    train_gaze_dict = {}
+    test_feature_dict = {}
+    test_label_dict = {}
+    test_eeg_dict = {}
+    test_gaze_dict = {}
     for subject in config.subjects:
-        print(subject)
-        feature_dict = {}
-        label_dict = {}
-        eeg_dict = {}
-        gaze_dict = {}
 
-        loaded_data = load_matlab_files(config.class_task, subject)
+        train_subjs = config.subjects.remove(subject)
+        test_subj = subject
+        print(train_subjs, test_subj)
 
-        zuco_reader.extract_features(loaded_data, config.feature_set, feature_dict, eeg_dict, gaze_dict, label_dict)
+        for tr_subj in train_subjs:
+            loaded_data = load_matlab_files(config.class_task, tr_subj)
+            zuco_reader.extract_features(loaded_data, config.feature_set, train_feature_dict, train_eeg_dict, train_gaze_dict, train_label_dict)
+            print(len(train_feature_dict), len(train_label_dict), len(train_gaze_dict))
 
-        print(len(feature_dict), len(label_dict), len(gaze_dict))
+        loaded_data = load_matlab_files(config.class_task, test_subj)
+        zuco_reader.extract_features(loaded_data, config.feature_set, test_feature_dict, test_eeg_dict,
+                                     test_gaze_dict, test_label_dict)
+        print(len(test_feature_dict), len(test_label_dict), len(test_gaze_dict))
 
+        """
         if config.run_feature_extraction:
             # saving gaze features to file
             print(len(gaze_dict))
@@ -39,20 +51,21 @@ def main():
         else:
             gaze_dict = json.load(open("features/" + subject + "_" + config.feature_set[
                 0] + '_feats_file_' + config.class_task + '_Sacc' + str(config.saccades) + '.json'))
+        """
 
-        print(len(feature_dict), len(label_dict), len(gaze_dict))
-        if len(feature_dict) != len(label_dict) or len(feature_dict) != len(gaze_dict):
+        print(len(train_feature_dict), len(train_label_dict), len(train_gaze_dict))
+        if len(train_feature_dict) != len(train_label_dict) or len(train_feature_dict) != len(train_gaze_dict):
             print("WARNING: Not an equal number of sentences in features and labels!")
 
-        feature_dict = collections.OrderedDict(sorted(feature_dict.items()))
-        label_dict = collections.OrderedDict(sorted(label_dict.items()))
-        gaze_dict = collections.OrderedDict(sorted(gaze_dict.items()))
+        train_feature_dict = collections.OrderedDict(sorted(train_feature_dict.items()))
+        train_label_dict = collections.OrderedDict(sorted(train_label_dict.items()))
+        train_gaze_dict = collections.OrderedDict(sorted(train_gaze_dict.items()))
 
         # eliminate sentence without available eye-tracking features
-        for sent, feats in list(label_dict.items()):
-            if sent not in gaze_dict:
-                del label_dict[sent]
-                del feature_dict[sent]
+        for sent, feats in list(train_label_dict.items()):
+            if sent not in train_gaze_dict:
+                del train_label_dict[sent]
+                del train_feature_dict[sent]
 
         for rand in config.random_seed_values:
             np.random.seed(rand)
@@ -68,7 +81,7 @@ def main():
                                                           "epochs": e_val, "random_seed": rand}
 
                                         if config.class_task == "tasks-cross-subj":
-                                            fold_results = gaze_model.lstm_classifier_cross(label_dict, gaze_dict,
+                                            fold_results = gaze_model.lstm_classifier_cross(train_label_dict, train_gaze_dict, test_label_dict, test_gaze_dict,
                                                                                                 parameter_dict, rand)
                                             save_results(fold_results, config.class_task, subject)
 
