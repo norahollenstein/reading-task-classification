@@ -7,7 +7,7 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco2"
+dataset= "zuco1"
 
 if dataset == "zuco2":
     subj_start = "Y"
@@ -21,8 +21,8 @@ if dataset == "zuco1":
 random_baseline = 0.5
 
 feature = "eye_tracking"
-feature_add = "saccTrue"
-task = "read-task"
+feature_add = "saccFalse"
+task = "tasks-cross-subj"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
@@ -30,8 +30,9 @@ print(dataset, feature)
 all_results_pd = pd.DataFrame(columns=colnames)
 for filename in os.listdir(result_dir):
     if filename.endswith(".txt") and feature in filename and feature_add in filename and task in filename:
+        print(filename)
         subj = filename.replace("_saccTrue.txt", "").replace("_saccFalse.txt", "")[-3:]
-        #print(subj)
+        print(subj)
         if subj.startswith(subj_start):
             print(filename)
             infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", usecols=[7,10,12,14,16], names=colnames)
@@ -68,5 +69,5 @@ plt.ylim(0.4, 1)
 plt.title(feature + " " + feature_add)
 plt.ylabel("accuracy")
 plt.legend()
-plt.savefig("plots/wordLevel_" + feature + "_"+ feature_add + "_" + dataset + ".pdf")
+plt.savefig("plots/wordLevel_" + task + "_" + feature + "_"+ feature_add + "_" + dataset + ".pdf")
 plt.show()

@@ -215,17 +215,8 @@ def lstm_classifier_cross(labels_train, gaze_train, labels_test, gaze_test, para
     all_labels = []
     all_predictions = []
 
-    #for train_index, test_index in kf.split(X_data):
-
     print("FOLD: ", fold)
     print("splitting train and test data...")
-    #y_train, y_test = y[train_index], y[test_index]
-    #X_train, X_test = X_data[train_index], X_data[test_index]
-
-    #print(y_train.shape)
-    #print(y_test.shape)
-    #print(X_train.shape)
-    #print(X_test.shape)
 
     # reset model
     K.clear_session()
@@ -311,8 +302,6 @@ def lstm_classifier_cross(labels_train, gaze_train, labels_test, gaze_test, para
         fold_results['fscore'].append(f)
         fold_results['model'].append(model_name)
         fold_results['best-e'].append(len(history.history['loss']) - config.patience)
-
-    fold += 1
 
     elapsed = (time.time() - start)
     print("Training time (all folds):", str(timedelta(seconds=elapsed)))
