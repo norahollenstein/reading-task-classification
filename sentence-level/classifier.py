@@ -129,7 +129,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
 
             block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
 
-            print(block[-1])
+            #print(block[-1])
 
             if block[-1] in list(range(config.set_in_train)):
 
@@ -154,8 +154,8 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
-    print(len(train_X, train_y))
-    print(len(test_X, test_y))
+    print(len(train_X), len(train_y))
+    print(len(test_X), len(test_y))
 
     np.random.seed(seed_value)
     train_X, train_y = shuffle(train_X, train_y)
