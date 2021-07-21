@@ -144,7 +144,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
                 test_X.append(features[:-1])
                 if randomized is False:
                     block_label = 1 if "NR" in block else 0
-                    train_y.append(block_label)
+                    test_y.append(block_label)
                 else:
                     test_y.append(random.choice(list(range(len(blocks)))))
 
