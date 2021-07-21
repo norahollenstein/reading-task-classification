@@ -16,8 +16,6 @@ def main():
     # todo: fix this!
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
 
-    features = {}
-
     for subject in config.subjects:
         print(subject)
 
@@ -26,6 +24,8 @@ def main():
 
         f_nr = dh.read_mat_file(filename_nr)
         f_tsr = dh.read_mat_file(filename_tsr)
+
+        features = {}
 
         for feature_set in config.feature_sets:
 
