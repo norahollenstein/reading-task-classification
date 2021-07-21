@@ -135,18 +135,16 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
 
                 train_X.append(features[:-1])
                 if randomized is False:
-                    block_index = blocks.index(block)
-                    train_y.append(block_index)
+                    block_label = 1 if "NR" in block else 0
+                    train_y.append(block_label)
                 else:
                     train_y.append(random.choice(list(range(len(blocks)))))
             else:
 
                 test_X.append(features[:-1])
                 if randomized is False:
-                    if features[-1] == "NR":
-                        test_y.append(1)
-                    else:
-                        test_y.append(0)
+                    block_label = 1 if "NR" in block else 0
+                    train_y.append(block_label)
                 else:
                     test_y.append(random.choice(list(range(len(blocks)))))
 
@@ -154,8 +152,8 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
-    print(len(train_X), len(train_y))
-    print(len(test_X), len(test_y))
+    #print(len(train_X), len(train_y))
+    #print(len(test_X), len(test_y))
 
     np.random.seed(seed_value)
     train_X, train_y = shuffle(train_X, train_y)

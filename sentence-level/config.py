@@ -53,7 +53,7 @@ elif level is 'word':
 class_task = 'blocks-in-sets'
 
 if class_task == 'blocks-in-sets':
-    set_in_train = [1,2]
+    set_in_train = [1,3,5,7]
 
 # SVM params
 kernel = 'linear' # only linear kernel allows for analysis of coefficients
