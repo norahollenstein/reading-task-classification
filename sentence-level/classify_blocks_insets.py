@@ -50,7 +50,7 @@ def main():
             svm_coeffs = []
             for i in range(config.runs):
                 # print(i)
-                preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i,
+                preds, test_y, acc, coefs = classifier.svm_cross_subj(features[feature_set], config.seed + i,
                                                            config.randomized_labels)
 
                 accuracies.append(acc)
