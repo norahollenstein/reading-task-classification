@@ -131,7 +131,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
 
             #print(block[-1])
 
-            if block[-1] in list(range(config.set_in_train)):
+            if int(block[-1]) in config.set_in_train:
 
                 train_X.append(features[:-1])
                 if randomized is False:
