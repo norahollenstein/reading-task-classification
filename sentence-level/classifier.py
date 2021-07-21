@@ -130,7 +130,8 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
             block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
 
             #print(block[-1])
-            train_blocks = random.choice([0,1,2,3,4,5,6,7], config.set_in_train)
+            train_blocks = random.sample([0,1,2,3,4,5,6,7], config.set_in_train)
+            print(train_blocks)
 
             if int(block[-1]) in train_blocks:
 
