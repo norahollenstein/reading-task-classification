@@ -58,7 +58,7 @@ def svm(samples, seed_value, randomized=False):
                 y.append(random.choice(list(range(len(blocks)))))
 
     else:
-        sys.exit("Classification task ", config.class_task, " not defined!")
+        sys.exit("Classification task {0} not defined!".format(config.class_task))
 
     np.random.seed(seed_value)
     shuffled_X, shuffled_y = shuffle(X, y)
@@ -126,11 +126,10 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
                   "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
 
         for sample_id, features in samples.items():
-            print(sample_id)
 
             block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
 
-            print(block)
+            print(block[-1])
 
             if block[-1] in list(range(config.set_in_train)):
 
@@ -139,7 +138,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
                     block_index = blocks.index(block)
                     train_y.append(block_index)
                 else:
-                    train_y.append(random.choice([0, 1]))
+                    train_y.append(random.choice(list(range(len(blocks)))))
             else:
 
                 test_X.append(features[:-1])
@@ -153,7 +152,10 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
 
 
     else:
-        sys.exit("Classification task ", config.class_task, " not defined!")
+        sys.exit("Classification task {0} not defined!".format(config.class_task))
+
+    print(len(train_X, train_y))
+    print(len(test_X, test_y))
 
     np.random.seed(seed_value)
     train_X, train_y = shuffle(train_X, train_y)
