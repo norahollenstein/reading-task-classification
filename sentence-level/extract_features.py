@@ -105,7 +105,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label_orig)
 
             if config.class_task == "sessions":
                 label = relabel_sessions(idx, label)
-            if config.class_task == "blocks":
+            if config.class_task == "blocks" or config.class_task == "blocks-in-sets":
                 label = relabel_blocks(idx, label)
 
             obj_reference_content = contentData[idx][0]

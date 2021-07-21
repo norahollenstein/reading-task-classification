@@ -51,6 +51,7 @@ elif level is 'word':
 
 # classification task {tasks, sessions, subjects, tasks-cross-subj, blocks, blocks-in-sets}
 class_task = 'sessions'
+
 if class_task == 'blocks-in-sets':
     set_in_train = 2
 

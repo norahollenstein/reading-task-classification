@@ -120,6 +120,37 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
                 else:
                     test_y.append(random.choice([0, 1]))
 
+    elif config.class_task == "blocks-in-sets":
+
+        blocks = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
+                  "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
+
+        for sample_id, features in samples.items():
+
+            block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
+            print(block)
+            print(list(range(config.set_in_train)))
+
+            if block[-1] in list(range(config.set_in_train)):
+
+                train_X.append(features[:-1])
+                if randomized is False:
+                    block_index = blocks.index(block)
+                    train_y.append(block_index)
+                else:
+                    train_y.append(random.choice([0, 1]))
+            else:
+
+                test_X.append(features[:-1])
+                if randomized is False:
+                    if features[-1] == "NR":
+                        test_y.append(1)
+                    else:
+                        test_y.append(0)
+                else:
+                    test_y.append(random.choice(list(range(len(blocks)))))
+
+
     else:
         sys.exit("Classification task ", config.class_task, " not defined!")
 
