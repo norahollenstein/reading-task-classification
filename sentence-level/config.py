@@ -1,6 +1,6 @@
 
 # dataset {zuco1, zuco2, zucoAll, zuco1sr, zuco1sr_only}
-dataset = 'zuco1sr_only'
+dataset = 'zuco2'
 
 if dataset is 'zuco2':
     # todo: what about missing subjects?
