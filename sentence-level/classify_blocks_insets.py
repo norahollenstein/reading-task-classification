@@ -7,14 +7,17 @@ import time
 import data_helpers as dh
 from datetime import timedelta
 from datetime import timedelta, date
+from sklearn.metrics import confusion_matrix
 
 
 def main():
 
     start = time.time()
 
-    # todo: fix this!
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
+
+    all_true = [];
+    all_predictions = []
 
     for subject in config.subjects:
         print(subject)
@@ -29,25 +32,54 @@ def main():
 
         for feature_set in config.feature_sets:
 
-            if feature_set not in features:
-                features[feature_set] = {}
+            features[feature_set] = {}
 
-            fe.extract_sentence_features(subject, f_nr, feature_set, features, subject)
-            fe.extract_sentence_features(subject, f_tsr, feature_set, features, subject)
-            print(len(features[feature_set]), " samples collected for", feature_set)
+            fe.extract_sentence_features(subject, f_nr, feature_set, features, "NR")
+            print(len(features[feature_set]), " NR samples collected for", feature_set)
+            fe.extract_sentence_features(subject, f_tsr, feature_set, features, "TSR")
+            print(len(features[feature_set]), " total samples collected for", feature_set)
 
-    for set, feats in features.items():
-        accuracies = []; predictions = []; true_labels = []
-        print("\nTraining models for", set)
-        for i in range(config.runs):
-            preds, test_y, acc, coefs = classifier.svm_cross_subj(features[set], config.seed + i, config.randomized_labels)
+            # print(features[feature_set])
+            # dh.plot_feature_distribution(subject, config.dataset, features[feature_set], feature_set)
 
-            accuracies.append(acc)
-            predictions.extend(preds)
-            true_labels.extend(test_y)
+            # print(features[feature_set])
 
-        print("allSubjects", set, np.mean(accuracies))
-        print("allSubjects", set, np.mean(accuracies), np.std(accuracies), file=avg_result_file)
+            predictions = [];
+            true_labels = [];
+            accuracies = [];
+            svm_coeffs = []
+            for i in range(config.runs):
+                # print(i)
+                preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i,
+                                                           config.randomized_labels)
+
+                accuracies.append(acc)
+                predictions.extend(preds)
+                all_predictions.extend(preds)
+                true_labels.extend(test_y)
+                all_true.extend(test_y)
+                svm_coeffs.append(coefs[0])
+
+                # print results of each run
+                print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
+
+            avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
+
+            # print SVM coefficients to file
+            print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
+
+            # print results for individual subjects to file
+            print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
+            # subj, feature set, acc, std, no. of feature, no. of samples, no. of runs
+            print(subject, feature_set, np.mean(accuracies), np.std(accuracies),
+                  len(features[feature_set][list(features[feature_set].keys())[0]]) - 1, len(features[feature_set]),
+                  config.runs, file=subj_result_file)
+
+    cm = confusion_matrix(all_true, all_predictions)
+    print(cm)
+    target_names = ["NR_1", "TSR_1", "NR_2", "TSR_2", "NR_3", "TSR_3", "NR_4",
+                    "TSR_4", "NR_5", "TSR_5", "NR_6", "TSR_6", "NR_7", "TSR_7"]
+    dh.multi_conf_matrix(target_names, config.feature_sets[0], cm)
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))

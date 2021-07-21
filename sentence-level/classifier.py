@@ -51,7 +51,6 @@ def svm(samples, seed_value, randomized=False):
 
             if randomized is False:
                 block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
-                print(block)
 
                 block_index = blocks.index(block)
                 y.append(block_index)
@@ -130,6 +129,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
             print(sample_id)
 
             block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
+
             print(block)
 
             if block[-1] in list(range(config.set_in_train)):
