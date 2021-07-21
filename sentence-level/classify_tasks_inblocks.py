@@ -79,7 +79,7 @@ def main():
     print(cm)
     target_names = ["NR_1", "TSR_1", "NR_2", "TSR_2", "NR_3", "TSR_3", "NR_4",
                     "TSR_4", "NR_5", "TSR_5", "NR_6", "TSR_6", "NR_7", "TSR_7"]
-    dh.multi_conf_matrix(target_names, config.feature_sets[0], cm)
+    #dh.multi_conf_matrix(target_names, config.feature_sets[0], cm)
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
