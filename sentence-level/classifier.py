@@ -153,7 +153,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
-    print(len(train_X), len(test_X))
+    #print(len(train_X), len(test_X))
     #print(len(test_X), len(test_y))
 
     np.random.seed(seed_value)
