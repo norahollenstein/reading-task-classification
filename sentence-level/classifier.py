@@ -130,15 +130,16 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
             block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
 
             #print(block[-1])
+            train_blocks = random.choice([0,1,2,3,4,5,6,7], config.set_in_train)
 
-            if int(block[-1]) in config.set_in_train:
+            if int(block[-1]) in train_blocks:
 
                 train_X.append(features[:-1])
                 if randomized is False:
                     block_label = 1 if "NR" in block else 0
                     train_y.append(block_label)
                 else:
-                    train_y.append(random.choice(list(range(len(blocks)))))
+                    train_y.append(random.choice([0,1]))
             else:
 
                 test_X.append(features[:-1])
@@ -146,7 +147,7 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
                     block_label = 1 if "NR" in block else 0
                     test_y.append(block_label)
                 else:
-                    test_y.append(random.choice(list(range(len(blocks)))))
+                    test_y.append(random.choice([0,1]))
 
 
     else:
