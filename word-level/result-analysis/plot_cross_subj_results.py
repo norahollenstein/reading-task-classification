@@ -7,7 +7,7 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco1"
+dataset= "zuco2"
 
 if dataset == "zuco2":
     subj_start = "Y"
@@ -36,6 +36,9 @@ for filename in os.listdir(result_dir):
         if subj.startswith(subj_start):
             print(filename)
             infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", usecols=[7,10,12,14,16], names=colnames)
+            if len(infile) != 5:
+                print("Not enough runs!!!", subj)
+                sys.exit()
             infile['subject'] = subj
             all_results_pd = pd.concat([all_results_pd, infile])
 

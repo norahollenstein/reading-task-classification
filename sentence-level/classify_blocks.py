@@ -75,7 +75,7 @@ def main():
             # subj, feature set, acc, std, no. of feature, no. of samples, no. of runs
             print(subject, feature_set, np.mean(accuracies), np.std(accuracies), len(features[feature_set][list(features[feature_set].keys())[0]])-1, len(features[feature_set]), config.runs, file=subj_result_file)
 
-    cm = confusion_matrix(true_labels, predictions)
+    cm = confusion_matrix(all_true, all_predictions)
     print(cm)
     target_names = ["NR_1", "TSR_1", "NR_2", "TSR_2", "NR_3", "TSR_3", "NR_4",
               "TSR_4", "NR_5", "TSR_5", "NR_6", "TSR_6", "NR_7", "TSR_7"]

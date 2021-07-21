@@ -49,8 +49,10 @@ elif level is 'word':
     #feature_sets = ['fix_electrode_features_gamma_10%']#, 'fix_electrode_features_gamma_20%', 'fix_electrode_features_gamma']
     feature_sets = ['fix_order_raw_eeg_electrodes_10%']#, 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
-# classification task {tasks, sessions, subjects, tasks-cross-subj, blocks}
+# classification task {tasks, sessions, subjects, tasks-cross-subj, blocks, blocks-in-sets}
 class_task = 'sessions'
+if class_task == 'blocks-in-sets':
+    set_in_train = 2
 
 # SVM params
 kernel = 'linear' # only linear kernel allows for analysis of coefficients

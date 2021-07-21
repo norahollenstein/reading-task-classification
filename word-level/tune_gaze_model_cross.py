@@ -16,15 +16,17 @@ def main():
 
     print("TASK: ", config.class_task)
     print("Extracting", config.feature_set, "features....")
-    train_feature_dict = {}
-    train_label_dict = {}
-    train_eeg_dict = {}
-    train_gaze_dict = {}
-    test_feature_dict = {}
-    test_label_dict = {}
-    test_eeg_dict = {}
-    test_gaze_dict = {}
+
     for subject in config.subjects:
+
+        train_feature_dict = {}
+        train_label_dict = {}
+        train_eeg_dict = {}
+        train_gaze_dict = {}
+        test_feature_dict = {}
+        test_label_dict = {}
+        test_eeg_dict = {}
+        test_gaze_dict = {}
 
         train_subjs = [x for x in config.subjects if x != subject]
         test_subj = subject
