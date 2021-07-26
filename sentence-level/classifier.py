@@ -9,16 +9,17 @@ import mne
 from mne import io, EvokedArray
 from mne.decoding import Vectorizer, get_coef
 
-def decode_svm_cooefficients(clf, epochs):
+def decode_svm_cooefficients(coef, epochs):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
     # Extract and plot patterns and filters
     for name in ('patterns_', 'filters_'):
         # The `inverse_transform` parameter will call this method on any estimator
         # contained in the pipeline, in reverse order.
-        coef = get_coef(clf, name, inverse_transform=True)
+        #coef = get_coef(clf, name, inverse_transform=True)
         print(coef)
         evoked = EvokedArray(coef, epochs.info, tmin=epochs.tmin)
         evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
+
 
 def svm(samples, seed_value, randomized=False):
     X = []
@@ -114,15 +115,17 @@ def svm(samples, seed_value, randomized=False):
     print(len(chanlocs))
     info = mne.create_info(ch_names=chanlocs, ch_types="eeg", sfreq=500)
     print(info)
-    epochs = mne.io.RawArray(data=np.transpose(train_X), info=info)
+    epochs = mne.EvokedArray(data=np.transpose(train_X), info=info)
     print(epochs)
-    decode_svm_cooefficients(clf, epochs)
+
 
     # get coefficients
     if config.kernel is 'linear':
         coefficients = clf.coef_
     else:
         coefficients = [[]]
+
+    decode_svm_cooefficients(coefficients, epochs)
 
     return predictions, test_y, accuracy, coefficients
 
