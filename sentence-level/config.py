@@ -1,6 +1,6 @@
 
 # dataset {zuco1, zuco2, zucoAll, zuco1sr, zuco1sr_only}
-dataset = 'zuco2'
+dataset = 'zuco1sr_only'
 
 if dataset is 'zuco2':
     # todo: what about missing subjects?
@@ -50,7 +50,7 @@ elif level is 'word':
     feature_sets = ['fix_order_raw_eeg_electrodes_10%']#, 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
 # classification task {tasks, sessions, subjects, tasks-cross-subj, blocks, blocks-in-sets}
-class_task = 'blocks-in-sets'
+class_task = 'sessions'
 
 if class_task == 'blocks-in-sets':
     set_in_train = 1
