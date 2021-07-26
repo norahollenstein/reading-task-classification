@@ -11,6 +11,10 @@ from mne.decoding import Vectorizer, get_coef
 
 def decode_svm_cooefficients(coef, epochs, info):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
+
+    positions = mne.channels.make_standard_montage(kind="GSN-HydroCel-128")
+    print(positions)
+
     # Extract and plot patterns and filters
     for name in ('patterns_', 'filters_'):
         # The `inverse_transform` parameter will call this method on any estimator
@@ -20,7 +24,7 @@ def decode_svm_cooefficients(coef, epochs, info):
         coef = np.array(coef).reshape(-1,1)
         print(coef.shape)
         evoked = EvokedArray(coef, info=info, tmin=epochs.tmin)
-        evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
+        evoked.plot_topomap(pos=positions, title='EEG %s' % name[:-1], time_unit='s')
 
 
 def svm(samples, seed_value, randomized=False):
