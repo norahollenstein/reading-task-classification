@@ -17,9 +17,9 @@ def decode_svm_cooefficients(coef, epochs):
         # contained in the pipeline, in reverse order.
         #coef = get_coef(clf, name, inverse_transform=True)
         print(np.array(coef).shape)
-        print(np.array(coef).reshape(-1,1))
-        print(np.array(coef).shape)
-        evoked = EvokedArray(np.array(coef), epochs.info, tmin=epochs.tmin)
+        coef = np.array(coef).reshape(-1,1)
+        print(coef.shape)
+        evoked = EvokedArray(coef, epochs.info, tmin=epochs.tmin)
         evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
 
 
