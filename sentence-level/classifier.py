@@ -6,7 +6,7 @@ import random
 import config
 import sys
 import mne
-from mne import EvokedArray, get_coef
+from mne import EvokedArray
 import matplotlib.pyplot as plt
 
 
