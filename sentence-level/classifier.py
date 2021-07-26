@@ -6,7 +6,7 @@ import random
 import config
 import sys
 import mne
-from mne import EvokedArray
+from mne import EvokedArray, get_coef
 import matplotlib.pyplot as plt
 
 
@@ -39,7 +39,7 @@ def decode_svm_cooefficients(coef, train_X, subj):
         evoked.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='m',)
+        ax = evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
         plt.savefig("test-topo-"+name[:-1]+"-"+subj+".pdf")
 
 
@@ -125,9 +125,12 @@ def svm(samples, seed_value, run, randomized=False):
     predictions = clf.predict(test_X)
     accuracy = len([i for i, j in zip(predictions, test_y) if i == j]) / len(test_y)
 
+
+
     # get coefficients
     if config.kernel is 'linear':
         coefficients = clf.coef_
+        coefficients = scaling.inverse_transform([coefficients])[0]
     else:
         coefficients = [[]]
 
