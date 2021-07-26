@@ -50,7 +50,7 @@ def decode_svm_cooefficients(X, y, subj):
         # contained in the pipeline, in reverse order.
         coef = get_coef(clf, name, inverse_transform=True)
 
-        evoked = EvokedArray(coef, info=info)
+        evoked = EvokedArray(coef.reshape(-1,1), info=info)
         evoked.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
