@@ -34,12 +34,15 @@ def svm(samples, seed_value, randomized=False):
 
     elif config.class_task == "sessions":
         for sample_id, features in samples.items():
-            X.append(features[:-1])
+
             if randomized is False:
                 if features[-1] == "Sess1" and len(y) < 150:
+                    X.append(features[:-1])
                     y.append(1)
                 elif features[-1] == "Sess2" and len(y) < 150:
+                    X.append(features[:-1])
                     y.append(0)
+
             else:
                 y.append(random.choice([0, 1]))
 
