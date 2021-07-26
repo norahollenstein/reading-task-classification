@@ -4,82 +4,32 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def plot_results_detailed(results, dataset):
+def plot_results_blocks(results, dataset):
     features = results.feature_set.unique()
     print(features)
     print(len(results))
-    results = results.drop_duplicates()
-    print(len(results))
 
-    for f in features:
-        feature_results = results[results['feature_set'] == f]
-        feature_results = feature_results.sort_values(by=['accuracy'])
-
-        print("Mean accuracy:", f, np.mean(feature_results['accuracy']))
-
-    ax = sns.barplot(x=results["feature_set"], y=results["accuracy"], palette=sns.color_palette("Spectral", len(features)))
-    ax.set_xticklabels(results["feature_set"], rotation=90)
-    plt.title("Session classification")
+    ax = sns.lineplot(x="blocks", y="accuracy", data=results, hue="feature_set")#, style="feature_set", markers=True)#, palette=sns.color_palette("Spectral", len(results["blocks"].unique())))
+    #ax.set_xticklabels(results["feature_set"], rotation=90)
+    plt.title("Task classification with increasing blocks")
+    plt.xlabel("blocks per task")
     plt.tight_layout()
-    plt.savefig("plots/session_class_"+dataset+".pdf")
+    plt.savefig("plots/task_class_blocks"+dataset+".pdf")
     plt.show()
-
-
-def plot_results_compared(results_sess, results_tasks):
-    features = results_sess.feature_set.unique()
-    #print(features)
-    #print(len(results_sess))
-    results_sess = results_sess.drop_duplicates()
-    #print(len(results_sess))
-
-    #print(len(results_tasks))
-    results_tasks = results_tasks.drop_duplicates()
-    #print(len(results_tasks))
-
-    sesss = []
-    tasks = []
-
-    for f in features:
-        feature_results_sess = results_sess[results_sess['feature_set'] == f]
-        feature_results_sess = feature_results_sess.sort_values(by=['accuracy'])
-
-        print("Mean accuracy:", f, np.mean(feature_results_sess['accuracy']))
-        sesss.append(np.mean(feature_results_sess['accuracy']))
-
-        feature_results_tasks = results_tasks[results_tasks['feature_set'] == f]
-        feature_results_tasks = feature_results_tasks.sort_values(by=['accuracy'])
-        tasks.append(np.mean(feature_results_tasks['accuracy']))
-
-        print("Mean accuracy:", f, np.mean(feature_results_tasks['accuracy']))
-
-    fig, ax = plt.subplots()
-
-    print([t-s for t,s in zip(tasks,sesss)])
-    ax.bar(features, sesss, label='NR/TSR/SR', color=sns.color_palette("Spectral", len(features)))
-    ax.bar(features,[t-s for t,s in zip(tasks,sesss)], bottom=sesss,
-           label='NR/TSR', color=sns.color_palette("Spectral", len(features)), alpha=0.4)
-
-    plt.ylim(0.49, 1.03)
-    ax.set_xticklabels(features, rotation=90)
-    plt.title("Session classification")
-    plt.tight_layout()
-    plt.legend()
-    plt.savefig("plots/session_class.pdf")
-    plt.show()
-
 
 
 def main():
-    result_file_sessions = "../results/2021-07-13_svm_results_sessions_zuco1sr_randomFalse_linear.csv"
-    results = pd.read_csv(result_file_sessions, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
-    #print(results.head())
-    dataset = result_file_sessions.split("_")[4]
-    #plot_results_detailed(results, dataset)
 
-    result_file_tasks = "../results/tasks-zuco1-final-avg.csv"
-    results_tasks = pd.read_csv(result_file_tasks, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
-    #print(results_tasks.head())
-    plot_results_compared(results, results_tasks)
+    results_all = pd.DataFrame()
+    for n in list(range(1,7)):
+        result_file = "../results/2021-07-21_svm_results_blocks-in-sets_zuco2_randomFalse_linear_"+str(n)+".csv"
+        results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
+        results["blocks"] = n
+        #print(results)
+        results_all = results_all.append(results)
+        dataset = "zuco2"
+    print(results_all)
+    plot_results_blocks(results_all, dataset)
 
 
 

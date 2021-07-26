@@ -60,6 +60,9 @@ def svm(samples, seed_value, randomized=False):
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
+    print("Samples:")
+    print(y.count(0))
+    print(y.count(1))
     np.random.seed(seed_value)
     shuffled_X, shuffled_y = shuffle(X, y)
     # split into train/test
