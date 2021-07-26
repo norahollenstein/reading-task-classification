@@ -25,7 +25,7 @@ def decode_svm_cooefficients(coef, epochs, info):
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
         ax = evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
-        fig.save("test-topo.pdf")
+        plt.savefig("test-topo.pdf")
 
 
 def svm(samples, seed_value, randomized=False):
