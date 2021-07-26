@@ -7,10 +7,11 @@ import config
 import sys
 import mne
 from mne import EvokedArray
+from mne.decoding import Vectorizer, get_coef
 import matplotlib.pyplot as plt
 
 
-def decode_svm_cooefficients(coef, train_X, subj):
+def decode_svm_cooefficients(clf, train_X, subj):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
 
     chanlocs = ['E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E9', 'E10', 'E11', 'E12', 'E13', 'E15', 'E16', 'E18', 'E19', 'E20',
@@ -35,7 +36,9 @@ def decode_svm_cooefficients(coef, train_X, subj):
     for name in ('patterns_', 'filters_'):
         # The `inverse_transform` parameter will call this method on any estimator
         # contained in the pipeline, in reverse order.
-        evoked = EvokedArray(np.array(coef).reshape(-1,1), info=info)
+        coef = get_coef(clf, name, inverse_transform=True)
+
+        evoked = EvokedArray(coef, info=info)
         evoked.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
@@ -130,12 +133,11 @@ def svm(samples, seed_value, run, randomized=False):
     # get coefficients
     if config.kernel is 'linear':
         coefficients = clf.coef_
-        coefficients = scaling.inverse_transform([coefficients])[0]
     else:
         coefficients = [[]]
 
     if run == 49:
-        decode_svm_cooefficients(coefficients, train_X, subj)
+        decode_svm_cooefficients(clf, train_X, subj)
 
     return predictions, test_y, accuracy, coefficients
 
