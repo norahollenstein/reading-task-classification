@@ -36,12 +36,17 @@ def svm(samples, seed_value, randomized=False):
         for sample_id, features in samples.items():
             X.append(features[:-1])
             if randomized is False:
-                if features[-1] == "Sess1":
+                if features[-1] == "Sess1" and len(y) < 150:
                     y.append(1)
-                else:
+                elif features[-1] == "Sess2" and len(y) < 150:
                     y.append(0)
             else:
                 y.append(random.choice([0, 1]))
+
+        print("Samples:")
+        print(y.count(0))
+        print(y.count(1))
+        max_samples_current_subject = min(y.count(0), y.count(1))
 
     elif config.class_task == "blocks":
         for sample_id, features in samples.items():
@@ -60,11 +65,9 @@ def svm(samples, seed_value, randomized=False):
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
-    print("Samples:")
-    print(y.count(0))
-    print(y.count(1))
     np.random.seed(seed_value)
     shuffled_X, shuffled_y = shuffle(X, y)
+
     # split into train/test
     size = int(config.train_split * len(shuffled_X))
     train_X = shuffled_X[:size]
