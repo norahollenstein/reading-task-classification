@@ -6,8 +6,9 @@ import random
 import config
 import sys
 import mne
-from mne import io, EvokedArray
-from mne.decoding import Vectorizer, get_coef
+from mne import EvokedArray
+import matplotlib.pyplot as plt
+
 
 def decode_svm_cooefficients(coef, epochs, info):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
@@ -19,14 +20,12 @@ def decode_svm_cooefficients(coef, epochs, info):
     for name in ('patterns_', 'filters_'):
         # The `inverse_transform` parameter will call this method on any estimator
         # contained in the pipeline, in reverse order.
-        #coef = get_coef(clf, name, inverse_transform=True)
-        print(np.array(coef).shape)
-        coef = np.array(coef).reshape(-1,1)
-        print(coef.shape)
-        evoked = EvokedArray(coef, info=info, tmin=epochs.tmin)
+        evoked = EvokedArray(np.array(coef).reshape(-1,1), info=info, tmin=epochs.tmin)
         evoked.set_montage("GSN-HydroCel-128")
-        print(evoked.info)
-        evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
+
+        fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
+        ax = evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
+        fig.save("test-topo.pdf")
 
 
 def svm(samples, seed_value, randomized=False):
