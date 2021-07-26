@@ -9,7 +9,7 @@ import mne
 from mne import io, EvokedArray
 from mne.decoding import Vectorizer, get_coef
 
-def decode_svm_cooefficients(coef, epochs):
+def decode_svm_cooefficients(coef, epochs, info):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
     # Extract and plot patterns and filters
     for name in ('patterns_', 'filters_'):
@@ -19,7 +19,7 @@ def decode_svm_cooefficients(coef, epochs):
         print(np.array(coef).shape)
         coef = np.array(coef).reshape(-1,1)
         print(coef.shape)
-        evoked = EvokedArray(coef, epochs.info, tmin=epochs.tmin)
+        evoked = EvokedArray(coef, info=info, tmin=epochs.tmin)
         evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
 
 
@@ -127,7 +127,7 @@ def svm(samples, seed_value, randomized=False):
     else:
         coefficients = [[]]
 
-    decode_svm_cooefficients(coefficients, epochs)
+    decode_svm_cooefficients(coefficients, epochs, info)
 
     return predictions, test_y, accuracy, coefficients
 
