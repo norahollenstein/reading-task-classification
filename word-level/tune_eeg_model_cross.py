@@ -28,7 +28,7 @@ def main():
         test_eeg_dict = {}
         test_gaze_dict = {}
 
-        if subject not in ["ZDN", "ZJN", "ZPH"]:
+        if subject not in ["ZAB", "ZJM", "ZKB", "ZKH", "ZMG"]:
 
             train_subjs = [x for x in config.subjects if x != subject]
             test_subj = subject
