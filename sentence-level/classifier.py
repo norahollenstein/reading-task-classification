@@ -131,13 +131,13 @@ def svm(samples, seed_value, run, randomized=False):
 
     # scale feature values
     scaling = MinMaxScaler(feature_range=(-1, 1)).fit(train_X)
-    train_X = scaling.transform(train_X)
-    test_X = scaling.transform(test_X)
+    train_X_scaled = scaling.transform(train_X)
+    test_X_scaled = scaling.transform(test_X)
 
     # train SVM classifier
     clf = SVC(random_state=seed_value, kernel=config.kernel, gamma='scale', cache_size=1000)
-    clf.fit(train_X, train_y)
-    predictions = clf.predict(test_X)
+    clf.fit(train_X_scaled, train_y)
+    predictions = clf.predict(test_X_scaled)
     accuracy = len([i for i, j in zip(predictions, test_y) if i == j]) / len(test_y)
 
 
