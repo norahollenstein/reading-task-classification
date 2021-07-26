@@ -16,8 +16,8 @@ def decode_svm_cooefficients(coef, epochs):
         # The `inverse_transform` parameter will call this method on any estimator
         # contained in the pipeline, in reverse order.
         #coef = get_coef(clf, name, inverse_transform=True)
-        print(coef)
-        evoked = EvokedArray(coef, epochs.info, tmin=epochs.tmin)
+        print(len(coef[0]))
+        evoked = EvokedArray(coef[0], epochs.info, tmin=epochs.tmin)
         evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
 
 
