@@ -131,7 +131,7 @@ def svm(samples, seed_value, randomized=False):
         coefficients = [[]]
 
     #if config.feature_set:
-    decode_svm_cooefficients(coefficients, train_X, subj)
+    decode_svm_cooefficients(coefficients, train_X)
 
     return predictions, test_y, accuracy, coefficients
 
