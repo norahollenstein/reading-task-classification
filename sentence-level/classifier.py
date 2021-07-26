@@ -36,10 +36,10 @@ def svm(samples, seed_value, randomized=False):
         for sample_id, features in samples.items():
 
             if randomized is False:
-                if features[-1] == "Sess1" and len(y) < 150:
+                if features[-1] == "Sess1" and y.count(1) < 150:
                     X.append(features[:-1])
                     y.append(1)
-                elif features[-1] == "Sess2" and len(y) < 150:
+                elif features[-1] == "Sess2" and y.count(0) < 150:
                     X.append(features[:-1])
                     y.append(0)
 
