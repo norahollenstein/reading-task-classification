@@ -17,7 +17,7 @@ from sklearn.pipeline import make_pipeline
 from mne.decoding import LinearModel
 
 
-def decode_svm_cooefficients(X, y, subj):
+def decode_svm_cooefficients(X, y, seed, subj):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
 
     chanlocs = ['E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E9', 'E10', 'E11', 'E12', 'E13', 'E15', 'E16', 'E18', 'E19', 'E20',
@@ -41,7 +41,7 @@ def decode_svm_cooefficients(X, y, subj):
         Vectorizer(),  # 1) vectorize across time and channels
         StandardScaler(),  # 2) normalize features across trials
         LinearModel(
-            LogisticRegression(solver='lbfgs')))
+            SVC(random_state=seed, kernel=config.kernel, gamma='scale', cache_size=1000)))
     clf.fit(X, y)
 
     # Extract and plot patterns and filters
@@ -149,7 +149,7 @@ def svm(samples, seed_value, run, randomized=False):
         coefficients = [[]]
 
     if run == 49:
-        decode_svm_cooefficients(train_X, train_y, subj)
+        decode_svm_cooefficients(train_X_scaled, train_y, seed_value, subj)
 
     return predictions, test_y, accuracy, coefficients
 
