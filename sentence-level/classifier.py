@@ -26,7 +26,7 @@ def decode_svm_cooefficients(coef, epochs, info):
         evoked = EvokedArray(coef, info=info, tmin=epochs.tmin)
         evoked.set_montage("GSN-HydroCel-128")
         print(evoked.info)
-        evoked.plot_topomap(positions, title='EEG %s' % name[:-1], time_unit='s')
+        evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
 
 
 def svm(samples, seed_value, randomized=False):
