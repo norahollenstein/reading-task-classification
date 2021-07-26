@@ -101,7 +101,8 @@ def svm(samples, seed_value, randomized=False):
     predictions = clf.predict(test_X)
     accuracy = len([i for i, j in zip(predictions, test_y) if i == j]) / len(test_y)
 
-
+    print(train_X.shape)
+    print(np.transpose(train_X).shape)
 
     chanlocs = ['E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E9', 'E10', 'E11', 'E12', 'E13', 'E15', 'E16', 'E18', 'E19', 'E20', 'E22',
      'E23', 'E24', 'E26', 'E27', 'E28', 'E29', 'E30', 'E31', 'E33', 'E34', 'E35', 'E36', 'E37', 'E38', 'E39', 'E40',
@@ -113,7 +114,7 @@ def svm(samples, seed_value, randomized=False):
     print(len(chanlocs))
     info = mne.create_info(ch_names=chanlocs, ch_types="eeg", sfreq=500)
     print(info)
-    epochs = mne.io.RawArray(data=train_X, info=info)
+    epochs = mne.io.RawArray(data=np.transpose(train_X), info=info)
     print(epochs)
     decode_svm_cooefficients(clf, epochs)
 
