@@ -1,6 +1,6 @@
 
 # dataset {zuco1, zuco2, zucoAll, zuco1sr, zuco1sr_only}
-dataset = 'zuco1sr_only'
+dataset = 'zuco2'
 
 if dataset is 'zuco2':
     # todo: what about missing subjects?
@@ -39,7 +39,7 @@ if level is 'sentence':
     #feature_sets = ["max_sacc_amp", "mean_sacc_amp", 'sent_saccade', 'sent_gaze_sacc', "sent_gaze_eeg_means"]
     # sentence-level EEG feature sets
     #feature_sets = ["theta_mean", "alpha_mean", "beta_mean", "gamma_mean", "eeg_means", "sent_gaze_eeg_means", "electrode_features_theta", "electrode_features_alpha", "electrode_features_beta", "electrode_features_gamma", "electrode_features_all"]
-    feature_sets = ["sent_gaze_sacc"]
+    feature_sets = ["electrode_features_all"]
     # sentence-level baseline feature
     #feature_sets = ["flesch_baseline"]
 
@@ -50,7 +50,7 @@ elif level is 'word':
     feature_sets = ['fix_order_raw_eeg_electrodes_10%']#, 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
 
 # classification task {tasks, sessions, subjects, tasks-cross-subj, blocks, blocks-in-sets}
-class_task = 'sessions'
+class_task = 'tasks'
 
 if class_task == 'blocks-in-sets':
     set_in_train = 1
