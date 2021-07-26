@@ -10,7 +10,7 @@ from mne import EvokedArray
 import matplotlib.pyplot as plt
 
 
-def decode_svm_cooefficients(coef, train_X):
+def decode_svm_cooefficients(coef, train_X, subj):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
 
     chanlocs = ['E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E9', 'E10', 'E11', 'E12', 'E13', 'E15', 'E16', 'E18', 'E19', 'E20',
@@ -29,7 +29,7 @@ def decode_svm_cooefficients(coef, train_X):
 
     info = mne.create_info(ch_names=chanlocs, ch_types="eeg", sfreq=500)
 
-    epochs = mne.EvokedArray(data=np.transpose(train_X), info=info)
+    #epochs = mne.EvokedArray(data=np.transpose(train_X), info=info)
 
     # Extract and plot patterns and filters
     for name in ('patterns_', 'filters_'):
@@ -39,16 +39,17 @@ def decode_svm_cooefficients(coef, train_X):
         evoked.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked.plot_topomap(title='EEG %s' % name[:-1])
-        plt.savefig("test-topo-"+name[:-1]+".pdf")
+        ax = evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='m',)
+        plt.savefig("test-topo-"+name[:-1]+"-"+subj+".pdf")
 
 
-def svm(samples, seed_value, randomized=False):
+def svm(samples, seed_value, run, randomized=False):
     X = []
     y = []
 
     if config.class_task == "tasks":
         for sample_id, features in samples.items():
+            subj = sample_id.split('_')[0]
             X.append(features[:-1])
             if randomized is False:
                 if features[-1] == "NR":
@@ -130,8 +131,8 @@ def svm(samples, seed_value, randomized=False):
     else:
         coefficients = [[]]
 
-    #if config.feature_set:
-    decode_svm_cooefficients(coefficients, train_X)
+    if run == 49:
+        decode_svm_cooefficients(coefficients, train_X, subj)
 
     return predictions, test_y, accuracy, coefficients
 
