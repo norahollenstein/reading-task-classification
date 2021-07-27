@@ -43,7 +43,7 @@ def main():
             print(len(features[feature_set]), " samples collected for", feature_set)
 
             for x, y in features[feature_set].items():
-                features_all = features_all.append({'subj': subject, 'feature_set': feature_set, 'sample_id': x, 'feature_values': y[:-1], 'label':y[-1]}, ignore_index=True)
+                features_all = features_all.append({'subj': subject, 'feature_set': feature_set, 'sample_id': x, 'feature_values': np.array(y[:-1]), 'label':y[-1]}, ignore_index=True)
 
     print(features_all)
 
