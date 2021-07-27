@@ -16,7 +16,7 @@ def main():
 
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
 
-    features_all = pd.DataFrame()
+    features_all = pd.DataFrame(columns=['subj', 'feature_set', 'sample_id', 'feature_values', 'label'])
 
     for subject in config.subjects:
         print(subject)
@@ -43,12 +43,7 @@ def main():
             print(len(features[feature_set]), " samples collected for", feature_set)
 
             for x, y in features[feature_set].items():
-                print(x,y)
-                features_all.append([x, y])
-                features_all["sample_id"] = x
-                features_all["label"] = y[-1]
-                features_all[feature_set] = y[:-1]
-                # todo: average
+                features_all = features_all.append({'subj': subject, 'feature_set': feature_set, 'sample_id': x, 'feature_values': y[:-1], 'label':y[-1]}, ignore_index=True)
 
     print(features_all)
 
