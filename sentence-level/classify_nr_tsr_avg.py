@@ -54,7 +54,7 @@ def main():
 
         # print(features[feature_set])
 
-        features_avg = features_all.groupby(feature_set)['feature_values'].mean()
+        features_avg = features_all.groupby('feature_set')['feature_values'].mean()
 
         print(features_avg)
         """
