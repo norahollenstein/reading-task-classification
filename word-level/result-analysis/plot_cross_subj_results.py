@@ -20,7 +20,7 @@ if dataset == "zuco1":
 
 random_baseline = 0.5
 
-feature = "eeg_alpha"
+feature = "eeg_theta"
 feature_add = "saccFalse"
 task = "tasks-cross-subj"
 
@@ -35,7 +35,9 @@ for filename in os.listdir(result_dir):
         #print(subj)
         if subj.startswith(subj_start):
             print(subj, filename)
+
             infile = pd.read_csv(result_dir + filename, sep=" ", header=None, comment="l", usecols=[7,10,12,14,16], names=colnames)
+            print(len(infile))
             if len(infile) != 5:
                 print("Not enough runs!!!", subj)
                 sys.exit()

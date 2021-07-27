@@ -65,11 +65,21 @@ def main():
             train_label_dict = collections.OrderedDict(sorted(train_label_dict.items()))
             train_gaze_dict = collections.OrderedDict(sorted(train_eeg_dict.items()))
 
-            # eliminate sentence without available eye-tracking features
+            # eliminate sentence without available EEG features
             for sent, feats in list(train_label_dict.items()):
                 if sent not in train_eeg_dict:
                     del train_label_dict[sent]
                     del train_feature_dict[sent]
+
+            for sent, feats in list(test_label_dict.items()):
+                if sent not in test_eeg_dict:
+                    del test_label_dict[sent]
+                    del test_feature_dict[sent]
+
+            print("---------")
+            print(len(train_feature_dict), len(train_label_dict), len(train_eeg_dict))
+            print(len(test_feature_dict), len(test_label_dict), len(test_eeg_dict))
+            print("---------")
 
             for rand in config.random_seed_values:
                 np.random.seed(rand)

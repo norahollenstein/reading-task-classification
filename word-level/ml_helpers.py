@@ -260,6 +260,7 @@ def prepare_text(X_text, embedding_type, random_seed):
 
         return X_data_text, num_words, X_data_masks
 
+
 def prepare_cogni_seqs(cogni_dict):
     print('Processing cognitive data...')
     # prepare cognitive data
@@ -303,7 +304,7 @@ def callbacks(fold, random_seed_value):
     es = EarlyStopping(monitor='val_accuracy', mode='max', min_delta=config.min_delta, patience=config.patience)
 
     d = datetime.datetime.now()
-    model_name = 'models/' + str(random_seed_value) + '_fold' + str(fold) + '_' + config.class_task + '_' + config.feature_set[0] + '_' + config.embeddings + '_' + d.strftime("%d%m%Y-%H:%M:%S") + '.h5'
+    model_name = 'saved_models/' + str(random_seed_value) + '_fold' + str(fold) + '_' + config.class_task + '_' + config.feature_set[0] + '_' + config.embeddings + '_' + d.strftime("%d%m%Y-%H:%M:%S") + '.h5'
     mc = ModelCheckpoint(model_name, monitor='val_accuracy', mode='max', save_weights_only=True, save_best_only=True, verbose=1)
 
     return es, mc, model_name
