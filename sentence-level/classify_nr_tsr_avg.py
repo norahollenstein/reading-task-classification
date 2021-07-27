@@ -45,11 +45,14 @@ def main():
             for x, y in features[feature_set].items():
                 print(x,y)
                 features_all.append([x, y])
+                features_all["sample_id"] = x
+                features_all["label"] = y[-1]
+                features_all[feature_set] = y[:-1]
                 # todo: average
 
-        print(features_all)
+    print(features_all)
 
-        dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
+    dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
