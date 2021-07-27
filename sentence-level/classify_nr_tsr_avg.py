@@ -43,9 +43,13 @@ def main():
             print(len(features[feature_set]), " samples collected for", feature_set)
 
             for x, y in features[feature_set].items():
+                print(x,y)
                 features_all.append([x, y])
+                # todo: average
 
         print(features_all)
+
+        dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
