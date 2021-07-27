@@ -34,7 +34,7 @@ def decode_svm_cooefficients(X, y, seed, subj):
                 'E114',
                 'E115', 'E116', 'E117', 'E118', 'E120', 'E121', 'E122', 'E123', 'E124']
 
-    info = mne.create_info(ch_names=chanlocs, ch_types="eeg", sfreq=500)
+    info = mne.create_info(ch_names=chanlocs, ch_types="bio", sfreq=500)
 
     #epochs = mne.EvokedArray(data=np.transpose(train_X), info=info)
     clf = make_pipeline(

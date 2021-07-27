@@ -47,7 +47,39 @@ def main():
 
     print(features_all)
 
+    #features_avg = pd.DataFrame(columns=['subj', 'feature_set', 'sample_id', 'feature_values', 'label'])
+
+
+    for feature_set in config.feature_sets:
+
+        # print(features[feature_set])
+
+        features_avg = features_all.groupby(feature_set)['feature_values'].mean()
+
+        print(features_avg)
+        """
+        dh.plot_feature_distribution("AVG", config.dataset, features_all[feature_set], feature_set)
+
+        predictions = [];
+        true_labels = [];
+        accuracies = [];
+        svm_coeffs = []
+        for i in range(config.runs):
+            # print(i)
+            preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i, i,
+                                                       config.randomized_labels)
+
+            accuracies.append(acc)
+            predictions.extend(preds)
+            true_labels.extend(test_y)
+            svm_coeffs.append(coefs[0])
+
+            # print results of each run
+            print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
+        """
+
     dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
+
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
