@@ -45,6 +45,8 @@ def main():
             for x, y in features[feature_set].items():
                 features_all.append([x, y])
 
+        print(features_all)
+
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))
 
