@@ -54,9 +54,10 @@ def main():
 
         # print(features[feature_set])
 
-        features_avg = features_all.groupby('feature_set')['feature_values']
+        features_avg = features_all[feature_set]['feature_values']
 
         print(features_avg)
+
         """
         dh.plot_feature_distribution("AVG", config.dataset, features_all[feature_set], feature_set)
 
@@ -78,7 +79,7 @@ def main():
             print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
         """
 
-    dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
+    #dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
 
 
     elapsed = (time.time() - start)
