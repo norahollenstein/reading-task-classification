@@ -20,7 +20,7 @@ from mne.decoding import LinearModel
 def decode_svm_cooefficients(X, y, seed, subj):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
 
-    info = mne.create_info(ch_names=config.chanlocs, ch_types="bio", sfreq=500)
+    info = mne.create_info(ch_names=config.chanlocs, ch_types="eeg", sfreq=500)
 
     clf = make_pipeline(
         Vectorizer(),  # 1) vectorize across time and channels
@@ -38,7 +38,7 @@ def decode_svm_cooefficients(X, y, seed, subj):
     evoked.set_montage("GSN-HydroCel-128")
 
     fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-    ax = evoked.plot_topomap(title='EEG patterns', time_unit='s')
+    ax = evoked.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.')
     plt.savefig("topo-patterns-"+subj+".pdf")
 
 

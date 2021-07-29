@@ -68,7 +68,7 @@ def main():
         evoked_nr.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked_nr.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', vmin=np.min(mean_nr), vmax=np.min(mean_nr))
+        ax = evoked_nr.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.')
         plt.savefig("NR-topo-AVG-ALL.pdf")
 
         features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
@@ -81,8 +81,7 @@ def main():
         evoked_tsr.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked_tsr.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', vmin=np.min(mean_tsr),
-                                    vmax=np.min(mean_tsr))
+        ax = evoked_tsr.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.')
         plt.savefig("TSR-topo-AVG-ALL.pdf")
 
         diff = mean_nr - mean_tsr
@@ -93,8 +92,7 @@ def main():
         evoked_diff.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked_diff.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', vmin=np.min(mean_tsr),
-                                     vmax=np.min(mean_tsr))
+        ax = evoked_diff.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.')
         plt.savefig("Diff-topo-AVG-ALL.pdf")
 
 
