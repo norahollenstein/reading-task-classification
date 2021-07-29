@@ -64,10 +64,10 @@ def main():
         mean_nr = features_nr['feature_values'].mean()
         print(mean_nr)
 
-        #print(mean_nr.reshape(1, -1).shape)
+        print(mean_nr.reshape(1, -1).shape)
 
         scaler= StandardScaler()
-        mean_nr = scaler.fit_transform(mean_nr)
+        mean_nr = scaler.fit_transform(mean_nr.reshape(1,-1))
 
         print(mean_nr.shape)
 
