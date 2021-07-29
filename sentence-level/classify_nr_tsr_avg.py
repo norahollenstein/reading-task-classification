@@ -45,7 +45,7 @@ def main():
             for x, y in features[feature_set].items():
                 features_all = features_all.append({'subj': subject, 'feature_set': feature_set, 'sample_id': x, 'feature_values': np.array(y[:-1]), 'label':y[-1]}, ignore_index=True)
 
-    #print(features_all.head)
+    print(features_all.head)
 
     #features_avg = pd.DataFrame(columns=['subj', 'feature_set', 'sample_id', 'feature_values', 'label'])
 
@@ -54,9 +54,11 @@ def main():
 
         # print(features[feature_set])
 
-        features_avg = features_all.loc[features_all['feature_set'] == feature_set  & features_all['label'] == 'NR']
+        features_avg = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
+        m = features_avg['feature_values'].mean()
+        print(m)
 
-        print(features_avg)
+        #print(features_avg)
 
         #x = features_all.groupby(['feature_set', 'label'], as_index=False).mean()
         #print(x)
