@@ -62,7 +62,7 @@ def main():
         mean_nr = features_nr['feature_values'].mean()
         print(mean_nr)
 
-        evoked = EvokedArray(mean_nr, info=info)
+        evoked = EvokedArray(mean_nr.reshape(-1,1), info=info)
         evoked.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
@@ -72,6 +72,9 @@ def main():
         features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
         mean_tsr = features_tsr['feature_values'].mean()
         print(mean_tsr)
+
+        diff = mean_nr - mean_tsr
+
 
         #print(features_avg)
 
