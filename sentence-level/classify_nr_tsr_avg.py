@@ -54,9 +54,13 @@ def main():
 
         # print(features[feature_set])
 
-        features_avg = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
-        m = features_avg['feature_values'].mean()
-        print(m)
+        features_nr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
+        mean_nr = features_nr['feature_values'].mean()
+        print(mean_nr)
+
+        features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
+        mean_tsr = features_tsr['feature_values'].mean()
+        print(mean_tsr)
 
         #print(features_avg)
 
