@@ -54,12 +54,12 @@ def main():
 
         # print(features[feature_set])
 
-        features_avg = features_all.loc[features_all['feature_set'] == feature_set]
+        features_avg = features_all.loc[features_all['feature_set'] == feature_set  & features_all['label'] == 'NR']
 
         print(features_avg)
 
-        x = features_all.groupby(['feature_set', 'label'], as_index=False).mean()
-        print(x)
+        #x = features_all.groupby(['feature_set', 'label'], as_index=False).mean()
+        #print(x)
 
         """
         dh.plot_feature_distribution("AVG", config.dataset, features_all[feature_set], feature_set)
