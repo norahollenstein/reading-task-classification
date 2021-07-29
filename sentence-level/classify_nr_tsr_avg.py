@@ -1,11 +1,14 @@
 import numpy as np
 import extract_features as fe
-import classifier
 import config
 import data_helpers as dh
 import time
 from datetime import timedelta
 import pandas as pd
+import mne
+from mne import EvokedArray
+import matplotlib.pyplot as plt
+
 
 # classify NR vs TSR for each subject separately
 
@@ -53,10 +56,18 @@ def main():
     for feature_set in config.feature_sets:
 
         # print(features[feature_set])
+        info = mne.create_info(ch_names=config.chanlocs, ch_types="bio", sfreq=500)
 
         features_nr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
         mean_nr = features_nr['feature_values'].mean()
         print(mean_nr)
+
+        evoked = EvokedArray(mean_nr, info=info)
+        evoked.set_montage("GSN-HydroCel-128")
+
+        fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
+        ax = evoked.plot_topomap(title='EEG patterns', time_unit='s')
+        plt.savefig("NR-topo-AVG-ALL.pdf")
 
         features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
         mean_tsr = features_tsr['feature_values'].mean()
