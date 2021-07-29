@@ -1,0 +1,2 @@
+lstm_dim lstm_layers dense_dim dropout batch_size epochs lr embedding_type random_seed train_acc val_acc test_acc test_std avg_precision std_precision avg_recall std_recall avg_fscore std_fscore threshold folds training_time best_ep patience min_delta model
+64 1 64 0.1 40 200 0.001 42 0.9043624401092529 0.6567164063453674 0.49924585223197937 0.0 0.6020247469066367 0.0 0.5165305824888824 0.0 0.3797592479880977 0.0 - 3 39.999162673950195 12 10 1e-07 models/42_fold0_tasks-cross-subj_eeg_theta_-_28072021-23:59:34.h5
