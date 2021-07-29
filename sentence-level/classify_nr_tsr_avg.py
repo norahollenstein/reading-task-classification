@@ -64,6 +64,10 @@ def main():
         mean_nr = features_nr['feature_values'].mean()
         #print(mean_nr)
 
+        features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
+        mean_tsr = features_tsr['feature_values'].mean()
+        print(mean_tsr)
+
         #print(mean_nr.reshape(1, -1).shape)
 
         #scaler= StandardScaler()
@@ -78,9 +82,7 @@ def main():
         ax = evoked_nr.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', scalings=1, vmin=min(mean_nr,mean_tsr))
         plt.savefig("NR-topo-AVG-ALL.pdf")
 
-        features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
-        mean_tsr = features_tsr['feature_values'].mean()
-        print(mean_tsr)
+
 
         print(mean_tsr.reshape(-1, 1).shape)
 
