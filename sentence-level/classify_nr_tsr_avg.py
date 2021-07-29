@@ -8,6 +8,8 @@ import pandas as pd
 import mne
 from mne import EvokedArray
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+
 
 
 # classify NR vs TSR for each subject separately
@@ -63,6 +65,9 @@ def main():
         print(mean_nr)
 
         print(mean_nr.reshape(-1, 1).shape)
+
+        scaler= StandardScaler()
+        mean_nr = scaler.fit_transform(mean_nr)
 
         evoked_nr = EvokedArray(mean_nr.reshape(-1,1), info=info)
         evoked_nr.set_montage("GSN-HydroCel-128")
