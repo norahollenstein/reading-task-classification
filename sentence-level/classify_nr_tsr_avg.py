@@ -45,7 +45,7 @@ def main():
             for x, y in features[feature_set].items():
                 features_all = features_all.append({'subj': subject, 'feature_set': feature_set, 'sample_id': x, 'feature_values': np.array(y[:-1]), 'label':y[-1]}, ignore_index=True)
 
-    print(features_all.dtypes)
+    print(features_all.head)
 
     #features_avg = pd.DataFrame(columns=['subj', 'feature_set', 'sample_id', 'feature_values', 'label'])
 
