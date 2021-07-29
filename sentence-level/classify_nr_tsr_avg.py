@@ -62,12 +62,12 @@ def main():
 
         features_nr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
         mean_nr = features_nr['feature_values'].mean()
-        print(mean_nr)
+        #print(mean_nr)
 
-        print(mean_nr.reshape(1, -1).shape)
+        #print(mean_nr.reshape(1, -1).shape)
 
-        scaler= StandardScaler()
-        mean_nr = scaler.fit_transform(mean_nr.reshape(1,-1))
+        #scaler= StandardScaler()
+        #mean_nr = scaler.fit_transform(mean_nr.reshape(1,-1))
 
         print(mean_nr.shape)
 
