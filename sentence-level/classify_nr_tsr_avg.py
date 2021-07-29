@@ -56,11 +56,13 @@ def main():
     for feature_set in config.feature_sets:
 
         # print(features[feature_set])
-        info = mne.create_info(ch_names=config.chanlocs, ch_types="bio", sfreq=500)
+        info = mne.create_info(ch_names=config.chanlocs, ch_types="eeg", sfreq=500)
 
         features_nr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
         mean_nr = features_nr['feature_values'].mean()
         print(mean_nr)
+
+        print(mean_nr.reshape(-1, 1).shape)
 
         evoked = EvokedArray(mean_nr.reshape(-1,1), info=info)
         evoked.set_montage("GSN-HydroCel-128")
