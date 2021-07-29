@@ -71,7 +71,7 @@ def main():
 
         print(mean_nr.shape)
 
-        evoked_nr = EvokedArray(mean_nr, info=info)
+        evoked_nr = EvokedArray(mean_nr.reshape(-1,1), info=info)
         evoked_nr.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
