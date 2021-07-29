@@ -10,10 +10,7 @@ from mne import EvokedArray
 from mne.decoding import Vectorizer, get_coef
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
-
-# import a linear classifier from mne.decoding
 from mne.decoding import LinearModel
 
 

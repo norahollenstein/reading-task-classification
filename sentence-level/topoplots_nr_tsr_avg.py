@@ -8,18 +8,14 @@ import pandas as pd
 import mne
 from mne import EvokedArray
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
 
 
-
-# classify NR vs TSR for each subject separately
+# topoplots for NR, TSR, and NR-TSR across all sentences of all subjects
 
 
 def main():
 
     start = time.time()
-
-    subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
 
     features_all = pd.DataFrame(columns=['subj', 'feature_set', 'sample_id', 'feature_values', 'label'])
 
@@ -50,45 +46,28 @@ def main():
             for x, y in features[feature_set].items():
                 features_all = features_all.append({'subj': subject, 'feature_set': feature_set, 'sample_id': x, 'feature_values': np.array(y[:-1]), 'label':y[-1]}, ignore_index=True)
 
-    print(features_all.head)
-
-    #features_avg = pd.DataFrame(columns=['subj', 'feature_set', 'sample_id', 'feature_values', 'label'])
-
-
     for feature_set in config.feature_sets:
 
-        # print(features[feature_set])
         info = mne.create_info(ch_names=config.chanlocs, ch_types="eeg", sfreq=500)
 
         features_nr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'NR')]
         mean_nr = features_nr['feature_values'].mean()
-        #print(mean_nr)
 
         features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
         mean_tsr = features_tsr['feature_values'].mean()
-        print(mean_tsr)
 
         diff = mean_nr - mean_tsr
 
-        #print(mean_nr.reshape(1, -1).shape)
-
-        #scaler= StandardScaler()
-        #mean_nr = scaler.fit_transform(mean_nr.reshape(1,-1))
-
-        print(mean_nr.shape)
-
+        # NR
         evoked_nr = EvokedArray(mean_nr.reshape(-1,1), info=info)
-        evoked_nr.set_montage("GSN-HydroCel-128")
+        #evoked_nr.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
         ax = evoked_nr.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', scalings=1, vmin=min(diff), cmap='RdBu')
         plt.savefig("NR-topo-AVG-ALL"+feature_set+".pdf")
         plt.close()
 
-
-
-        print(mean_tsr.reshape(-1, 1).shape)
-
+        # TSR
         evoked_tsr = EvokedArray(mean_tsr.reshape(-1, 1), info=info)
         evoked_tsr.set_montage("GSN-HydroCel-128")
 
@@ -97,9 +76,7 @@ def main():
         plt.savefig("TSR-topo-AVG-ALL"+feature_set+".pdf")
         plt.close()
 
-
-        print(diff)
-
+        # DIFF
         evoked_diff = EvokedArray(diff.reshape(-1, 1), info=info)
         evoked_diff.set_montage("GSN-HydroCel-128")
 
@@ -107,36 +84,6 @@ def main():
         ax = evoked_diff.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', scalings=1, vmin=min(diff), cmap='RdBu')
         plt.savefig("Diff-topo-AVG-ALL"+feature_set+".pdf")
         plt.close()
-
-
-        #print(features_avg)
-
-        #x = features_all.groupby(['feature_set', 'label'], as_index=False).mean()
-        #print(x)
-
-        """
-        dh.plot_feature_distribution("AVG", config.dataset, features_all[feature_set], feature_set)
-
-        predictions = [];
-        true_labels = [];
-        accuracies = [];
-        svm_coeffs = []
-        for i in range(config.runs):
-            # print(i)
-            preds, test_y, acc, coefs = classifier.svm(features[feature_set], config.seed + i, i,
-                                                       config.randomized_labels)
-
-            accuracies.append(acc)
-            predictions.extend(preds)
-            true_labels.extend(test_y)
-            svm_coeffs.append(coefs[0])
-
-            # print results of each run
-            print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
-        """
-
-    #dh.plot_feature_distribution(subject, config.dataset, features_all[feature_set], feature_set)
-
 
     elapsed = (time.time() - start)
     print(str(timedelta(seconds=elapsed)))

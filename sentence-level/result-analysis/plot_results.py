@@ -37,12 +37,10 @@ def plot_results_detailed(results, dataset, task):
         feature_results = feature_results.sort_values(by=['accuracy'])
         colors_by_subject = [colors[subjects.index(s)] for s in feature_results.subject.unique()]
 
-        print("Mean accuracy:", f, np.mean(feature_results['accuracy']))
-
         order = []
         for s in feature_results.subject.unique():
             subj_results = feature_results.loc[feature_results['subject'] == s]
-            order.append((s, np.mean(subj_results['accuracy'])))
+            order.append((s, np.median(subj_results['accuracy'])))
 
         order_sorted = sorted(order, key=lambda x: x[1])
         order_sorted = [f[0] for f in order_sorted]
@@ -51,6 +49,7 @@ def plot_results_detailed(results, dataset, task):
         ax.set_title(f)
         median = np.median(feature_results['accuracy'])
         mad = np.median(np.absolute(feature_results['accuracy'] - np.median(feature_results['accuracy'])))
+        print(f, median, mad)
         ax.axhline(median, ls='--', color="grey", label="median")
         plt.text(-0.49, median+0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
         ax.axhspan(median+mad, median-mad, alpha=0.3, color='grey', label="MAD")
@@ -150,11 +149,11 @@ def main():
     results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
     #check_std_between_runs(results)
 
-    result_file_all = "../results/tasks-zuco2-final.csv"
+    result_file_all = "../results/tasks-zuco1-final.csv"
     results = pd.read_csv(result_file_all, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_all.split("-")[1]
     task = "tasks"
-    plot_results_detailed(results, dataset, task)
+    #plot_results_detailed(results, dataset, task)
 
     # Session classification with ZuCo 1 SR data
     result_file_all = "../results/2021-07-13_svm_all_runs_sessions_zuco1sr_randomFalse_linear.csv"
@@ -172,7 +171,7 @@ def main():
     task = result_file_all.split("_")[4]
     #plot_results_detailed(results, dataset, task)
 
-    result_file_cross = "../results/2021-04-19_svm_all_runs_tasks-cross-subj_zucoAll_randomFalse_linear.csv"
+    result_file_cross = "../results/2021-04-19_svm_all_runs_tasks-cross-subj_zuco1_randomFalse_linear.csv"
     results_cross = pd.read_csv(result_file_cross, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_cross.split("_")[5]
     #cross_subj_results(results_cross, dataset)
