@@ -38,7 +38,7 @@ def decode_svm_cooefficients(X, y, seed, subj):
     evoked.set_montage("GSN-HydroCel-128")
 
     fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-    ax = evoked.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.')
+    ax = evoked.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', scalings=1)
     plt.savefig("topo-patterns-"+subj+".pdf")
 
 

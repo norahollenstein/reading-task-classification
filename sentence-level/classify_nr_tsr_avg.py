@@ -103,7 +103,7 @@ def main():
         evoked_diff.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked_diff.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', scalings=1, vmin=min(diff), vmax=3.5)
+        ax = evoked_diff.plot_topomap(title='EEG patterns', time_unit='s', units='a.u.', scalings=1, vmin=min(diff))
         plt.savefig("Diff-topo-AVG-ALL.pdf")
 
 
