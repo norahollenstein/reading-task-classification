@@ -20,23 +20,8 @@ from mne.decoding import LinearModel
 def decode_svm_cooefficients(X, y, seed, subj):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
 
-    chanlocs = ['E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E9', 'E10', 'E11', 'E12', 'E13', 'E15', 'E16', 'E18', 'E19', 'E20',
-                'E22',
-                'E23', 'E24', 'E26', 'E27', 'E28', 'E29', 'E30', 'E31', 'E33', 'E34', 'E35', 'E36', 'E37', 'E38', 'E39',
-                'E40',
-                'E41', 'E42', 'E43', 'E44', 'E45', 'E46', 'E47', 'E50', 'E51', 'E52', 'E53', 'E54', 'E55', 'E57', 'E58',
-                'E59',
-                'E60', 'E61', 'E62', 'E64', 'E65', 'E66', 'E67', 'E69', 'E70', 'E71', 'E72', 'E74', 'E75', 'E76', 'E77',
-                'E78',
-                'E79', 'E80', 'E82', 'E83', 'E84', 'E85', 'E86', 'E87', 'E89', 'E90', 'E91', 'E92', 'E93', 'E95', 'E96',
-                'E97',
-                'E98', 'E100', 'E101', 'E102', 'E103', 'E104', 'E105', 'E106', 'E108', 'E109', 'E110', 'E111', 'E112',
-                'E114',
-                'E115', 'E116', 'E117', 'E118', 'E120', 'E121', 'E122', 'E123', 'E124']
+    info = mne.create_info(ch_names=config.chanlocs, ch_types="bio", sfreq=500)
 
-    info = mne.create_info(ch_names=chanlocs, ch_types="bio", sfreq=500)
-
-    #epochs = mne.EvokedArray(data=np.transpose(train_X), info=info)
     clf = make_pipeline(
         Vectorizer(),  # 1) vectorize across time and channels
         StandardScaler(),  # 2) normalize features across trials
@@ -44,18 +29,17 @@ def decode_svm_cooefficients(X, y, seed, subj):
             SVC(random_state=seed, kernel=config.kernel, gamma='scale', cache_size=1000)))
     clf.fit(X, y)
 
-    # Extract and plot patterns and filters
-    for name in ('patterns_', 'filters_'):
-        # The `inverse_transform` parameter will call this method on any estimator
-        # contained in the pipeline, in reverse order.
-        coef = get_coef(clf, name, inverse_transform=True)
+    # Extract and plot patterns
+    # The `inverse_transform` parameter will call this method on any estimator
+    # contained in the pipeline, in reverse order.
+    coef = get_coef(clf, 'patterns_', inverse_transform=True)
 
-        evoked = EvokedArray(coef.reshape(-1,1), info=info)
-        evoked.set_montage("GSN-HydroCel-128")
+    evoked = EvokedArray(coef.reshape(-1,1), info=info)
+    evoked.set_montage("GSN-HydroCel-128")
 
-        fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked.plot_topomap(title='EEG %s' % name[:-1], time_unit='s')
-        plt.savefig("test-topo-"+name[:-1]+"-"+subj+".pdf")
+    fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
+    ax = evoked.plot_topomap(title='EEG patterns', time_unit='s')
+    plt.savefig("topo-patterns-"+subj+".pdf")
 
 
 def svm(samples, seed_value, run, randomized=False):

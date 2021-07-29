@@ -54,7 +54,7 @@ def main():
 
         # print(features[feature_set])
 
-        features_avg = features_all[feature_set]['feature_values']
+        features_avg = features_all.loc[features_all['feature_set'] == feature_set]
 
         print(features_avg)
 
