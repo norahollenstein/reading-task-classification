@@ -68,7 +68,7 @@ def main():
         evoked.set_montage("GSN-HydroCel-128")
 
         fig, ax = plt.subplots(figsize=(7.5, 4.5), nrows=1, ncols=1)
-        ax = evoked.plot_topomap(title='EEG patterns', time_unit='s')
+        ax = evoked.plot_topomap(title='EEG patterns', time_unit='s', units='arbitrary')
         plt.savefig("NR-topo-AVG-ALL.pdf")
 
         features_tsr = features_all.loc[(features_all['feature_set'] == feature_set) & (features_all['label'] == 'TSR')]
