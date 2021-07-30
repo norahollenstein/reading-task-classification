@@ -426,9 +426,6 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label_orig)
                     if not np.isnan(avg).any():
                         feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
 
-                else:
-                    print(feature_set, "IS NOT A VALID FEATURE SET.")
-
             except ValueError:
                 print("NO WORD DATA AVAILABLE for sentence ", idx)
 
