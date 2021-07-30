@@ -42,7 +42,7 @@ def main():
             fe.extract_fixation_features(subject, f_nr, feature_set, features, "NR")
             fe.extract_fixation_features(subject, f_tsr, feature_set, features, "TSR")
             if config.dataset is "zuco1_sr":
-                fe.extract_sentence_features(subject, f_sr, feature_set, features, "NR")
+                fe.extract_fixation_features(subject, f_sr, feature_set, features, "NR")
             print(len(features[feature_set]), " samples collected for", feature_set)
 
             accuracies = []; predictions = []; true_labels = []

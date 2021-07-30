@@ -3,7 +3,7 @@
 dataset = 'zuco2'
 
 if dataset is 'zuco2':
-    subjects = ['YAK', 'YMD', 'YTL', 'YRP', 'YDR', 'YHS']
+    subjects = ['YAK']#, 'YMD', 'YTL', 'YRP', 'YDR', 'YHS']
     #subjects = ['YAC', 'YAG', 'YAK']#, 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH,  - YRH, YMS
     # new preprocessed data Sept. 2020
     rootdir = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep2020/"
@@ -48,7 +48,7 @@ elif level is 'word':
     #feature_sets = ['fix_avg_raw_eeg', 'fix_eeg_means', 'fix_gamma_means', 'fix_electrode_features_gamma']
     #feature_sets = ['fix_electrode_features_gamma_10%']#, 'fix_electrode_features_gamma_20%', 'fix_electrode_features_gamma']
     feature_sets = ['fix_order_raw_eeg_electrodes_10%']#, 'fix_order_raw_eeg_electrodes_20%', 'fix_order_raw_eeg_electrodes_50%', 'fix_order_raw_eeg_electrodes_75%', 'fix_order_raw_eeg_electrodes']
-    feature_sets = ['fix_electrode_features_gamma_10%']
+    feature_sets = ['fix_electrode_features_gamma_10%', 'fix_electrode_features_gamma_20%', 'fix_electrode_features_gamma_50%', 'fix_electrode_features_gamma_75%', 'fix_electrode_features_gamma']
 
 # classification task {tasks, sessions, subjects, tasks-cross-subj, blocks, blocks-in-sets}
 class_task = 'tasks'

@@ -362,7 +362,6 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label_orig)
                         word_g1_electrodes.append(word_data[widx]["TRT_g1"])
                         word_g2_electrodes.append(word_data[widx]["TRT_g2"])
 
-
                 if feature_set == "fix_electrode_features_gamma" and word_g1_electrodes:
                     if not np.isnan(word_g1_electrodes).any():
                         feat_list = np.hstack((np.nanmean(word_g1_electrodes, axis=0), np.nanmean(word_g2_electrodes, axis=0)))
@@ -381,6 +380,20 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label_orig)
                         # take 10%, but at least 1 word
                         p20 = max(round(len(word_g1_electrodes)/5), 1)
                         feat_list = np.hstack((np.nanmean(word_g1_electrodes[:p20], axis=0), np.nanmean(word_g2_electrodes[:p20], axis=0)))
+                        feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label_orig]
+
+                elif feature_set == "fix_electrode_features_gamma_50%" and word_g1_electrodes:
+                    if not np.isnan(word_g1_electrodes).any():
+                        # take 10%, but at least 1 word
+                        p50 = max(round(len(word_g1_electrodes)/2), 1)
+                        feat_list = np.hstack((np.nanmean(word_g1_electrodes[:p50], axis=0), np.nanmean(word_g2_electrodes[:p50], axis=0)))
+                        feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label_orig]
+
+                elif feature_set == "fix_electrode_features_gamma_75%" and word_g1_electrodes:
+                    if not np.isnan(word_g1_electrodes).any():
+                        # take 10%, but at least 1 word
+                        p75 = max(round((len(word_g1_electrodes)/ 10)*7.5), 1)
+                        feat_list = np.hstack((np.nanmean(word_g1_electrodes[:p75], axis=0), np.nanmean(word_g2_electrodes[:p75], axis=0)))
                         feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label_orig]
 
                 elif feature_set == 'fix_order_raw_eeg_electrodes' and fix_order_raw_eeg:
