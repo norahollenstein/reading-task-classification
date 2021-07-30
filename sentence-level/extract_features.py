@@ -312,7 +312,7 @@ def extract_sentence_features(subject, f, feature_set, feature_dict, label_orig)
         return feature_dict
 
 
-def extract_fixation_features(subject, f, feature_set, feature_dict, label):
+def extract_fixation_features(subject, f, feature_set, feature_dict, label_orig):
     """parse Matlab struct to extract EEG singals only for fixation occurring inside wordbounds"""
     """ extract features in the order they were read"""
     rawData = f['rawData']
@@ -323,6 +323,9 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
         for idx in range(len(rawData)):
             # get word level data
             wordData = f['word']
+
+            label = label_orig
+            full_idx = len(feature_dict[feature_set])
 
             try:
                 word_data = dlh.extract_word_level_data(f, f[wordData[idx][0]])
@@ -344,7 +347,7 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
 
                 #print(fix_order_raw_eeg[0])
 
-                """
+
                 word_g1_electrodes = []; word_g2_electrodes = [];
                 sent_feats = []; sent_trt_t1 = []; sent_trt_t2 = []; sent_trt_a1 = []; sent_trt_a2 = []; sent_trt_b1 = [];
                 sent_trt_b2 = []; sent_trt_g1 = []; sent_trt_g2 = [];
@@ -355,46 +358,12 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
                         fixation_avg = [np.mean(fix) for fix in word_data[widx]["RAW_EEG"]]
                         sent_feats.append(np.nanmean(fixation_avg))
     
-                        # todo: try with ICA features
-    
-                        # "fix_eeg_means"
-                        word_t1 = np.mean(word_data[widx]["TRT_t1"])
-                        sent_trt_t1.append(word_t1)
-                        word_t2 = np.mean(word_data[widx]["TRT_t2"])
-                        sent_trt_t2.append(word_t2)
-    
-                        word_a1 = np.mean(word_data[widx]["TRT_a1"])
-                        sent_trt_a1.append(word_a1)
-                        word_a2 = np.mean(word_data[widx]["TRT_a2"])
-                        sent_trt_a2.append(word_a2)
-    
-                        word_b1 = np.mean(word_data[widx]["TRT_b1"])
-                        sent_trt_b1.append(word_b1)
-                        word_b2 = np.mean(word_data[widx]["TRT_b2"])
-                        sent_trt_b2.append(word_b2)
-    
-                        word_g1 = np.mean(word_data[widx]["TRT_g1"])
-                        sent_trt_g1.append(word_g1)
-                        word_g2 = np.mean(word_data[widx]["TRT_g2"])
-                        sent_trt_g2.append(word_g2)
-    
                         # "fix_electrode_features_gamma"
                         word_g1_electrodes.append(word_data[widx]["TRT_g1"])
                         word_g2_electrodes.append(word_data[widx]["TRT_g2"])
-    
-                if feature_set == "fix_avg_raw_eeg" and sent_feats:
-                    if not np.isnan(sent_feats).any():
-                        feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = [np.nanmean(sent_feats), label_orig]
-    
-                elif feature_set == "fix_eeg_means" and sent_trt_t1:
-                    if not np.isnan(sent_trt_t1).any():
-                        feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = [np.nanmean(sent_trt_t1), np.nanmean(sent_trt_t2), np.nanmean(sent_trt_a1), np.nanmean(sent_trt_a2), np.nanmean(sent_trt_b1), np.nanmean(sent_trt_b2), np.nanmean(sent_trt_g1), np.nanmean(sent_trt_g2), label_orig]
-    
-                elif feature_set == "fix_gamma_means" and sent_trt_g1:
-                    if not np.isnan(sent_trt_g1).any():
-                        feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = [np.nanmean(sent_trt_g1), np.nanmean(sent_trt_g2), label_orig]
-    
-                elif feature_set == "fix_electrode_features_gamma" and word_g1_electrodes:
+
+
+                if feature_set == "fix_electrode_features_gamma" and word_g1_electrodes:
                     if not np.isnan(word_g1_electrodes).any():
                         feat_list = np.hstack((np.nanmean(word_g1_electrodes, axis=0), np.nanmean(word_g2_electrodes, axis=0)))
                         feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label_orig]
@@ -413,10 +382,8 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
                         p20 = max(round(len(word_g1_electrodes)/5), 1)
                         feat_list = np.hstack((np.nanmean(word_g1_electrodes[:p20], axis=0), np.nanmean(word_g2_electrodes[:p20], axis=0)))
                         feature_dict[feature_set][subject + "_" + label_orig + "_" + str(idx)] = list(np.mean(feat_list, axis=1)) + [label_orig]
-    
-                """
 
-                if feature_set == 'fix_order_raw_eeg_electrodes' and fix_order_raw_eeg:
+                elif feature_set == 'fix_order_raw_eeg_electrodes' and fix_order_raw_eeg:
                     avg = np.nanmean(fix_order_raw_eeg, axis=0)
                     if not np.isnan(avg).any():
                         feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
@@ -445,6 +412,9 @@ def extract_fixation_features(subject, f, feature_set, feature_dict, label):
                     avg = np.nanmean(fix_order_raw_eeg[:p75], axis=0)
                     if not np.isnan(avg).any():
                         feature_dict[feature_set][subject + "_" + label + "_" + str(idx) + "_" + str(full_idx)] = list(avg) + [label]
+
+                else:
+                    print(feature_set, "IS NOT A VALID FEATURE SET.")
 
             except ValueError:
                 print("NO WORD DATA AVAILABLE for sentence ", idx)

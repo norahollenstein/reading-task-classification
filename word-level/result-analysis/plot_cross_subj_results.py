@@ -7,7 +7,7 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco1"
+dataset= "zuco2"
 
 if dataset == "zuco2":
     subj_start = "Y"
@@ -20,7 +20,7 @@ if dataset == "zuco1":
 
 random_baseline = 0.5
 
-feature = "eeg_theta"
+feature = "eeg_gamma"
 feature_add = "saccFalse"
 task = "tasks-cross-subj"
 
@@ -61,6 +61,7 @@ order_sorted = sorted(order, key=lambda x: x[1])
 order_sorted = [f[0] for f in order_sorted]
 
 print("Median accuracy:", np.median(results['test_acc']))
+print(len(results.subject.unique()))
 
 ax = sns.pointplot(x="subject", y="test_acc", data=results, ci="sd", palette=colors_by_subject, s=80, order=order_sorted)
 median = np.median(results['test_acc'])
@@ -70,9 +71,15 @@ plt.text(-0.49, median + 0.01, "{:.2f}".format(median), color="grey", fontweight
 ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")
 ax.axhline(random_baseline, ls='-.', color="darkblue", label="random baseline")
 ax.axhline(bert_baseline, ls=':', color="darkblue", label="text baseline")
-plt.ylim(0.4, 1)
-plt.title(feature + " " + feature_add)
+plt.ylim(0.36, 1)
+
 plt.ylabel("accuracy")
 plt.legend()
-plt.savefig("plots/wordLevel_" + task + "_" + feature + "_"+ feature_add + "_" + dataset + ".pdf")
+if "eeg" in feature:
+    plt.title(feature)
+    plt.savefig("plots/wordLevel_" + task + "_" + feature + "_" + dataset + ".pdf")
+else:
+    plt.title(feature + " " + feature_add)
+    plt.savefig("plots/wordLevel_" + task + "_" + feature + "_" + feature_add + "_" + dataset + ".pdf")
+
 plt.show()
