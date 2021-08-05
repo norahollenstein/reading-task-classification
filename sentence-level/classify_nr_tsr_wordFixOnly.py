@@ -18,10 +18,8 @@ def main():
 
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
 
-    avg_results = {};
     for subject in config.subjects:
         print(subject)
-        subj_results = []
         filename_nr = config.rootdir + "results" + subject + "_NR.mat"
         filename_tsr = config.rootdir + "results" + subject + "_TSR.mat"
 
@@ -44,10 +42,6 @@ def main():
             if config.dataset is "zuco1_sr":
                 fe.extract_fixation_features(subject, f_sr, feature_set, features, "NR")
             print(len(features[feature_set]), " samples collected for", feature_set)
-
-            accuracies = []; predictions = []; true_labels = []
-
-            #print(features[feature_set])
 
             predictions = []
             true_labels = []
