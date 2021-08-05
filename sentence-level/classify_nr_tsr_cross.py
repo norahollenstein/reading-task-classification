@@ -24,13 +24,13 @@ def main():
         print(subject)
 
         if subject.startswith("Z"):
-            filename_nr = config.rootdir1 + "results" + subject + "_NR.mat"
-            filename_tsr = config.rootdir1 + "results" + subject + "_TSR.mat"
+            filename_nr = config.rootdir + "results" + subject + "_NR.mat"
+            filename_tsr = config.rootdir + "results" + subject + "_TSR.mat"
             #filename_sr = config.rootdir1 + "results" + subject + "_SR.mat"
 
         elif subject.startswith("Y"):
-            filename_nr = config.rootdir2 + "results" + subject + "_NR.mat"
-            filename_tsr = config.rootdir2 + "results" + subject + "_TSR.mat"
+            filename_nr = config.rootdir + "results" + subject + "_NR.mat"
+            filename_tsr = config.rootdir + "results" + subject + "_TSR.mat"
 
         f_nr = dh.read_mat_file(filename_nr)
         f_tsr = dh.read_mat_file(filename_tsr)
