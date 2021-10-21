@@ -37,8 +37,8 @@ Classify recording blocks from ZuCO 2
 classify_subects.py  
 Subject classification
 
-classify_nr_trs_WordFixOnly.py
-Features include only data during fixation.
+classify_nr_trs_WordFixOnly.py  
+Features include only data during fixation.  
 Description: Section 6.3 Fixation ablation - Figure 20
 
 
@@ -47,11 +47,14 @@ Description: Section 6.3 Fixation ablation - Figure 20
 
 Set parameters in config.py
 
-Feature extraction:
+Feature extraction:  
+data_loading_helpers.py  
+eeg_extractor.py  
+gaze_extractor.py  
 Best to do feature extraction once separately and save features for faster processing
 
 tune_eeg_model_single.py  
-tune_gaze_model_single.py
+tune_gaze_model_single.py  
 Train & test classifier for each subject individually
 
 tune_gaze_model_cross.py  
