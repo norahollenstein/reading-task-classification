@@ -15,11 +15,45 @@ noraho@spaceml3:/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep2
 
 ## Classification with sentence-level features
 
-classify_nr_trs.py 
+Set parameters in config.py
 
-###  Features
+Feature extraction:  
+extract_features.py  
+data_loading_helpers.py
 
-#### Eye-Tracking
-- Omission rate
-- Number of fixations (relative to the number of words in a sentence)
-- Reading speed (seconds spent on a sentence relative to the number of words)
+Main script:  
+classify_nr_trs.py  
+Train & test classifier for each subject individually
+
+classify_nr_tsr_cross.py  
+Leave-one-out cross-subject models: train on all-1 subjects, test on left out subject
+
+classify_sessions.py  
+Classify recording sessions (this uses SR data from ZuCo 1)
+
+classify_blocks.py  
+Classify recording blocks from ZuCO 2
+
+classify_subects.py  
+Subject classification
+
+classify_nr_trs_WordFixOnly.py
+Features include only data during fixation.
+Description: Section 6.3 Fixation ablation - Figure 20
+
+
+
+## Classification with word-level features
+
+Set parameters in config.py
+
+Feature extraction:
+Best to do feature extraction once separately and save features for faster processing
+
+tune_eeg_model_single.py  
+tune_gaze_model_single.py
+Train & test classifier for each subject individually
+
+tune_gaze_model_cross.py  
+tune_eeg_model_cross.py  
+Leave-one-out cross-subject models: train on all-1 subjects, test on left out subject
