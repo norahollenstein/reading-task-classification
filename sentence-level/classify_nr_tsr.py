@@ -8,13 +8,12 @@ from datetime import timedelta
 
 # classify NR vs TSR for each subject separately
 
-
 def main():
 
     start = time.time()
 
     subj_result_file, all_runs_result_file, coef_file = dh.prepare_output_files()
-
+    print(config.class_task)
     for subject in config.subjects:
         print(subject)
         filename_nr = config.rootdir + "results" + subject + "_NR.mat"

@@ -7,6 +7,7 @@ if dataset is 'zuco2':
     #subjects = ['YAC', 'YAG', 'YAK']#, 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL', 'YTL']  # exclude YMH,  - YRH, YMS
     # new preprocessed data Sept. 2020
     rootdir = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco2_preprocessed_sep2020/"
+    rootdir = "../../mehtlab_loc/ETH_AS/FirstLevelV2_concat_unfold_correctlyMergedSacc_avgref/"
 elif dataset is 'zuco1' or dataset is 'zuco1sr':
     subjects = ["ZDN", "ZPH", "ZJN", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"] #"ZJS"
     rootdir = "/mnt/ds3lab-scratch/noraho/datasets/zuco/zuco1_preprocessed_sep2020/"
@@ -24,7 +25,7 @@ elif dataset is "zucoAll":
 # level {word, sentence}
 # sentence-level: SVM used for classification
 # word-level: Only data from fixations inside wordbounds
-level = 'word'
+level = 'sentence'
 
 # experiment setup
 seed = 1
@@ -51,10 +52,10 @@ elif level is 'word':
     feature_sets = ['fix_electrode_features_gamma_10%', 'fix_electrode_features_gamma_20%', 'fix_electrode_features_gamma_50%', 'fix_electrode_features_gamma_75%', 'fix_electrode_features_gamma']
 
 # classification task {tasks, sessions, subjects, tasks-cross-subj, blocks, blocks-in-sets}
-class_task = 'tasks'
+class_task = 'tasks_blocks'
 
-if class_task == 'blocks-in-sets':
-    set_in_train = 1
+if class_task == 'blocks-in-sets' or "tasks_blocks":
+    set_in_train = 6
 
 # SVM params
 kernel = 'linear' # only linear kernel allows for analysis of coefficients
@@ -75,3 +76,4 @@ chanlocs = ['E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E9', 'E10', 'E11', 'E12', 'E13'
             'E98', 'E100', 'E101', 'E102', 'E103', 'E104', 'E105', 'E106', 'E108', 'E109', 'E110', 'E111', 'E112',
             'E114',
             'E115', 'E116', 'E117', 'E118', 'E120', 'E121', 'E122', 'E123', 'E124']
+

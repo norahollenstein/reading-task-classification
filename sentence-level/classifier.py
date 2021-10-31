@@ -13,6 +13,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from mne.decoding import LinearModel
 
+global blocks
+blocks = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
+                  "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
 
 def decode_svm_cooefficients(X, y, seed, subj):
     """Source: https://mne.tools/stable/auto_examples/decoding/linear_model_patterns.html"""
@@ -42,7 +45,8 @@ def decode_svm_cooefficients(X, y, seed, subj):
 def svm(samples, seed_value, run, randomized=False):
     X = []
     y = []
-
+    
+    np.random.seed(seed_value)
     if config.class_task == "tasks":
         for sample_id, features in samples.items():
             subj = sample_id.split('_')[0]
@@ -54,6 +58,28 @@ def svm(samples, seed_value, run, randomized=False):
                     y.append(0)
             else:
                 y.append(random.choice([0, 1]))
+    
+    elif config.class_task == "tasks_blocks":
+        train_X, train_y, test_X, test_y = [], [], [], []
+        for sample_id, features in samples.items():
+            subj = sample_id.split('_')[0]
+            block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
+            
+            train_blocks = np.random.choice([1,2,3,4,5,6,7], config.set_in_train, replace=False)  
+            if int(block[-1]) in train_blocks:
+                train_X.append(features[:-1])
+                if randomized is False:
+                    block_label = 1 if "NR" in block else 0
+                    train_y.append(block_label)
+                else:
+                    train_y.append(random.choice([0,1]))
+            else:
+                test_X.append(features[:-1])
+                if randomized is False:
+                    block_label = 1 if "NR" in block else 0
+                    test_y.append(block_label)
+                else:
+                    test_y.append(random.choice([0,1]))
 
     elif config.class_task == "subjects":
         for sample_id, features in samples.items():
@@ -85,30 +111,29 @@ def svm(samples, seed_value, run, randomized=False):
 
     elif config.class_task == "blocks":
         for sample_id, features in samples.items():
+            subj = sample_id.split('_')[0]
             X.append(features[:-1])
-            blocks = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
-                      "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
 
             if randomized is False:
                 block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
-
                 block_index = blocks.index(block)
                 y.append(block_index)
             else:
                 y.append(random.choice(list(range(len(blocks)))))
+    
 
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
-    np.random.seed(seed_value)
     shuffled_X, shuffled_y = shuffle(X, y)
 
     # split into train/test
-    size = int(config.train_split * len(shuffled_X))
-    train_X = shuffled_X[:size]
-    test_X = shuffled_X[size:]
-    train_y = shuffled_y[:size]
-    test_y = shuffled_y[size:]
+    if not config.class_task == "tasks_blocks": 
+        size = int(config.train_split * len(shuffled_X))
+        train_X = shuffled_X[:size]
+        test_X = shuffled_X[size:]
+        train_y = shuffled_y[:size]
+        test_y = shuffled_y[size:]
 
     # scale feature values
     scaling = MinMaxScaler(feature_range=(-1, 1)).fit(train_X)
@@ -168,16 +193,11 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
 
     elif config.class_task == "blocks-in-sets":
 
-        blocks = ["NR_block1", "TSR_block1", "NR_block2", "TSR_block2", "NR_block3", "TSR_block3", "NR_block4",
-                  "TSR_block4", "NR_block5", "TSR_block5", "NR_block6", "TSR_block6", "NR_block7", "TSR_block7"]
 
         for sample_id, features in samples.items():
-
             block = sample_id.split('_')[1] + "_" + sample_id.split('_')[2]
 
-            #print(block[-1])
             train_blocks = random.sample([0,1,2,3,4,5,6,7], config.set_in_train)
-
             if int(block[-1]) in train_blocks:
 
                 train_X.append(features[:-1])
@@ -199,10 +219,6 @@ def svm_cross_subj(samples, seed_value, test_subject, randomized=False):
     else:
         sys.exit("Classification task {0} not defined!".format(config.class_task))
 
-    #print(len(train_X), len(test_X))
-    #print(len(test_X), len(test_y))
-
-    np.random.seed(seed_value)
     train_X, train_y = shuffle(train_X, train_y)
 
     # scale feature values
