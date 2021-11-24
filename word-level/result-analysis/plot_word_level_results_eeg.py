@@ -7,8 +7,8 @@ from scipy import stats
 import  seaborn as sns
 
 result_dir ="../results/"
-dataset= "zuco2"
-feature = "eeg_theta"
+dataset= "zuco1"
+feature = "eeg_raw"
 task = "read-task"
 
 if dataset == "zuco1":
@@ -61,11 +61,12 @@ for s in results.subject.unique():
 order_sorted = sorted(order, key=lambda x: x[1])
 order_sorted = [f[0] for f in order_sorted]
 
-print("Median accuracy:", np.median(results['test_acc']))
+
 
 ax = sns.pointplot(x="subject", y="test_acc", data=results, ci="sd", color=color, s=80, order=order_sorted, join=False)
 median = np.median(results['test_acc'])
 mad = np.median(np.absolute(results['test_acc'] - np.median(results['test_acc'])))
+print("Median accuracy:", np.median(results['test_acc']), mad)
 ax.axhline(median, ls='--', color="grey", label="median")
 plt.text(-0.49, median + 0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
 ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")

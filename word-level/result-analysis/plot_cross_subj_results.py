@@ -64,12 +64,13 @@ for s in results.subject.unique():
 order_sorted = sorted(order, key=lambda x: x[1])
 order_sorted = [f[0] for f in order_sorted]
 
-print("Median accuracy:", np.median(results['test_acc']))
-print(len(results.subject.unique()))
+
 
 ax = sns.pointplot(x="subject", y="test_acc", data=results, ci="sd", color=color, s=80, order=order_sorted, join=False)
 median = np.median(results['test_acc'])
 mad = np.median(np.absolute(results['test_acc'] - np.median(results['test_acc'])))
+print("Median accuracy:", np.median(results['test_acc']), mad)
+print(len(results.subject.unique()))
 ax.axhline(median, ls='--', color="grey", label="median")
 plt.text(-0.49, median + 0.01, "{:.2f}".format(median), color="grey", fontweight='bold')
 ax.axhspan(median + mad, median - mad, alpha=0.3, color='grey', label="MAD")
