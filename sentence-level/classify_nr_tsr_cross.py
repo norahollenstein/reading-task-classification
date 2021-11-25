@@ -55,24 +55,23 @@ def main():
         for set, feats in features.items():
             accuracies = []; predictions = []; true_labels = []; svm_coeffs = []
             print("\nTraining on all subjects, testing on", subject)
-            for i in range(config.runs):
-                preds, test_y, acc, coefs = classifier.svm_cross_subj(feats, config.seed+i, subject, config.randomized_labels)
-                accuracies.append(acc)
-                predictions.extend(preds)
-                true_labels.extend(test_y)
-                svm_coeffs.append(coefs[0])
+            preds, test_y, acc, coefs = classifier.svm_cross_subj(feats, config.seed+i, subject, config.randomized_labels)
+            accuracies.append(acc)
+            predictions.extend(preds)
+            true_labels.extend(test_y)
+            svm_coeffs.append(coefs[0])
 
-                # print results of each run
-                print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
+            # print results of each run
+            print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
 
-        avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
+            avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
 
-        # print SVM coefficients to fil
-        print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
+            # print SVM coefficients to fil
+            print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
 
-        # print results for individual subjects to file
-        print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
-        print(subject, feature_set, np.mean(accuracies), np.std(accuracies),
+            # print results for individual subjects to file
+            print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
+            print(subject, feature_set, np.mean(accuracies), np.std(accuracies),
               len(features[feature_set][list(features[feature_set].keys())[0]]) - 1, len(features[feature_set]),
               file=subj_result_file)
 
