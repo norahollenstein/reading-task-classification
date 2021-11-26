@@ -55,7 +55,7 @@ def main():
         for set, feats in features.items():
             accuracies = []; predictions = []; true_labels = []; svm_coeffs = []
             print("\nTraining on all subjects, testing on", subject)
-            preds, test_y, acc, coefs = classifier.svm_cross_subj(feats, config.seed+i, subject, config.randomized_labels)
+            preds, test_y, acc, coefs = classifier.svm_cross_subj(feats, config.seed, subject, config.randomized_labels)
             accuracies.append(acc)
             predictions.extend(preds)
             true_labels.extend(test_y)
