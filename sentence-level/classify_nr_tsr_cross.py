@@ -62,17 +62,17 @@ def main():
             svm_coeffs.append(coefs[0])
 
             # print results of each run
-            print(subject, feature_set, acc, len(features[feature_set]), file=all_runs_result_file)
+            print(subject, set, acc, len(features[set]), file=all_runs_result_file)
 
             avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
 
             # print SVM coefficients to fil
-            print(subject, feature_set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
+            print(subject, set, " ".join(map(str, avg_svm_coeffs)), file=coef_file)
 
             # print results for individual subjects to file
-            print("Classification accuracy:", subject, feature_set, np.mean(accuracies), np.std(accuracies))
-            print(subject, feature_set, np.mean(accuracies), np.std(accuracies),
-              len(features[feature_set][list(features[feature_set].keys())[0]]) - 1, len(features[feature_set]),
+            print("Classification accuracy:", subject, set, np.mean(accuracies), np.std(accuracies))
+            print(subject, set, np.mean(accuracies), np.std(accuracies),
+              len(features[set][list(features[set].keys())[0]]) - 1, len(features[set]),
               file=subj_result_file)
 
     elapsed = (time.time() - start)
