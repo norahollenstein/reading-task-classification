@@ -62,7 +62,7 @@ def main():
             svm_coeffs.append(coefs[0])
 
             # print results of each run
-            print(subject, feature_set, acc, len(features[feature_set]), i, file=all_runs_result_file)
+            print(subject, feature_set, acc, len(features[feature_set]), file=all_runs_result_file)
 
             avg_svm_coeffs = np.mean(np.array(svm_coeffs), axis=0)
 
