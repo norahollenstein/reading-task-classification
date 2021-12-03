@@ -4,16 +4,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy
 
-#stats = pd.read_excel("/Users/norahollenstein/Desktop/PhD/eth/passive_supervision/task_classification/zuco2_stats.xlsx")
-#print(stats)
-
-#stats = pd.read_excel(open("/Users/norahollenstein/Desktop/PhD/eth/passive_supervision/task_classification/zuco2_stats.xlsx", 'rb'))
-
-
-
-#print(stats)
-
-
 
 def get_subject_avg(results, dataset, feature):
 
@@ -21,12 +11,12 @@ def get_subject_avg(results, dataset, feature):
         subjects = ['YAC', 'YAG', 'YAK', 'YDG', 'YDR', 'YFR', 'YFS', 'YHS', 'YIS', 'YLS', 'YMD', 'YRK', 'YRP', 'YSD', 'YSL',
                 'YTL']
         stats = pd.read_csv(
-        "/Users/norahollenstein/Desktop/PhD/eth/passive_supervision/task_classification/zuco2_stats.csv",
+        "./zuco2_stats.csv",
         )
     if dataset == "zuco1":
         subjects = ["ZDN", "ZPH", "ZJN", "ZAB", "ZJM", "ZKB", "ZKH", "ZMG", "ZGW", "ZKW", "ZDM"]
         stats = pd.read_csv(
-            "/Users/norahollenstein/Desktop/PhD/eth/passive_supervision/task_classification/zuco1_stats.csv",
+            "./zuco1_stats.csv",
         )
 
 
@@ -47,15 +37,15 @@ def get_subject_avg(results, dataset, feature):
         pearsons_r = np.corrcoef(merged_df['acc'], merged_df[comp])
         #print(comp, pearsons_r[0][1])
         spearman = scipy.stats.spearmanr(merged_df['acc'], merged_df[comp])
-        print(comp, spearman[0])
+        print(feature, comp, spearman[0], spearman[1])
         sns.scatterplot(x='acc', y=comp, data=merged_df, hue='ID', palette="flare")
         #sns.regplot(x='acc', y='Score NR', data=merged_df)
 
 
         z = np.polyfit(merged_df['acc'], merged_df[comp], 1)
         p = np.poly1d(z)
-        plt.plot(merged_df['acc'], p(merged_df['acc']), ":", color="darkblue")
-        plt.savefig("plots/correlation_"+feature+"_"+comp+"_"+dataset+".pdf")
+        #plt.plot(merged_df['acc'], p(merged_df['acc']), ":", color="darkblue")
+        #plt.savefig("plots/correlation_"+feature+"_"+comp+"_"+dataset+".pdf")
         #plt.show()
 
 
@@ -63,14 +53,19 @@ def get_subject_avg(results, dataset, feature):
 
 
 def main():
+    # within-subject task-classification
     #result_file = "../results/2021-07-09_svm_results_tasks_zuco2_randomFalse_linear.csv" #  for sent_gaze_sacc
-    result_file = "../results/2021-04-15_svm_results_tasks_zuco2_randomFalse_linear.csv" # eeg_means & electrode_features_all
+    #result_file = "../results/2021-04-15_svm_results_tasks_zuco2_randomFalse_linear.csv" # eeg_means & electrode_features_all
     #result_file = "../results/2021-07-09_svm_results_tasks_zuco1_randomFalse_linear.csv"  # for sent_gaze_sacc
     #result_file = "../results/2021-04-15_svm_results_tasks_zuco1_randomFalse_linear.csv" # eeg_means & electrode_features_all
+    #dataset = result_file.split("_")[4]
+
+    # cross-subject task classification
+    dataset = "zuco1"
+    result_file = "../results/cross-subj-"+dataset+".csv" #  for sent_gaze_sacc,sent_gaze & electrode_features_all
     results = pd.read_csv(result_file, delimiter=" ", names=["subject", "feature_set", "accuracy", "std", "features", "samples", "runs"])
     #print(results.head())
-    dataset = result_file.split("_")[4]
-    get_subject_avg(results, dataset, "electrode_features_all")
+    get_subject_avg(results, dataset, "sent_gaze")
 
 
 

@@ -35,13 +35,13 @@ def plot_results_compared(results_sess, results_tasks):
     fig, ax = plt.subplots()
 
     print([t-s for t,s in zip(tasks,sesss)])
-    ax.bar(features, sesss, label='Additional sents.', color=sns.color_palette("Spectral", len(features)))
+    ax.bar(features, sesss, label='SR', color=sns.color_palette("Spectral", len(features)))
     ax.bar(features,[t-s for t,s in zip(tasks,sesss)], bottom=sesss,
            label='NR/TSR', color=sns.color_palette("Spectral", len(features)), alpha=0.4)
 
     plt.ylim(0.49, 1.03)
-    ax.set_xticklabels(features, rotation=90)
-    #plt.title("Session classification")
+    ax.set_xticklabels(features, rotation=45)
+    plt.title("Balanced session classification")
     plt.tight_layout()
     plt.legend()
     plt.savefig("plots/session_effect_zuco1.pdf")

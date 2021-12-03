@@ -118,7 +118,7 @@ def plot_results_fixations(results, dataset):
         plt.ylim(0.6, 1.0)
     plt.xlabel("percentage of fixations")
     mean_line = mpatches.Patch(color='black', label='mean')
-    plt.legend(handles=[mean_line])
+    #plt.legend(handles=[mean_line])
     plt.xticks([10,20,50,75,100], [10,20,50,75,100])
     plt.savefig("plots/fixFeats_gamma_"+dataset+".pdf")
     plt.show()
@@ -216,17 +216,17 @@ def main():
     result_file_cross = "../results/cross-subj-zucoAll.csv"
     results_cross = pd.read_csv(result_file_cross, delimiter=" ", names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_cross.split("-")[2].replace(".csv", "")
-    print(dataset)
-    cross_subj_results(results_cross, dataset)
+    #print(dataset)
+    #cross_subj_results(results_cross, dataset)
 
     # Fixation order results
-    result_file_fix = "../results/2021-07-30_svm_all_runs_tasks_zuco1_randomFalse_linear_FixFeats.csv"
-    #result_file_fix = "../results/2021-07-30_svm_all_runs_tasks_zuco2_randomFalse_linear_FixFeats.csv"
+    #result_file_fix = "../results/2021-07-30_svm_all_runs_tasks_zuco1_randomFalse_linear_FixFeats.csv"
+    result_file_fix = "../results/2021-07-30_svm_all_runs_tasks_zuco2_randomFalse_linear_FixFeats.csv"
     results_fix = pd.read_csv(result_file_fix, delimiter=" ",
                                 names=["subject", "feature_set", "accuracy", "samples", "run"])
     dataset = result_file_fix.split("_")[5]
-    #print(dataset)
-    #plot_results_fixations(results_fix, dataset)
+    print(dataset)
+    plot_results_fixations(results_fix, dataset)
 
 
 
