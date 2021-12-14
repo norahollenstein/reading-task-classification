@@ -23,9 +23,10 @@ if dataset == "zuco2":
     color = "#C00000"
 random_baseline = 0.5
 
-feature = "eeg_gamma"
-feature_add = "saccFalse"
-task = "tasks-cross-subj"
+feature = "eeg_raw"
+feature_add = "saccTrue"
+#task = "tasks-cross-subj"
+task = "cread-task"
 
 colnames=["random_seed","test_acc", "avg_precision", "avg_recall", "avg_fscore"]
 
